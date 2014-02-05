@@ -1,0 +1,2 @@
+Hi guys, welcome to the Repo! Don't worry, the name is temporary, just came up with something to use until we have a name for our language. If you're reading this, then you're able to pull from the remote on bitbucket which is great. If you want to make sure you're also able to push, add a few lines at the end of this file, commit and try to push.
+Also, drop whatever you're doing and go download source tree!!!!!!!!!!!!!! http://www.sourcetreeapp.com/ without a doubt the most elegant git GUI I've ever seen. YAY!
