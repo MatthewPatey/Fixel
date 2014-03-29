@@ -3,6 +3,8 @@ Hi guys, welcome to the Repo! Don't worry, the name is temporary, just came up w
 	git config --global user.name "John Doe"
 	git config --global user.email johndoe@example.com
 
+amritamaz testing!
+
 SETUP SCRIPT
 I have included a setup script (setup.sh) that adds a git alias that can be invoked by typing "git lg" which runs "git log" with some pretty formatting, including a branch history visualization. The script also sets the defualt push mode to simple, which means "git push" only pushes the current branch, instead of all branches setup to track a remote branch.
 
