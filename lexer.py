@@ -38,7 +38,7 @@ t_RBRACK      = r'\]'
 t_COLON       = r':'
 t_COMMA       = r','
 t_STRING      = r'\"([^"])*\"'
-t_HASH        = r'#'
+t_HASH        = r'\#'
 t_AT          = r'@'
 t_LESSTHANEQ  = r'<='
 t_GREATERTHANEQ = r'>='
@@ -60,7 +60,7 @@ def t_NUMBER(t):
     return t
 
 # Ignored characters
-#t_ignore = " \t"
+t_ignore = " "
 
 def t_error(t):
     print("Illegal character '%s'" % t.value[0])
@@ -68,4 +68,23 @@ def t_error(t):
     
 # Build the lexer
 import ply.lex as lex
-lex.lex()
+lexer = lex.lex()
+
+## feed it some input data - test - how do we automate this?
+data = '''
+@desiredWidth = @image1.width*2
+@desiredHeight = @image1.height*2
+@imagesToStandardize = [@image2,@image3]
+
+for @currentImage in @imagesToStandardize:
+    #stretch @desiredWidth, @desiredHeight, @currentImage
+'''
+
+# give the lexer some input
+lexer.input(data)
+
+#tokenize
+while True:
+  tok = lexer.token()
+  if not tok: break #no more input
+  print tok
