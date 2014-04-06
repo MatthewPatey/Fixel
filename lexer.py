@@ -1,4 +1,5 @@
 
+# reserved words that translate straight to tokens
 reserved = {
   'for'   : 'FOR',
   'while' : 'WHILE',
@@ -13,17 +14,17 @@ reserved = {
   'not'   : 'NOT',
 }
 
+# a list of all tokens produced by the lexer
 tokens = [
     'ID','NUMBER',
     'PLUS','MINUS','TIMES','DIVIDE','EQUALS',
     'LPAREN','RPAREN','COMMENT','LBRACK','RBRACK',
     'COLON','COMMA', 'HASH','AT','LESSTHANEQ',
     'GREATERTHANEQ', 'LESSTHAN', 'GREATERTHAN', 'NEQUAL',
-    'STRING','NEWLINE','INDENT','DEDENT',
+    'STRING','NEWLINE','INDENT',
     ] + list(reserved.values())
 
-# Tokens
-
+# Tokens produced by simple regexes
 t_PLUS        = r'\+'
 t_MINUS       = r'-'
 t_TIMES       = r'\*'
@@ -48,7 +49,7 @@ t_NEWLINE     = r'\n'
 t_INDENT      = r'\t'
 t_ID    = r'[a-zA-Z_][a-zA-Z0-9_]*'
 
-
+# produces a token for any integer number and stores the value as an int
 def t_NUMBER(t):
     r'\d+'
     try:
