@@ -82,7 +82,7 @@ logical-NOT-expression:
 	‘not’ logical-NOT-expression
 
 primary-expression: 
-	variable-expression
+	variable-access-expression
 	STRING 
 	NUMBER
 	BOOLEAN
@@ -94,9 +94,14 @@ function-expression:
 	‘#’ ID parameters
 
 parameters:
-	variable-expression
-	parameters ‘,’ variable-expression
+	variable-access-expression
+	parameters ‘,’ variable-access-expression
 	epsilon
+
+variable-access-expression:
+	variable-expression
+	variable-access-expression '.' ID
+	variable-access-expression[primary-expression]
 
 variable-expression:
 	‘@’ ID
