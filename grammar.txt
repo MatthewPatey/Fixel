@@ -1,0 +1,105 @@
+Grammar
+program:
+	statement-list translation-unit
+
+translation-unit: 
+	translation-unit function-definition
+
+function-definition:
+	‘#’ ID block
+	‘#’ ID parameter-declaration block
+
+parameter-declaration:
+	variable-expression
+	parameter-declaration ‘,’ variable-expression
+	epsilon
+
+statement-list:
+	statement
+	statement-list statement
+
+statement: 
+	expression-statement 
+	selection-statement
+	iteration-statement 
+	return-statement
+
+return-statement:
+	‘return’ expression-statement
+
+expression-statement:
+	NEWLINE
+	expression NEWLINE
+
+selection-statement:
+	‘if’ expression block
+	‘if’ expression block ‘else’ block
+
+iteration-statement:
+	‘for’ ID ‘in’ primary-expression block
+	‘for’ ID ‘in’ primary-expression ‘,’ primary-expression block
+	‘while’ expression block
+
+expression:
+	assignment-expression
+
+assignment-expression:
+	ID ‘=’ assignment-expression 
+	logical-OR-expression
+
+logical-OR-expression: 
+	logical-AND-expression 
+	logical-OR-expression ‘or’ logical-AND-expression 
+ 
+logical-AND-expression: 
+	equality-expression 
+	logical-AND-expression ‘and’ equality-expression 
+ 
+equality-expression: 
+	relational-expression
+	equality-expression ‘==’ relational-expression 
+	equality-expression ‘!=’ relational-expression
+
+relational-expression:
+	additive-expression
+	relational-expression ‘<’ additive-expression
+	relational-expression ‘>’ additive-expression
+	relational-expression ‘<=’ additive-expression
+	relational-expression ‘>=’ additive-expression
+
+additive-expression: 
+	multiplicative-expression 
+	additive-expression ‘+’ multiplicative-expression 
+	additive-expression ‘-’ multiplicative expression 
+ 
+multiplicative-expression: 
+	logical-NOT-expression
+	multiplicative-expression ‘*’ logical-NOT-expression
+	multiplicative-expression ‘/’ logical-NOT-expression
+
+logical-NOT-expression:
+	primary-expression
+	‘not’ logical-NOT-expression
+
+primary-expression: 
+	variable-expression
+	STRING 
+	NUMBER
+	BOOLEAN
+	‘[‘ parameters ‘]’
+	‘(‘ expression ‘)’
+	function-expression
+
+function-expression:
+	‘#’ ID parameters
+
+parameters:
+	variable-expression
+	parameters ‘,’ variable-expression
+	epsilon
+
+variable-expression:
+	‘@’ ID
+
+block:
+	‘:’ NEWLINE INDENT statement-list DEDENT
