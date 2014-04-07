@@ -14,7 +14,8 @@ reserved = {
   'not'   : 'NOT',
 }
 
-literals = ['#', '@']
+literals = ['#', '@', '+', '-', '*', '/', '=', '(', ')', 
+            '[', ']', ':', ';', '<', '>' ]
 
 # a list of all tokens produced by the lexer
 tokens = [
@@ -27,23 +28,10 @@ tokens = [
     ] + list(reserved.values())
 
 # Tokens produced by simple regexes
-t_PLUS        = r'\+'
-t_MINUS       = r'-'
-t_TIMES       = r'\*'
 t_COMMENT     = r'//'
-t_DIVIDE      = r'/'
-t_EQUALS      = r'='
-t_LPAREN      = r'\('
-t_RPAREN      = r'\)'
-t_LBRACK      = r'\['
-t_RBRACK      = r'\]'
-t_COLON       = r':'
-t_COMMA       = r','
 t_STRING      = r'\"([^"])*\"'
 t_LESSTHANEQ  = r'<='
 t_GREATERTHANEQ = r'>='
-t_LESSTHAN    = r'<'
-t_GREATERTHAN = r'>'
 t_NEQUAL      = r'!='
 t_NEWLINE     = r'\r?\n'
 t_INDENT      = r'\t'
