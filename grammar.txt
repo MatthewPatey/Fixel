@@ -4,6 +4,7 @@ program:
 
 translation-unit: 
 	translation-unit function-definition
+	epsilon
 
 function-definition:
 	‘#’ ID block
