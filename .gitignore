@@ -1,1 +1,5 @@
-*.pyc 
+*.pyc
+*~
+*.out
+
+parsetab.py
