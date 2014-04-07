@@ -3,12 +3,27 @@ class Node:
         self.type = type
         self.children = children
 
+    def __str__(self):
+        return self.traverse(1)
+
+    def traverse(self, i):
+        s = self.type
+        indent = "\n" + i*' |'
+        for child in self.children:
+            #print children
+            if child is not None: #todo: figure out epsilon
+                s += indent + child.traverse(i+1)
+        return s
+
+
 
 class Leaf:
-    def __init__(self, token):
-        self.token = token[0]
-        if len(tuple) == 2:
-            self.value = token[1]
+    def __init__(self, value):
+            self.value = value
+
+    def traverse(self, i):
+        return self.value
+
 
 
 def p_program(p):
@@ -19,34 +34,29 @@ def p_program(p):
 
 def p_translation_unit(p):
     '''
-    translation_unit    : translation_unit function_definition 
-                        | epsilon    
+    translation_unit    : epsilon
     '''
-    if len(p) == 2:
+    if len(p) == 3:
         p[0] = Node('translation_unit', p[1], p[2])
-    else:
-        p[0] = []
 
+'''
 def p_function_definition(p):
     """
-    p_function_definition   :‘#’ ID block
-                            |‘#’ ID parameter_declaration block
+    function_definition   : '#' ID block
+                            | '#' ID parameter_declaration block
     """
     at = Leaf(p[1])
     ident = Leaf(p[2])
     p[0] = Node(at, ident)
+    '''
 
-def p_parameter_decalration(p):
-    """
-    parameter_decalration    
-    """
 
 def p_statement_list(p):
     """
     statement_list  : statement
-                    | statement statement_list 
+                    | statement_list statement
     """
-    if len(p) == 2:
+    if len(p) == 3:
         p[0] = Node('statement_list', p[1], p[2])
     else:
         p[0] = Node('statement_list', p[1])
@@ -54,9 +64,6 @@ def p_statement_list(p):
 def p_statement(p):
     """
     statement   : expression_statement
-                | selection_statement
-                | iteration_statement
-                | return_statement
     """
     p[0] = Node('statement', p[1])
 
@@ -64,7 +71,7 @@ def p_statement(p):
 
 def p_expression_statement(p):
     """
-    expression_statement : expression NEWLINE
+    expression_statement : primary_expression NEWLINE
     """
     p[0] = Node('expression_statement', p[1])
 
@@ -78,11 +85,11 @@ def p_primary_expression(p):
 
 def p_function_expression(p):
     """
-    function_expression : ‘#’ ID parameters
+    function_expression : HASH ID parameters
     """
-    hashtag = Leaf(p[1])
+    hash = Leaf(p[1])
     iden = Leaf(p[2])
-    p[0] = Node('function_expression', hashtag, iden, p[3])
+    p[0] = Node('function_expression', hash, iden, p[3])
 
 
 def p_parameters(p):
@@ -101,7 +108,7 @@ def p_variable_access_expression(p):
 
 def p_variable_expression(p):
     """
-    variable_expression : ‘@’ ID
+    variable_expression : AT ID
     """
     at = Leaf(p[1])
     iden = Leaf(p[2])
@@ -113,3 +120,19 @@ def p_epsilon(p):
     epsilon :
     """
     pass
+
+import lexer
+import ply.yacc as yacc
+
+tokens = lexer.tokens
+
+if __name__ == '__main__':
+    lex = lexer.get_lex()
+    parser = yacc.yacc()
+
+    ## feed it some input data - test - how do we automate this?
+    data = '#grayscale @image1\n'
+
+    tree = parser.parse(data, lexer=lex)
+    print("I made a tree! yay!")
+    print(tree)

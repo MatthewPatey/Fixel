@@ -2,9 +2,10 @@ Grammar
 program:
 	statement-list translation-unit
 
-translation-unit: 
-	translation-unit function-definition
+translation-unit:
 	epsilon
+	translation-unit
+	translation-unit function-definition
 
 function-definition:
 	‘#’ ID block
@@ -15,7 +16,7 @@ parameter-declaration:
 	parameter-declaration ‘,’ variable-expression
 	epsilon
 
-statement-list:
+statementooj-list:
 	statement
 	statement-list statement
 
