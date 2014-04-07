@@ -45,7 +45,7 @@ t_GREATERTHANEQ = r'>='
 t_LESSTHAN    = r'<'
 t_GREATERTHAN = r'>'
 t_NEQUAL      = r'!='
-t_NEWLINE     = r'\n'
+t_NEWLINE     = r'\r?\n'
 t_INDENT      = r'\t'
 t_ID    = r'[a-zA-Z_][a-zA-Z0-9_]*'
 

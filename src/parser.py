@@ -1,3 +1,8 @@
+import lexer
+import ply.yacc as yacc
+import ply.lex as lex
+
+
 class Node:
     def __init__(self, type, *children):
         self.type = type
@@ -121,18 +126,27 @@ def p_epsilon(p):
     """
     pass
 
-import lexer
-import ply.yacc as yacc
+
+def p_error(p):
+    if p is None:
+        tok = lex.LexToken()
+        tok.value = '\n'
+        tok.type = 'NEWLINE'
+        yacc.errok()
+        return tok
+
+
+
 
 tokens = lexer.tokens
 
 if __name__ == '__main__':
-    lex = lexer.get_lex()
+    my_lex = lexer.get_lex()
     parser = yacc.yacc()
 
     ## feed it some input data - test - how do we automate this?
-    data = '#grayscale @image1\n' #todo can we avoid requiring newline?
+    data = '#grayscale @image1\r\n' #todo can we avoid requiring newline?
 
-    tree = parser.parse(data, lexer=lex)
+    tree = parser.parse(data, lexer=my_lex)
     print("I made a tree! yay!")
     print(tree)
