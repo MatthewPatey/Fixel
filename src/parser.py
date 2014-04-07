@@ -71,7 +71,7 @@ def p_statement(p):
 
 def p_expression_statement(p):
     """
-    expression_statement : primary_expression NEWLINE
+    expression_statement    : primary_expression NEWLINE
     """
     p[0] = Node('expression_statement', p[1])
 
@@ -85,7 +85,7 @@ def p_primary_expression(p):
 
 def p_function_expression(p):
     """
-    function_expression : HASH ID parameters
+    function_expression : '#' ID parameters
     """
     hash = Leaf(p[1])
     iden = Leaf(p[2])
@@ -108,7 +108,7 @@ def p_variable_access_expression(p):
 
 def p_variable_expression(p):
     """
-    variable_expression : AT ID
+    variable_expression : '@' ID
     """
     at = Leaf(p[1])
     iden = Leaf(p[2])
@@ -131,7 +131,7 @@ if __name__ == '__main__':
     parser = yacc.yacc()
 
     ## feed it some input data - test - how do we automate this?
-    data = '#grayscale @image1\n'
+    data = '#grayscale @image1\n' #todo can we avoid requiring newline?
 
     tree = parser.parse(data, lexer=lex)
     print("I made a tree! yay!")
