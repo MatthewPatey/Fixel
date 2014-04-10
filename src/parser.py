@@ -4,30 +4,21 @@ import ply.lex as lex
 
 
 class Node:
-    def __init__(self, type, *children):
-        self.type = type
+    def __init__(self, value, *children):
+        self.value = value
         self.children = children
 
     def __str__(self):
         return self.traverse(1)
 
     def traverse(self, i):
-        s = self.type
+        s = self.value
         indent = "\n" + i*' |'
         for child in self.children:
             #print children
             if child is not None: #todo: figure out epsilon
                 s += indent + child.traverse(i+1)
         return s
-
-
-class Leaf:
-    def __init__(self, value):
-            self.value = value
-
-    def traverse(self, i):
-        return self.value
-
 
 
 def p_program(p):
@@ -93,8 +84,8 @@ def p_function_expression(p):
     """
     function_expression : '#' ID parameters
     """
-    hash = Leaf(p[1])
-    iden = Leaf(p[2])
+    hash = Node(p[1])
+    iden = Node(p[2])
     p[0] = Node('function_expression', hash, iden, p[3])
 
 
@@ -116,8 +107,8 @@ def p_variable_expression(p):
     """
     variable_expression : '@' ID
     """
-    at = Leaf(p[1])
-    iden = Leaf(p[2])
+    at = Node(p[1])
+    iden = Node(p[2])
     p[0] = Node('variable_expression', at, iden)
 
 
