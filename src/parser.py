@@ -16,7 +16,7 @@ class Node:
         indent = "\n" + i*' |'
         for child in self.children:
             #print children
-            if child is not None: #todo: figure out epsilon
+            if len(child.value) > 0: #todo: figure out epsilon
                 s += indent + child.traverse(i+1)
         return s
 
