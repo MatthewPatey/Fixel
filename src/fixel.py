@@ -1,6 +1,6 @@
-from src import parser
-from src import lexer
-from src import generator
+import parser
+import lexer
+import generator
 
 
 def main():
@@ -8,7 +8,7 @@ def main():
     my_parser = parser.get_yacc()
 
     ## feed it some input data - test - how do we automate this?
-    data = '#grayscale @image1\n' #todo can we avoid requiring newline?
+    data = '#grayscale @image1\n'
 
     tree = my_parser.parse(data, lexer=my_lex)
     print("I made a tree! yay!")
