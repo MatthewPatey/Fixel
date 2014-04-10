@@ -42,6 +42,8 @@ def p_translation_unit(p):
     '''
     if len(p) == 3:
         p[0] = Node('translation_unit', p[1], p[2])
+    elif len(p) == 2:
+        p[0] = p[1]
 
 '''
 def p_function_definition(p):
@@ -123,7 +125,7 @@ def p_epsilon(p):
     """
     epsilon :
     """
-    pass
+    p[0] = Leaf('')
 
 
 def p_error(p):

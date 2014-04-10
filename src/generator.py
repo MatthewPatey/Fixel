@@ -7,6 +7,9 @@ lookup_table = {
 }
 
 
+ignore = ['#', '@', '']
+
+
 class Generator:
     def __init__(self, tree):
         self.string_list = []
@@ -32,6 +35,7 @@ class Generator:
             if current_tuple[1] is not None:
                 self.string_list.append(current_tuple[1])
         elif isinstance(node, Leaf):
-            self.string_list.append(node.value)
+            if node.value not in ignore:
+                self.string_list.append(node.value)
         else:
             print 'error!'  # todo errors uh oh
