@@ -2,11 +2,7 @@ from unittest import TestCase
 import mock
 from src import parser
 import test_utils
-
-
-expected_tree = '(program (statement_list (statement (expression_statement (primary_expression ' \
-                '(function_expression (#) (grayscale) (parameters (variable_access_expression ' \
-                '(variable_expression (@) (image1))))))))) ())'
+import test_strings
 
 
 class ParserTest(TestCase):
@@ -24,4 +20,4 @@ class ParserTest(TestCase):
 
         my_parser = parser.get_yacc()
         tree = my_parser.parse('', lexer=mock_lex)
-        self.assertEqual(expected_tree, test_utils.tree_to_string(tree))
+        self.assertEqual(test_strings.expected_tree, test_utils.tree_to_string(tree))
