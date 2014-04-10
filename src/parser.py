@@ -116,7 +116,7 @@ def p_epsilon(p):
     """
     epsilon :
     """
-    p[0] = Leaf('')
+    p[0] = Node('')
 
 
 def p_error(p):
