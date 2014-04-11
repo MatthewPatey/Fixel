@@ -22,6 +22,8 @@ def string_tree_pretty_version(tree_string):
     """
     Don't use in tests! For debuggging only, meant for human to view tree in easier to read format
     """
+    print('input tree string:\n')
+    print(tree_string + '\n')
     no_spaces_tree_string = tree_string.replace(' ', '')
     tree, final_index = string_to_tree(no_spaces_tree_string, 0)
 
@@ -30,6 +32,7 @@ def string_tree_pretty_version(tree_string):
     elif final_index >= len(no_spaces_tree_string):
         raise ValueError('looks like Matt screwed up the string to tree function')
 
+    print('pretty format:\n')
     print(tree)
 
 

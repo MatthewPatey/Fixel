@@ -4,9 +4,9 @@ from tests import test_strings, test_utils
 
 if __name__ == '__main__':
     arg_parser = argparse.ArgumentParser()
-    arg_parser.add_argument('-s', '--string-name')
+    arg_parser.add_argument('-t', '--tree-string')
     namespace = arg_parser.parse_args()
 
-    if 'string_name' in vars(namespace).keys():
-        tree_string = getattr(test_strings, namespace.string_name)
+    if namespace.tree_string is not None:
+        tree_string = getattr(test_strings, namespace.tree_string)
         test_utils.string_tree_pretty_version(tree_string)
