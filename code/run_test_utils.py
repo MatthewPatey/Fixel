@@ -1,7 +1,5 @@
 import argparse
-import test_utils
-import parser_tests
-from tests import test_strings
+from tests import test_strings, test_utils
 
 
 if __name__ == '__main__':
