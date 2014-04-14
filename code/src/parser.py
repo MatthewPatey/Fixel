@@ -50,7 +50,7 @@ def p_translation_unit(p):
                         | translation_unit function_definition
     """
     if len(p) == 2:
-        p[0] = Node('translation_unit', p[1])
+        p[0] =  p[1]
     else:
         p[0] = Node('translation_unit', p[1], p[2])
 
@@ -240,12 +240,17 @@ def p_parameters(p):
     """
     parameters : variable_access_expression
                | parameters ',' variable_access_expression
-               | epsilon
     """
     if len(p) == 2:
         p[0] = Node('parameters', p[1])
     else:
         p[0] = Node('parameters', p[1], p[3])
+
+def p_parameters_eps(p):
+    """
+    parameters  : epsilon
+    """
+    p[0] = p[1]
 
 def p_variable_access_expression(p):
     """
