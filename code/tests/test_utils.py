@@ -1,5 +1,6 @@
 import mock
-from src.parser import Node
+from src import lexer
+from src import parser
 
 
 def get_mock_token(type, value):
@@ -18,9 +19,25 @@ def tree_to_string(tree):
     return s
 
 
+def tree_string_from_source(source_string):
+    """
+    runs lexer/parser on source string and outputs tree string from the resulting AST.
+    """
+    my_lex = lexer.get_lex()
+    my_yacc = parser.get_yacc()
+
+    tree = my_yacc.parse(source_string, lexer=my_lex)
+    tree_string = tree_to_string(tree)
+
+    print('pretty format:')
+    print(tree)
+    print('\ntree string:')
+    print(tree_string)
+
+
 def string_tree_pretty_version(tree_string):
     """
-    Don't use in tests! For debuggging only, meant for human to view tree in easier to read format
+    For debuggging, meant for human to view tree in easier to read format
     """
     print('input tree string:\n')
     print(tree_string + '\n')
@@ -39,7 +56,7 @@ def string_tree_pretty_version(tree_string):
 def string_to_tree(tree_string, index):
     """
     builds node for current level and creates children recursively
-    must be given string with no whitespace. For debugging only, don't use in tests
+    must be given string with no whitespace.
     """
 
     # child starts with ( character
@@ -57,7 +74,7 @@ def string_to_tree(tree_string, index):
             children.append(child)
             i = new_index
         elif char == ')':  # end of this tree, return
-            node = Node(node_name)
+            node = parser.Node(node_name)
             node.children = tuple(children)  # passing tuple to constructor results in nested tuple
             return node, i  # return node and current place in iteration
         else:  # character is part of node name
@@ -66,7 +83,6 @@ def string_to_tree(tree_string, index):
         i += 1  # increment to next character
 
     raise ValueError('bad format, reached end of string with without balancing all open parentheses')
-
 
     child_string = tree_string[child_index:]
     while True:
