@@ -33,6 +33,7 @@ def p_block(p):
     """
     p[0] = Node('block', p[3])
 
+
 def p_function_definition(p):
     """
     function_definition   : '#' ID block
@@ -270,7 +271,7 @@ def p_epsilon(p):
     """
     epsilon :
     """
-    pass
+    p[0] = Node('')
 
 
 def p_error(p):
@@ -282,17 +283,8 @@ def p_error(p):
         return tok
 
 
-
-
 tokens = lexer.tokens
 
-if __name__ == '__main__':
-    my_lex = lexer.get_lex()
-    parser = yacc.yacc()
 
-    ## feed it some input data _ test _ how do we automate this?
-    data = '#grayscale @image1\r\n' #todo can we avoid requiring newline?
-
-    tree = parser.parse(data, lexer=my_lex)
-    print("I made a tree! yay!")
-    print(tree)
+def get_yacc():
+    return yacc.yacc()

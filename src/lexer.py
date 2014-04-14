@@ -58,6 +58,6 @@ def t_error(t):
 import ply.lex as lex
 
 def get_lex():
-  return lex.lex()
+    return lex.lex()
 
 
