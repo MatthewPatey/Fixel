@@ -46,7 +46,6 @@ def p_function_definition(p):
 def p_translation_unit(p):
     """
     translation_unit    : epsilon
-                        | translation_unit
                         | translation_unit function_definition
     """
     if len(p) == 2:
@@ -83,7 +82,7 @@ def p_statement(p):
 
 def p_return_statement(p):
     """
-    return_statement    : 'return' expression_statement
+    return_statement    : RETURN expression_statement
     """
     p[0] = Node('return_statement', p[2])
 
@@ -97,16 +96,10 @@ def p_expression_statement(p):
     else:
         p[0] = Node('expression_statement')
 
-def p_primary_expression(p):
-    """
-    primary_expression : function_expression
-    """
-    p[0] = Node('primary_expression', p[1])
-
 def p_selection_statement(p):
     """
-    selection_statement : 'if' expression block
-                        | 'if' expression block 'else' block
+    selection_statement : IF expression block
+                        | IF expression block ELSE block
     """
     if len(p) == 4:
         p[0] = Node('selection_statement', p[2], p[3])
@@ -115,9 +108,9 @@ def p_selection_statement(p):
 
 def p_iteration_statement(p):
     """
-    iteration_statement    : 'for' ID 'in' primary-expression block
-                            | 'for' ID 'in' primary-expression ',' primary-expression block
-                            | 'while' expression block
+    iteration_statement    : FOR ID IN primary_expression block
+                            | FOR ID IN primary_expression ',' primary_expression block
+                            | WHILE expression block
     """
     if len(p) == 4:
         p[0] = Node('iteration_statement', p[2], p[3])
@@ -125,6 +118,114 @@ def p_iteration_statement(p):
         p[0] = Node('iteration_statement', p[2], p[4], p[5])
     else:
         p[0] = Node('iteration_statement', p[2], p[4], p[6], p[7])
+
+def p_expression(p):
+    """
+    expression  : assignment_expression
+    """
+    p[0] = Node('expression', p[1])
+
+def p_assignment_expression(p):
+    """
+    assignment_expression   : ID '=' assignment_expression
+                            | logical_OR_expression
+    """
+    if len(p) == 2:
+        p[0] = Node('assignment_expression', p[1])
+    else:
+        p[0] = Node('assignment_expression', p[1], p[3])
+        
+def p_logical_OR_expression(p):
+    """
+    logical_OR_expression   : logical_AND_expression
+                            | logical_OR_expression OR logical_AND_expression
+    """
+    if len(p) == 2:
+        p[0] = Node('logical_OR_expression', p[1])
+    else:
+        p[0] = Node('logical_OR_expression', p[1], p[3])
+
+def p_logical_AND_expression(p):
+    """
+    logical_AND_expression   : equality_expression
+                            | logical_AND_expression AND equality_expression
+    """
+    if len(p) == 2:
+        p[0] = Node('logical_AND_expression', p[1])
+    else:
+        p[0] = Node('logical_AND_expression', p[1], p[3])
+
+def p_equality_expression(p):
+    """
+    equality_expression   : relational_expression
+                          | equality_expression DUBEQUAL relational_expression
+                          | equality_expression NEQUAL relational_expression
+    """
+    if len(p) == 2:
+        p[0] = Node('equality_expression', p[1])
+    else:
+        p[0] = Node('equality_expression', p[1], p[3])
+
+def p_relational_expression(p):
+    """
+    relational_expression   : additive_expression
+                            | relational_expression '<' additive_expression
+                            | relational_expression '>' additive_expression
+                            | relational_expression LESSTHANEQ additive_expression
+                            | relational_expression GREATERTHANEQ additive_expression
+    """
+    if len(p) == 2:
+        p[0] = Node('relational_expression', p[1])
+    else:
+        p[0] = Node('relational_expression', p[1], p[3])
+
+def p_additive_expression(p):
+    """
+    additive_expression : multiplicative_expression 
+                        | additive_expression '+' multiplicative_expression 
+                        | additive_expression '_' multiplicative_expression 
+    """
+    if len(p) == 2:
+        p[0] = Node('additive_expression', p[1])
+    else:
+        p[0] = Node('additive_expression', p[1], p[3])
+
+def p_multiplicative_expression(p):
+    """
+    multiplicative_expression   : logical_NOT_expression
+                                | multiplicative_expression '*' logical_NOT_expression
+                                | multiplicative_expression '/' logical_NOT_expression
+    """
+    if len(p) == 2:
+        p[0] = Node('multiplicative_expression', p[1])
+    else:
+        p[0] = Node('multiplicative_expression', p[1], p[3])
+
+def p_logical_NOT_expression(p):
+    """
+    logical_NOT_expression  : primary_expression
+                            | NOT logical_NOT_expression
+    """
+    if len(p) == 2:
+        p[0] = Node('logical_NOT_expression', p[1])
+    else:
+        p[0] = Node('logical_NOT_expression', p[2])
+
+def p_primary_expression(p):
+    """
+    primary_expression  : variable_access_expression
+                        | STRING
+                        | NUMBER
+                        | TRUE
+                        | FALSE
+                        | '[' parameters ']'
+                        | '(' expression ')'
+                        | function_expression
+    """
+    if len(p) == 2:
+        p[0] = Node('primary_expression', p[1])
+    else: 
+        p[0] = Node('primary_expression', p[2])
 
 def p_function_expression(p):
     """
@@ -134,20 +235,27 @@ def p_function_expression(p):
     iden = Node(p[2])
     p[0] = Node('function_expression', hash, iden, p[3])
 
-
 def p_parameters(p):
     """
     parameters : variable_access_expression
+               | parameters ',' variable_access_expression
+               | epsilon
     """
-    p[0] = Node('parameters', p[1])
-
+    if len(p) == 2:
+        p[0] = Node('parameters', p[1])
+    else:
+        p[0] = Node('parameters', p[1], p[3])
 
 def p_variable_access_expression(p):
     """
     variable_access_expression : variable_expression
+                               | variable_access_expression '.' ID
+                               | variable_access_expression '[' primary_expression ']'
     """
-    p[0] = Node('variable_access_expression', p[1])
-
+    if len(p) == 2:
+        p[0] = Node('variable_access_expression', p[1])
+    else:
+        p[0] = Node('variable_access_expression', p[1], p[3])
 
 def p_variable_expression(p):
     """
@@ -182,7 +290,7 @@ if __name__ == '__main__':
     my_lex = lexer.get_lex()
     parser = yacc.yacc()
 
-    ## feed it some input data - test - how do we automate this?
+    ## feed it some input data _ test _ how do we automate this?
     data = '#grayscale @image1\r\n' #todo can we avoid requiring newline?
 
     tree = parser.parse(data, lexer=my_lex)

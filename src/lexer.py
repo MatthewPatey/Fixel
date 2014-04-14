@@ -20,16 +20,16 @@ literals = ['#', '@', '+', '-', '*', '/', '=', '(', ')',
 # a list of all tokens produced by the lexer
 tokens = [
     'ID','NUMBER',
-    'PLUS','MINUS','TIMES','DIVIDE','EQUALS',
-    'LPAREN','RPAREN','COMMENT','LBRACK','RBRACK',
-    'COLON','COMMA','LESSTHANEQ',
-    'GREATERTHANEQ', 'LESSTHAN', 'GREATERTHAN', 'NEQUAL',
-    'STRING','NEWLINE','INDENT', 'EOF'
+    'COMMENT',
+    'LESSTHANEQ',
+    'GREATERTHANEQ', 'NEQUAL',
+    'STRING','NEWLINE','INDENT', 'EOF', 'DUBEQUAL'
     ] + list(reserved.values())
 
 # Tokens produced by simple regexes
 t_COMMENT     = r'//'
 t_STRING      = r'\"([^"])*\"'
+t_DUBEQUAL   = r'=='
 t_LESSTHANEQ  = r'<='
 t_GREATERTHANEQ = r'>='
 t_NEQUAL      = r'!='
