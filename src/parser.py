@@ -27,24 +27,43 @@ def p_program(p):
     """
     p[0] = Node('program', p[1], p[2])
 
-def p_translation_unit(p):
-    '''
-    translation_unit    : epsilon
-    '''
-    if len(p) == 3:
-        p[0] = Node('translation_unit', p[1], p[2])
+def p_block(p):
+    """
+    block : ':' NEWLINE INDENT statement_list 
+    """
+    p[0] = Node('block', p[3])
 
-'''
 def p_function_definition(p):
     """
     function_definition   : '#' ID block
-                            | '#' ID parameter_declaration block
+                          | '#' ID parameter_declaration block
     """
-    at = Leaf(p[1])
-    ident = Leaf(p[2])
-    p[0] = Node(at, ident)
-    '''
+    if len(p) == 4:
+        p[0] = Node('function_definition', p[2], p[3])
+    else:
+        p[0] = Node('function_definition', p[2], p[3], p[4])
 
+def p_translation_unit(p):
+    """
+    translation_unit    : epsilon
+                        | translation_unit
+                        | translation_unit function_definition
+    """
+    if len(p) == 2:
+        p[0] = Node('translation_unit', p[1])
+    else:
+        p[0] = Node('translation_unit', p[1], p[2])
+
+def p_parameter_declaration(p):
+    """
+    parameter_declaration   : variable_expression
+                            | parameter_declaration ',' variable_expression
+                            | 
+    """
+    if len(p) == 2:
+        p[0] = Node('parameter_declaration', p[1])
+    else:
+        p[0] = Node('parameter_declaration', p[1], p[3])
 
 def p_statement_list(p):
     """
@@ -62,14 +81,21 @@ def p_statement(p):
     """
     p[0] = Node('statement', p[1])
 
-
+def p_return_statement(p):
+    """
+    return_statement    : 'return' expression_statement
+    """
+    p[0] = Node('return_statement', p[2])
 
 def p_expression_statement(p):
     """
-    expression_statement    : primary_expression NEWLINE
+    expression_statement    : expression NEWLINE
+                            | NEWLINE
     """
-    p[0] = Node('expression_statement', p[1])
-
+    if len(p) == 3:
+        p[0] = Node('expression_statement', p[1])
+    else:
+        p[0] = Node('expression_statement')
 
 def p_primary_expression(p):
     """
@@ -77,6 +103,28 @@ def p_primary_expression(p):
     """
     p[0] = Node('primary_expression', p[1])
 
+def p_selection_statement(p):
+    """
+    selection_statement : 'if' expression block
+                        | 'if' expression block 'else' block
+    """
+    if len(p) == 4:
+        p[0] = Node('selection_statement', p[2], p[3])
+    else:
+        p[0] = Node('selection_statement', p[2], p[3], p[5])
+
+def p_iteration_statement(p):
+    """
+    iteration_statement    : 'for' ID 'in' primary-expression block
+                            | 'for' ID 'in' primary-expression ',' primary-expression block
+                            | 'while' expression block
+    """
+    if len(p) == 4:
+        p[0] = Node('iteration_statement', p[2], p[3])
+    elif len(p) == 6:
+        p[0] = Node('iteration_statement', p[2], p[4], p[5])
+    else:
+        p[0] = Node('iteration_statement', p[2], p[4], p[6], p[7])
 
 def p_function_expression(p):
     """

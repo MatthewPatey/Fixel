@@ -16,7 +16,7 @@ parameter-declaration:
 	parameter-declaration ‘,’ variable-expression
 	epsilon
 
-statementooj-list:
+statement-list:
 	statement
 	statement-list statement
 
