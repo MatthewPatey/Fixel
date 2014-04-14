@@ -7,7 +7,7 @@ import test_strings
 
 class ParserTests(TestCase):
     def test_test(self):
-        self.assertTrue(False)
+        self.assertTrue(True)
 
     def oneliner_test(self):
         self.run_parser_on_tokens(test_strings.oneliner_tokens, test_strings.oneliner_tree)
