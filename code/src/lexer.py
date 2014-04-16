@@ -1,4 +1,3 @@
-
 # reserved words that translate straight to tokens
 reserved = {
   'for'   : 'FOR',
@@ -14,9 +13,15 @@ reserved = {
   'not'   : 'NOT',
 }
 
+# declare new state for dedent analysis
+states = (
+	('dedentCount','inclusive'),
+)
+
 literals = ['#', '@', '+', '-', '*', '/', '=', '(', ')', 
             '[', ']', ':', ';', '<', '>' ]
             
+globalIndent = 0
 currentIndent = 0
 auxIndent = 0
 
@@ -54,25 +59,50 @@ t_ignore = " "
 
 # count number of indents
 def t_INDENT(t):
-	r'[\t]*'
-	value = t.value.count("\t")
+	r'[\t]+'
+	global globalIndent
 	global currentIndent
 	global auxIndent
-	if value < (currentIndent+auxIndent):
-		if ((currentIndent+auxIndent)-value)>1:
-			pass
+	currentIndent = t.value.count("\t")
+	global currentIndent
+	global auxIndent
+	if currentIndent < (globalIndent+auxIndent):
+		if ((globalIndent+auxIndent)-currentIndent)>1:
+			t.lexer.begin('dedentCount')
 		else:
 			t.type = "DEDENT"
-			currentIndent=currentIndent-1
+			globalIndent=globalIndent-1
 			return t
-	elif value > (currentIndent+auxIndent):
+	elif currentIndent > (globalIndent+auxIndent):
 		t.type = "INDENT"
-		auxIndent = value-currentIndent-1-auxIndent
-		currentIndent=currentIndent+1
+		auxIndent = currentIndent-globalIndent-1-auxIndent
+		globalIndent=globalIndent+1
 		return t
+
+def t_dedentCount_empty(t):
+	r'[ \t]*(?=[^ \t\r\n])'
+	global globalIndent
+	if (globalIndent > (currentIndent+auxIndent)):
+		t.type = "DEDENT"
+		t.value = globalIndent
+		globalIndent=globalIndent-1
+		return t
+	else:
+		t.lexer.begin('INITIAL')
+
+def t_lastDEDENT(t):
+    r'\n[^\t]'
+    global globalIndent
+    global currentIndent
+    currentIndent=0
+    if (globalIndent != 0):
+    	if (globalIndent == 1):
+	    	globalIndent = globalIndent-1
+	    	t.type = "DEDENT"
+    		return t
+    	else:
+    		t.lexer.begin('dedentCount')
 		
-	
-			
 def t_error(t):
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
@@ -86,9 +116,9 @@ lexer = lex.lex()
 # Test it out
 data = '''
 #grayscale
-		@image1
+	@image1
 			#grayscale
-@image	
+	@image
 '''
 
 # Give the lexer some input
