@@ -12,3 +12,9 @@ done
 echo "Producing PDF..."
 pdflatex paper.tex
 pdflatex paper.tex
+
+echo "Cleaning up..."
+rm -f *.aux
+rm -f *.log
+rm -f *.toc
+rm ./sections/*.tex
