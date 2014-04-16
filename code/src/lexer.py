@@ -16,6 +16,9 @@ reserved = {
 
 literals = ['#', '@', '+', '-', '*', '/', '=', '(', ')', 
             '[', ']', ':', ';', '<', '>' ]
+            
+currentIndent = 0
+auxIndent = 0
 
 # a list of all tokens produced by the lexer
 tokens = [
@@ -23,7 +26,7 @@ tokens = [
     'COMMENT',
     'LESSTHANEQ',
     'GREATERTHANEQ', 'NEQUAL',
-    'STRING','NEWLINE','INDENT', 'EOF', 'DUBEQUAL'
+    'STRING','NEWLINE','INDENT', 'EOF', 'DUBEQUAL', 'DEDENT'
     ] + list(reserved.values())
 
 # Tokens produced by simple regexes
@@ -34,8 +37,7 @@ t_LESSTHANEQ  = r'<='
 t_GREATERTHANEQ = r'>='
 t_NEQUAL      = r'!='
 t_NEWLINE     = r'\r?\n'
-t_INDENT      = r'\t'
-t_ID    = r'[a-zA-Z_][a-zA-Z0-9_]*'
+t_ID    = r'[a-zA-Z_][a-zA-Z0-9_]*' 
 
 # produces a token for any integer number and stores the value as an int
 def t_NUMBER(t):
@@ -50,6 +52,27 @@ def t_NUMBER(t):
 # Ignored characters
 t_ignore = " "
 
+# count number of indents
+def t_INDENT(t):
+	r'[\t]*'
+	value = t.value.count("\t")
+	global currentIndent
+	global auxIndent
+	if value < (currentIndent+auxIndent):
+		if ((currentIndent+auxIndent)-value)>1:
+			pass
+		else:
+			t.type = "DEDENT"
+			currentIndent=currentIndent-1
+			return t
+	elif value > (currentIndent+auxIndent):
+		t.type = "INDENT"
+		auxIndent = value-currentIndent-1-auxIndent
+		currentIndent=currentIndent+1
+		return t
+		
+	
+			
 def t_error(t):
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
@@ -57,7 +80,22 @@ def t_error(t):
 # Build the lexer
 import ply.lex as lex
 
-def get_lex():
-    return lex.lex()
+lexer = lex.lex()
 
 
+# Test it out
+data = '''
+#grayscale
+		@image1
+			#grayscale
+@image	
+'''
+
+# Give the lexer some input
+lexer.input(data)
+
+# Tokenize
+while True:
+    tok = lexer.token()
+    if not tok: break      # No more input
+    print tok
