@@ -1,4 +1,6 @@
 # reserved words that translate straight to tokens
+import re
+
 reserved = {
   'for'   : 'FOR',
   'while' : 'WHILE',
@@ -59,7 +61,7 @@ t_ignore = " "
 
 # count number of indents
 def t_INDENT(t):
-	r'[\t]+'
+	r'^[\t]+'
 	global globalIndent
 	global currentIndent
 	global auxIndent
@@ -111,4 +113,4 @@ def t_error(t):
 import ply.lex as lex
 
 def get_lex():
-    return lex.lex()
+    return lex.lex(reflags=re.MULTILINE)
