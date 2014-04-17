@@ -94,6 +94,8 @@ def t_lastDEDENT(t):
     r'\n[^\t]'
     global globalIndent
     global currentIndent
+    global auxIndent
+    auxIndent=0
     currentIndent=0
     if (globalIndent != 0):
     	if (globalIndent == 1):
