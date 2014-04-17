@@ -106,26 +106,9 @@ def t_lastDEDENT(t):
 def t_error(t):
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
-    
+
 # Build the lexer
 import ply.lex as lex
 
-lexer = lex.lex()
-
-
-# Test it out
-data = '''
-#grayscale
-	@image1
-			#grayscale
-	@image
-'''
-
-# Give the lexer some input
-lexer.input(data)
-
-# Tokenize
-while True:
-    tok = lexer.token()
-    if not tok: break      # No more input
-    print tok
+def get_lex():
+    return lex.lex()
