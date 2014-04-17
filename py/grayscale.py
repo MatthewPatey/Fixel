@@ -16,6 +16,7 @@ for currentImage in outputImages:
 
 # begin the custom functions here
 # perform any necessary transformations to the input images (as per the fixel script
+grayscale(image1);
 outputImages[0] = fixelFunctions.caption(outputImages[0],"testing this outtt","wj")
 
 # output all images with "-fixel" appended to the end

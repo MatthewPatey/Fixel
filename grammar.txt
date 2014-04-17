@@ -4,7 +4,6 @@ program:
 
 translation-unit:
 	epsilon
-	translation-unit
 	translation-unit function-definition
 
 function-definition:
@@ -16,7 +15,7 @@ parameter-declaration:
 	parameter-declaration ‘,’ variable-expression
 	epsilon
 
-statementooj-list:
+statement-list:
 	statement
 	statement-list statement
 
@@ -87,7 +86,8 @@ primary-expression:
 	variable-access-expression
 	STRING 
 	NUMBER
-	BOOLEAN
+	TRUE
+        FALSE
 	‘[‘ parameters ‘]’
 	‘(‘ expression ‘)’
 	function-expression
@@ -103,7 +103,7 @@ parameters:
 variable-access-expression:
 	variable-expression
 	variable-access-expression '.' ID
-	variable-access-expression[primary-expression]
+	variable-access-expression '[' primary-expression ']'
 
 variable-expression:
 	‘@’ ID
