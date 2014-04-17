@@ -64,8 +64,6 @@ def t_INDENT(t):
 	global currentIndent
 	global auxIndent
 	currentIndent = t.value.count("\t")
-	global currentIndent
-	global auxIndent
 	if currentIndent < (globalIndent+auxIndent):
 		if ((globalIndent+auxIndent)-currentIndent)>1:
 			t.lexer.begin('dedentCount')
@@ -82,7 +80,9 @@ def t_INDENT(t):
 def t_dedentCount_empty(t):
 	r'[ \t]*(?=[^ \t\r\n])'
 	global globalIndent
-	if (globalIndent > (currentIndent+auxIndent)):
+	global currentIndent
+	global auxIndent
+	if (globalIndent > currentIndent):
 		t.type = "DEDENT"
 		t.value = globalIndent
 		globalIndent=globalIndent-1
@@ -106,6 +106,7 @@ def t_lastDEDENT(t):
 def t_error(t):
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
+
 
 # Build the lexer
 import ply.lex as lex
