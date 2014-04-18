@@ -115,12 +115,13 @@ def t_error(t):
 # Build the lexer
 import ply.lex as lex
 
-'''def get_lex():
+def get_lex():
     return lex.lex()
+
 '''
 lexer = lex.lex()
 
-data='''
+data=
 @image1
 	#grayscale
 		#grayscale
@@ -130,10 +131,11 @@ data='''
 	#grayscale
 @image1
 #grayscale
-'''
+
 lexer.input(data)
 #tokenize
 while True:
 	tok = lexer.token()
 	if not tok: break
 	print tok
+'''
