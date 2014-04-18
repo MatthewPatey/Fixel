@@ -11,11 +11,11 @@ def get_mock_token(type, value):
 
 
 def tree_to_string(tree):
-    s = '(' + tree.value
+    s = '[' + tree.value
     if hasattr(tree, 'children'):
         for child in tree.children:
             s += ' ' + tree_to_string(child)
-    s += ')'
+    s += ']'
     return s
 
 
@@ -80,11 +80,11 @@ def string_to_tree(tree_string, index):
     i = index
     while i < len(tree_string):
         char = tree_string[i]
-        if char == '(':  # new child
+        if char == '[':  # new child
             child, new_index = string_to_tree(tree_string, i)
             children.append(child)
             i = new_index
-        elif char == ')':  # end of this tree, return
+        elif char == ']':  # end of this tree, return
             node = parser.Node(node_name)
             node.children = tuple(children)  # passing tuple to constructor results in nested tuple
             return node, i  # return node and current place in iteration
