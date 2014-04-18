@@ -24,4 +24,4 @@ class ParserTests(TestCase):
 
         my_parser = parser.get_yacc()
         tree = my_parser.parse('', lexer=mock_lex)
-        self.assertEqual(expected_tree, test_utils.tree_to_string(tree))
+        self.assertEqual(expected_tree.replace(' ', ''), test_utils.tree_to_string(tree).replace(' ', ''))
