@@ -54,6 +54,7 @@ def t_NUMBER(t):
     except ValueError:
         print("Integer value too large %d", t.value)
         t.value = 0
+	#print "t_number"
     return t
 
 # Ignored characters
@@ -65,6 +66,7 @@ def t_INDENT(t):
 	global globalIndent
 	global currentIndent
 	global auxIndent
+	#print "t_indent"
 	currentIndent = t.value.count("\t")
 	if currentIndent < (globalIndent+auxIndent):
 		if ((globalIndent+auxIndent)-currentIndent)>1:
@@ -82,6 +84,7 @@ def t_INDENT(t):
 def t_dedentCount_empty(t):
 	r'[ \t]*(?=[^ \t\r\n])'
 	global globalIndent
+	print "t_dedentCount_empty"
 	global currentIndent
 	global auxIndent
 	if (globalIndent > currentIndent):
@@ -95,19 +98,23 @@ def t_dedentCount_empty(t):
 		t.lexer.begin('INITIAL')
 
 def t_lastDEDENT(t):
-    r'\n(?=[^ \t\r\n])'
-    global globalIndent
-    global currentIndent
-    global auxIndent
-    auxIndent=0
-    currentIndent=0
-    if (globalIndent != 0):
-    	if (globalIndent == 1):
-	    	globalIndent = globalIndent-1
-	    	t.type = "DEDENT"
-    		return t
-    	else:
-    		t.lexer.begin('dedentCount')
+	r'\n(?=[^ \t\r\n])'
+	global globalIndent
+	global currentIndent
+	global auxIndent
+	auxIndent=0; 
+	print "here"
+	currentIndent=0
+	#t.type="NEWLINE"
+	if (globalIndent != 0):
+		t.type="NEWLINE"
+		#print "if"
+		t.lexer.begin('dedentCount')
+		return t;
+	else:
+		#print "else"
+		t.type="NEWLINE"
+		return t;
 		
 def t_error(t):
     print("Illegal character '%s'" % t.value[0])
@@ -121,18 +128,20 @@ def get_lex():
     return lex.lex(reflags=re.MULTILINE)
 
 '''
-lexer = lex.lex()
-
+lexer = lex.lex(reflags=re.MULTILINE)
 data=
 @image1
+@image
+	#grayscale1
 	#grayscale
-		#grayscale
-	@image1
-		#grayscale
-@image1
-	#grayscale
-@image1
-#grayscale
+		#grayscale2
+	@image2
+#grayscale3
+	@image3
+		#grayscale4
+@image4
+@image5
+
 
 lexer.input(data)
 #tokenize
@@ -141,3 +150,4 @@ while True:
 	if not tok: break
 	print tok
 '''
+
