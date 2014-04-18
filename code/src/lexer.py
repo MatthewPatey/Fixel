@@ -73,7 +73,7 @@ def t_INDENT(t):
 			return t
 	elif currentIndent > (globalIndent+auxIndent):
 		t.type = "INDENT"
-		auxIndent = currentIndent-globalIndent-1-auxIndent
+		#auxIndent = currentIndent-globalIndent-1-auxIndent
 		globalIndent=globalIndent+1
 		return t
 
@@ -83,15 +83,17 @@ def t_dedentCount_empty(t):
 	global currentIndent
 	global auxIndent
 	if (globalIndent > currentIndent):
+		#print "here"
 		t.type = "DEDENT"
 		t.value = globalIndent
 		globalIndent=globalIndent-1
 		return t
 	else:
+		#print t
 		t.lexer.begin('INITIAL')
 
 def t_lastDEDENT(t):
-    r'\n[^\t]'
+    r'\n(?=[^ \t\r\n])'
     global globalIndent
     global currentIndent
     global auxIndent
@@ -113,5 +115,25 @@ def t_error(t):
 # Build the lexer
 import ply.lex as lex
 
-def get_lex():
+'''def get_lex():
     return lex.lex()
+'''
+lexer = lex.lex()
+
+data='''
+@image1
+	#grayscale
+		#grayscale
+	@image1
+		#grayscale
+@image1
+	#grayscale
+@image1
+#grayscale
+'''
+lexer.input(data)
+#tokenize
+while True:
+	tok = lexer.token()
+	if not tok: break
+	print tok
