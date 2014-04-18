@@ -1,2 +1,4 @@
+import sys
 from src import fixel
-fixel.main()
+result = fixel.translate(sys.argv[1])
+print(result)

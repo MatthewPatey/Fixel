@@ -3,20 +3,11 @@ import lexer
 import generator
 
 
-def main():
+def translate(source):
     my_lex = lexer.get_lex()
     my_parser = parser.get_yacc()
 
-    ## feed it some input data - test - how do we automate this?
-    data = '#grayscale @image1\n'
-
-    tree = my_parser.parse(data, lexer=my_lex)
-    print("I made a tree! yay!")
-    print(tree)
+    tree = my_parser.parse(source, lexer=my_lex)
 
     gen = generator.Generator(tree)
-    print gen.get_string()
-
-
-if __name__ == '__main__':
-    main()
+    return gen.get_string()
