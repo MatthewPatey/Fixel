@@ -94,13 +94,3 @@ def string_to_tree(tree_string, index):
         i += 1  # increment to next character
 
     raise ValueError('bad format, reached end of string with without balancing all open parentheses')
-
-    child_string = tree_string[child_index:]
-    while True:
-        child, child_string = string_to_tree(child_string)
-        children.append(child)
-
-        if child_string[0] == ')':  # end of this subtree
-            break
-    node.children = tuple(children)
-    return node, child_string[1:]
