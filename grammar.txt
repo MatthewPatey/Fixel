@@ -13,7 +13,6 @@ function-definition:
 parameter-declaration:
 	variable-expression
 	parameter-declaration ‘,’ variable-expression
-	epsilon
 
 statement-list:
 	statement

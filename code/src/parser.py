@@ -64,12 +64,6 @@ def p_parameter_declaration(p):
     else:
         p[0] = Node('parameter_declaration', p[1], p[3])
 
-def p_parameter_declaration_eps(p):
-    """
-    parameter_declaration   : epsilon
-    """
-    p[0] = p[1]
-
 def p_statement_list(p):
     """
     statement_list  : statement
