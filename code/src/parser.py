@@ -16,7 +16,7 @@ class Node:
         indent = "\n" + i*' |'
         for child in self.children:
             #print children
-            if len(child.value) > 0: #todo: figure out epsilon
+            if len(child.value) > 0:
                 s += indent + child.traverse(i+1)
         return s
 
@@ -58,12 +58,17 @@ def p_parameter_declaration(p):
     """
     parameter_declaration   : variable_expression
                             | parameter_declaration ',' variable_expression
-                            | 
     """
     if len(p) == 2:
         p[0] = Node('parameter_declaration', p[1])
     else:
         p[0] = Node('parameter_declaration', p[1], p[3])
+
+def p_parameter_declaration_eps(p):
+    """
+    parameter_declaration   : epsilon
+    """
+    p[0] = p[1]
 
 def p_statement_list(p):
     """
