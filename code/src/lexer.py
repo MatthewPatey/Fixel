@@ -36,7 +36,7 @@ tokens = [
     'COMMENT',
     'LESSTHANEQ',
     'GREATERTHANEQ', 'NEQUAL',
-    'STRING','NEWLINE','INDENT', 'EOF', 'DUBEQUAL', 'DEDENT'
+    'STRING','NEWLINE','INDENT', 'DUBEQUAL', 'DEDENT'
     ] + list(reserved.values())
 
 # Tokens produced by simple regexes
@@ -53,11 +53,10 @@ t_ID    = r'[a-zA-Z_][a-zA-Z0-9_]*'
 def t_NUMBER(t):
     r'\d+'
     try:
-        t.value = int(t.value)
+        int(t.value)
     except ValueError:
         print("Integer value too large %d", t.value)
         t.value = 0
-	#print "t_number"
     return t
 
 # Ignored characters
