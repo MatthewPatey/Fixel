@@ -1,6 +1,9 @@
-# reserved words that translate straight to tokens
+import ply.lex as lex
 import re
+from types import MethodType
 
+
+# reserved words that translate straight to tokens
 reserved = {
   'for'   : 'FOR',
   'while' : 'WHILE',
@@ -122,10 +125,39 @@ def t_error(t):
 
 
 # Build the lexer
-import ply.lex as lex
 
-def get_lex():
-    return lex.lex(reflags=re.MULTILINE)
+def verbose_lexer_token(vb_lex):
+    """
+    function that is dynamically added as instance method of an instance of the VerboseLexer class that is
+    created at runtime if a verbose lexer is created. Returns one token from the lexer,
+    but first prints it if it is not None.
+    """
+    token = vb_lex.lex.token()
+    if token is not None:
+        print(token)
+    return token
+
+
+def get_lex(verbose=False):
+    """
+    If verbose is false or omitted returns an instance of ply.lex created with lex rules in this module.
+    If verbose is true, returns a wrapper around a lex instance that prints tokens before returning them.
+    This distinction should be transparent to yacc.
+    """
+    my_lex = lex.lex(reflags=re.MULTILINE)
+
+    if verbose:  # creates a wrapper around the lexer that prints tokens
+        VerboseLexer = type('VerboseLexer', (object,), {})  # define new type, because object has no dict
+        verbose_lexer = VerboseLexer()
+        verbose_lexer.token = MethodType(verbose_lexer_token, verbose_lexer)  # bind token method to the instance
+
+        # bind input method to the instance
+        verbose_lexer.input = MethodType(lambda self, data: self.lex.input(data), verbose_lexer)
+        verbose_lexer.lex = my_lex  # set lex attribute of verbose_lexer
+
+        return verbose_lexer
+    else:
+        return my_lex
 
 '''
 lexer = lex.lex(reflags=re.MULTILINE)
