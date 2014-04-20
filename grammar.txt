@@ -7,10 +7,10 @@ translation-unit:
 	translation-unit function-definition
 
 function-definition:
-	‘#’ ID block
 	‘#’ ID parameter-declaration block
 
 parameter-declaration:
+	epsilon
 	variable-expression
 	parameter-declaration ‘,’ variable-expression
 

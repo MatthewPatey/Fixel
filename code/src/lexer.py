@@ -24,7 +24,7 @@ states = (
 )
 
 literals = ['#', '@', '+', '-', '*', '/', '=', '(', ')', 
-            '[', ']', ':', ';', '<', '>' ]
+            '[', ']', ':', ';', '<', '>', ',']
             
 globalIndent = 0
 currentIndent = 0
@@ -47,7 +47,12 @@ t_LESSTHANEQ  = r'<='
 t_GREATERTHANEQ = r'>='
 t_NEQUAL      = r'!='
 t_NEWLINE     = r'\r?\n'
-t_ID    = r'[a-zA-Z_][a-zA-Z0-9_]*' 
+
+def t_ID(t):
+    r'[a-zA-Z_][a-zA-Z0-9_]*'
+    if t.value in reserved:
+        t.type = reserved[t.value]
+    return t
 
 # produces a token for any integer number and stores the value as an int
 def t_NUMBER(t):
@@ -74,11 +79,11 @@ def t_INDENT(t):
 		if ((globalIndent+auxIndent)-currentIndent)>1:
 			t.lexer.begin('dedentCount')
 		else:
-			t.type = "DEDENT"
+			t.value = t.type = "DEDENT"
 			globalIndent=globalIndent-1
 			return t
 	elif currentIndent > (globalIndent+auxIndent):
-		t.type = "INDENT"
+		t.value = t.type = "INDENT"
 		#auxIndent = currentIndent-globalIndent-1-auxIndent
 		globalIndent=globalIndent+1
 		return t
@@ -91,7 +96,7 @@ def t_dedentCount_empty(t):
 	global auxIndent
 	if (globalIndent > currentIndent):
 		#print "here"
-		t.type = "DEDENT"
+		t.value = t.type = "DEDENT"
 		t.value = globalIndent
 		globalIndent=globalIndent-1
 		return t
@@ -125,16 +130,23 @@ def t_error(t):
 
 # Build the lexer
 
-def verbose_lexer_token(vb_lex):
-    """
-    function that is dynamically added as instance method of an instance of the VerboseLexer class that is
-    created at runtime if a verbose lexer is created. Returns one token from the lexer,
-    but first prints it if it is not None.
-    """
-    token = vb_lex.lex.token()
-    if token is not None:
-        print(token)
-    return token
+class VerboseLexer:
+    def __init__(self, lex):
+        self.lex = lex
+
+    def token(self):
+        """
+        function that is dynamically added as instance method of an instance of the VerboseLexer class that is
+        created at runtime if a verbose lexer is created. Returns one token from the lexer,
+        but first prints it if it is not None.
+        """
+        token = self.lex.token()
+        if token is not None:
+            print(token)
+        return token
+
+    def input(self, data):
+        self.lex.input(data)
 
 
 def get_lex(verbose=False):
@@ -146,14 +158,7 @@ def get_lex(verbose=False):
     my_lex = lex.lex(reflags=re.MULTILINE)
 
     if verbose:  # creates a wrapper around the lexer that prints tokens
-        VerboseLexer = type('VerboseLexer', (object,), {})  # define new type, because object has no dict
-        verbose_lexer = VerboseLexer()
-        verbose_lexer.token = MethodType(verbose_lexer_token, verbose_lexer)  # bind token method to the instance
-
-        # bind input method to the instance
-        verbose_lexer.input = MethodType(lambda self, data: self.lex.input(data), verbose_lexer)
-        verbose_lexer.lex = my_lex  # set lex attribute of verbose_lexer
-
+        verbose_lexer = VerboseLexer(my_lex)
         return verbose_lexer
     else:
         return my_lex

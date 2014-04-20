@@ -31,13 +31,12 @@ def p_block(p):
     """
     block : ':' NEWLINE INDENT statement_list 
     """
-    p[0] = Node('block', p[3])
+    p[0] = Node('block', Node(p[1]), Node(p[2]), Node(p[3]), p[4])
 
 
 def p_function_definition(p):
     """
-    function_definition   : '#' ID block
-                          | '#' ID parameter_declaration block
+    function_definition   : '#' ID parameter_declaration block
     """
     hashtag = Node(p[1])
     if len(p) == 4:
@@ -64,6 +63,12 @@ def p_parameter_declaration(p):
         p[0] = Node('parameter_declaration', p[1])
     else:
         p[0] = Node('parameter_declaration', p[1], Node(p[2]), p[3])
+
+def p_parameter_declaration_eps(p):
+    """
+    parameter_declaration   : epsilon
+    """
+    p[0] = p[1]
 
 def p_statement_list(p):
     """
