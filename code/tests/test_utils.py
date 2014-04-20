@@ -19,17 +19,6 @@ def tree_to_string(tree):
     return s
 
 
-def run_lex(source):
-    my_lex = lexer.get_lex()
-    my_lex.input(source)
-
-    while True:
-        token = my_lex.token()
-        if token is None:
-            break
-        print str(token)
-
-
 def tree_string_from_source(source_string):
     """
     runs lexer/parser on source string and outputs tree string from the resulting AST.
