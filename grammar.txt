@@ -37,8 +37,8 @@ selection-statement:
 	‘if’ expression block ‘else’ block
 
 iteration-statement:
-	‘for’ ID ‘in’ primary-expression block
-	‘for’ ID ‘in’ primary-expression ‘,’ primary-expression block
+	‘for’ ID ‘in’ intermediate-expression block
+	‘for’ ID ‘in’ intermediate-expression ‘,’ intermediate-expression block
 	‘while’ expression block
 
 expression:
@@ -79,31 +79,34 @@ multiplicative-expression:
 	multiplicative-expression ‘/’ logical-NOT-expression
 
 logical-NOT-expression:
-	primary-expression
+	intermediate-expression
 	‘not’ logical-NOT-expression
+
+intermediate-expression:
+	primary-expression
+	function-expression
 
 primary-expression: 
 	variable-access-expression
 	STRING 
 	NUMBER
 	TRUE
-        FALSE
+    FALSE
 	‘[‘ parameters ‘]’
 	‘(‘ expression ‘)’
-	function-expression
 
 function-expression:
 	‘#’ ID parameters
 
 parameters:
-	variable-access-expression
-	parameters ‘,’ variable-access-expression
+	primary-expression
+	parameters ‘,’ primary-expression
 	epsilon
 
 variable-access-expression:
 	variable-expression
 	variable-access-expression '.' ID
-	variable-access-expression '[' primary-expression ']'
+	variable-access-expression '[' intermediate-expression ']'
 
 variable-expression:
 	‘@’ ID
