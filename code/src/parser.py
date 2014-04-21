@@ -120,8 +120,8 @@ def p_selection_statement(p):
 
 def p_iteration_statement(p):
     """
-    iteration_statement     : FOR ID IN primary_expression block
-                            | FOR ID IN primary_expression ',' primary_expression block
+    iteration_statement     : FOR ID IN intermediate_expression block
+                            | FOR ID IN intermediate_expression ',' intermediate_expression block
                             | WHILE expression block
     """
     if len(p) == 4:
@@ -219,7 +219,7 @@ def p_multiplicative_expression(p):
 
 def p_logical_NOT_expression(p):
     """
-    logical_NOT_expression  : primary_expression
+    logical_NOT_expression  : intermediate_expression
                             | NOT logical_NOT_expression
     """
     if len(p) == 2:
@@ -237,13 +237,18 @@ def p_primary_expression_token(p):
     """
     p[0] = Node(p[1])
 
+def p_intermediate_expression(p):
+    """
+    intermediate_expression     : primary_expression
+                                | function_expression
+    """
+    p[0] = Node('intermediate_expression', p[1])
 
 def p_primary_expression(p):
     """
     primary_expression  : variable_access_expression
                         | '[' parameters ']'
                         | '(' expression ')'
-                        | function_expression
     """
     if len(p) == 2:
         p[0] = Node('primary_expression', p[1])
@@ -260,8 +265,8 @@ def p_function_expression(p):
 
 def p_parameters(p):
     """
-    parameters : variable_access_expression
-               | parameters ',' variable_access_expression
+    parameters : primary_expression
+               | parameters ',' primary_expression
     """
     if len(p) == 2:
         p[0] = Node('parameters', p[1])
@@ -278,7 +283,7 @@ def p_variable_access_expression(p):
     """
     variable_access_expression : variable_expression
                                | variable_access_expression '.' ID
-                               | variable_access_expression '[' primary_expression ']'
+                               | variable_access_expression '[' intermediate_expression ']'
     """
     if len(p) == 2:
         p[0] = Node('variable_access_expression', p[1])
