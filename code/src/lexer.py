@@ -94,7 +94,7 @@ def t_INDENT(t):
 
 # match anything without consuming, keep returning DEDENT's until we've balanced
 def t_dedentCount_empty(t):
-	r'(?=[.\n])'
+	r'(?=.|\n)'
 	global globalIndent
 	global currentIndent
 	if (globalIndent > currentIndent):
@@ -124,7 +124,7 @@ def t_leadingWhitespace_leftmostDEDENT(t):
 	return t
 
 def t_eofDedent_DEDENT(t):
-	r'(?=[.\n])'
+	r'(?=.|\n)'
 	global globalIndent
 	if globalIndent > 0:
 		globalIndent -= 1
