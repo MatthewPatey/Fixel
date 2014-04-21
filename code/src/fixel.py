@@ -8,7 +8,7 @@ def translate(source_string=None, verbose=False):
     my_parser = parser.get_yacc()
 
     if source_string is None:
-        source_string = 'if @hey:\n\t#sup\n#hey\n'
+        source_string = 'if @hey < not 1:\n\t#sup\n#hey @image1,@image2\nsup:\n\treturn 5\n'
 
     if verbose:
         print("source:\n")

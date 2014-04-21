@@ -1,52 +1,30 @@
-"""
-keys are node names and
-values are tables where key is index of child after which to print and value is string to print
-"""
-strings_table = {
-    'function_expression': {
-        1: '(', 2: ')'
-    },
-    'function_definition': {
-        1: '(', 2: ')'
-    },
-    'parameter_declaration': {
-        1: ' '
-    },
-    'return_statement': {
-        0: ' '
-    },
-    'selection_statement': {
-        0: ' '
-    },
-    'iteration_statement': {
-        0: ' '
-    },
-}
 
 
 """
-keys are node names.
-Values are tuples containing index of child after which custom behavior should occur,
-string to print if expression evaluates to true,
-and lambda taking node argument that executes an expression returning a boolean.
+keys are nodes that should have spaces printed around them, and values say where to print.
+1 means before, 2 means after and 3 means both (picture bitwise or).
 """
-custom_behvavior_table = {
-    'iteration_statement': {
-        1: (' ', lambda node: len(node.children) > 3),  # print space after ID if in a for loop
-        2: (' ', lambda node: len(node.children) > 3),  # print space after 'in' if in a for loop
-        4: (' ', lambda node: len(node.children) == 6)  # print space after ',' if in a range for loop
-    },
-    'logical_NOT_expression': {
-        1: (' ', lambda node: len(node.children) == 2)
-    },
-    'logical_AND_expression': {
-        0: (' ', lambda node: len(node.children) == 3),
-        1: (' ', lambda node: len(node.children) == 3)
-    },
-    'logical_OR_expression': {
-        0: (' ', lambda node: len(node.children) == 3),
-        1: (' ', lambda node: len(node.children) == 3)
-    }
+spaces_table = {
+	',': 2,
+    'return': 2,
+    'if': 2,
+    'for': 2,
+    'in': 3,
+    'while': 2,
+    '=': 3,
+    'or': 3,
+    'and': 3,
+    '!=': 3,
+    '==': 3,
+    '<': 3,
+    '>': 3,
+    '<=': 3,
+    '>=': 3,
+    '+': 3,
+    '-': 3,
+    '*': 3,
+    '/': 3,
+    'not': 2
 }
 
 
@@ -63,33 +41,47 @@ class Generator:
         return ''.join(self.string_list)
 
     def process_tree(self, node):
-        if len(node.children) > 0:  # non-leaf
-            # obtain custom behavior function, set to None if there isn't one
-            # first check if there are child_separator strings e.g. parentheses
-            if node.value in strings_table:
-                child_separator_strings = strings_table[node.value]
-            else:
-                child_separator_strings = None
+        if node.value in custom_functions_table:  # call custom processing function
+            custom_function = custom_functions_table[node.value]
+            custom_function(self, node)
+        else:  # if no custom function, use default processing
+            # get spaces information
+            spaces = spaces_table.get(node.value, 0)
+            space_before = spaces & 1
+            space_after = spaces & 2
 
-            if node.value in custom_behvavior_table:
-                custom_behvaviors = custom_behvavior_table[node.value]
-            else:
-                custom_behvaviors = None
+            if space_before:  # add space before processing
+                self.string_list.append(' ')
 
-            # process the children
-            for i in range(0, len(node.children)):
-                child = node.children[i]
-                self.process_tree(child)
+            if len(node.children) > 0:  # non-leaf
+                # process the children
+                for child in node.children:
+                    self.process_tree(child)
+            elif node.value not in ignore:  # leaf
+                # if it's a leaf add it to the string list
+                self.string_list.append(node.value)
 
-                if child_separator_strings is not None and i in child_separator_strings:
-                    post_child_string = child_separator_strings[i]
-                    self.string_list.append(post_child_string)
+            if space_after:
+                self.string_list.append(' ')
 
-                # check if we should call custom function at this iteration
-                if custom_behvaviors is not None and i in custom_behvaviors:
-                    custom_behvavior_string, custom_behvavior_expression = custom_behvaviors[i]
-                    if custom_behvavior_expression(node):
-                        self.string_list.append(custom_behvavior_string)
-        elif node.value not in ignore:  # leaf
-            # if it's a leaf add it to the string list
-            self.string_list.append(node.value)
+    def process_function_definition(self, node):
+        id_node, parameter_declaration, block = node.children
+        self.string_list.append('def ')
+        self.process_tree(id_node)
+        self.string_list.append('(')
+        self.process_tree(parameter_declaration)
+        self.string_list.append(')')
+        self.process_tree(block)
+
+    def process_function_expression(self, node):
+        hashtag, id_node, parameters = node.children
+        self.process_tree(id_node)
+        self.string_list.append('(')
+        self.process_tree(parameters)
+        self.string_list.append(')')
+
+
+custom_functions_table = {
+    'function_definition': Generator.process_function_definition,
+    'function_expression': Generator.process_function_expression
+}

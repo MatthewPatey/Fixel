@@ -23,9 +23,14 @@ class Node:
 
 def p_program(p):
     """
-    program : statement_list translation_unit
+    program : statement_list
+            | statement_list translation_unit
+
     """
-    p[0] = Node('program', p[1], p[2])
+    if len(p) == 2:
+        p[0] = Node('program', p[1])
+    else:
+        p[0] = Node('program', p[1], p[2])
 
 def p_block(p):
     """
@@ -36,21 +41,18 @@ def p_block(p):
 
 def p_function_definition(p):
     """
-    function_definition   : '#' ID parameter_declaration block
+    function_definition   : ID parameter_declaration block
     """
-    hashtag = Node(p[1])
-    if len(p) == 4:
-        p[0] = Node('function_definition', hashtag, p[2], p[3])
-    else:
-        p[0] = Node('function_definition', hashtag, p[2], p[3], p[4])
+    id_node = Node(p[1])
+    p[0] = Node('function_definition', id_node, p[2], p[3])
 
 def p_translation_unit(p):
     """
-    translation_unit    : epsilon
+    translation_unit    : function_definition
                         | translation_unit function_definition
     """
     if len(p) == 2:
-        p[0] = p[1]
+        p[0] = Node('translation_unit', p[1])
     else:
         p[0] = Node('translation_unit', p[1], p[2])
 

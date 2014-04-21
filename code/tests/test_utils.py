@@ -32,7 +32,7 @@ def tree_string_from_source(source_string):
     print('pretty format:')
     print(tree)
     print('\ntree string:')
-    print(tree_string)
+    print(repr(tree_string))
 
 
 def string_tree_pretty_version(tree_string):
@@ -40,7 +40,7 @@ def string_tree_pretty_version(tree_string):
     For debuggging, meant for human to view tree in easier to read format
     """
     print('input tree string:\n')
-    print(tree_string + '\n')
+    print(repr(tree_string) + '\n')
     no_spaces_tree_string = tree_string.replace(' ', '')
     tree, final_index = string_to_tree(no_spaces_tree_string, 0)
 
