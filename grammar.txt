@@ -1,19 +1,19 @@
 Grammar
 program:
+	statement-list
 	statement-list translation-unit
 
 translation-unit:
-	epsilon
+	function-definition
 	translation-unit function-definition
 
 function-definition:
-	‘#’ ID block
-	‘#’ ID parameter-declaration block
+	ID parameter-declaration block
 
 parameter-declaration:
+	epsilon
 	variable-expression
 	parameter-declaration ‘,’ variable-expression
-	epsilon
 
 statement-list:
 	statement

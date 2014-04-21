@@ -3,20 +3,26 @@ import lexer
 import generator
 
 
-def main():
-    my_lex = lexer.get_lex()
+def translate(source_string=None, verbose=False):
+    my_lex = lexer.get_lex(verbose)
     my_parser = parser.get_yacc()
 
-    ## feed it some input data - test - how do we automate this?
-    data = '#grayscale @image1\n'
+    if source_string is None:
+        source_string = 'if @hey < not 1:\n\t#sup\n#hey @image1,@image2\nsup:\n\treturn 5\n'
 
-    tree = my_parser.parse(data, lexer=my_lex)
-    print("I made a tree! yay!")
-    print(tree)
+    if verbose:
+        print("source:\n")
+        print(source_string + '\n')
+        print('tokens:\n')
 
+    tree = my_parser.parse(source_string, lexer=my_lex)
     gen = generator.Generator(tree)
-    print gen.get_string()
+    python_string = gen.get_string()
 
+    if verbose:
+        print("\nAST:\n")
+        print(str(tree) + '\n')
+        print('python:\n')
 
-if __name__ == '__main__':
-    main()
+    print(python_string)
+    return python_string

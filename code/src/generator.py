@@ -1,6 +1,30 @@
-lookup_table = {
-    'parameters': ('(', ')'),
-    'expression_statement': (None, '\n')
+
+
+"""
+keys are nodes that should have spaces printed around them, and values say where to print.
+1 means before, 2 means after and 3 means both (picture bitwise or).
+"""
+spaces_table = {
+	',': 2,
+    'return': 2,
+    'if': 2,
+    'for': 2,
+    'in': 3,
+    'while': 2,
+    '=': 3,
+    'or': 3,
+    'and': 3,
+    '!=': 3,
+    '==': 3,
+    '<': 3,
+    '>': 3,
+    '<=': 3,
+    '>=': 3,
+    '+': 3,
+    '-': 3,
+    '*': 3,
+    '/': 3,
+    'not': 2
 }
 
 
@@ -17,23 +41,47 @@ class Generator:
         return ''.join(self.string_list)
 
     def process_tree(self, node):
-        if len(node.children) > 0:
-            # if it's not a leaf, process it
-            # first check if there are preprocess strings (paren, newline, etc)
-            if node.value in lookup_table.keys():
-                current_tuple = lookup_table[node.value]
-            else:
-                current_tuple = (None, None)
-            # add pre/post processing info
-            if current_tuple[0] is not None:
-                self.string_list.append(current_tuple[0])
+        if node.value in custom_functions_table:  # call custom processing function
+            custom_function = custom_functions_table[node.value]
+            custom_function(self, node)
+        else:  # if no custom function, use default processing
+            # get spaces information
+            spaces = spaces_table.get(node.value, 0)
+            space_before = spaces & 1
+            space_after = spaces & 2
 
-            # process the children
-            for child in node.children:
-                self.process_tree(child)
-            # add info for the current node to the list
-            if current_tuple[1] is not None:
-                self.string_list.append(current_tuple[1])
-        elif node.value not in ignore:
-            # if it's a leaf add it to the string list
-            self.string_list.append(node.value)
+            if space_before:  # add space before processing
+                self.string_list.append(' ')
+
+            if len(node.children) > 0:  # non-leaf
+                # process the children
+                for child in node.children:
+                    self.process_tree(child)
+            elif node.value not in ignore:  # leaf
+                # if it's a leaf add it to the string list
+                self.string_list.append(node.value)
+
+            if space_after:
+                self.string_list.append(' ')
+
+    def process_function_definition(self, node):
+        id_node, parameter_declaration, block = node.children
+        self.string_list.append('def ')
+        self.process_tree(id_node)
+        self.string_list.append('(')
+        self.process_tree(parameter_declaration)
+        self.string_list.append(')')
+        self.process_tree(block)
+
+    def process_function_expression(self, node):
+        hashtag, id_node, parameters = node.children
+        self.process_tree(id_node)
+        self.string_list.append('(')
+        self.process_tree(parameters)
+        self.string_list.append(')')
+
+
+custom_functions_table = {
+    'function_definition': Generator.process_function_definition,
+    'function_expression': Generator.process_function_expression
+}
