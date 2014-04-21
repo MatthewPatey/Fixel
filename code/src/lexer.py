@@ -1,6 +1,5 @@
 import ply.lex as lex
 import re
-from types import MethodType
 
 
 # reserved words that translate straight to tokens
@@ -30,7 +29,6 @@ literals = ['#', '@', '+', '-', '*', '/', '=', '(', ')',
             
 globalIndent = 0
 currentIndent = 0
-auxIndent = 0
 
 # a list of all tokens produced by the lexer
 tokens = [
@@ -52,7 +50,7 @@ t_NEWLINE     = r'\r?\n'
 
 # drop blank lines
 def t_blankline(t):
-	r'^[ \t]*\n'
+	r'^[ \t]*\r?\n'
 	pass
 
 def t_ID(t):
@@ -79,35 +77,29 @@ def t_INDENT(t):
 	r'^[\t]+(?=[^ \t\r\n])'
 	global globalIndent
 	global currentIndent
-	global auxIndent
-	#print "t_indent"
 	currentIndent = t.value.count("\t")
-	if currentIndent < (globalIndent+auxIndent):
-		if ((globalIndent+auxIndent)-currentIndent)>1:
+	if currentIndent < globalIndent:
+		if (globalIndent-currentIndent) > 1:
 			t.lexer.begin('dedentCount')
 		else:
 			t.value = t.type = "DEDENT"
-			globalIndent=globalIndent-1
-			if globalIndent > 0:
-				t.lexer.begin('leadingWhitespace')
+			globalIndent = currentIndent
 			return t
-	elif currentIndent > (globalIndent+auxIndent):
+	elif currentIndent > globalIndent:
 		t.value = t.type = "INDENT"
-		t.lexer.begin('leadingWhitespace')  # todo: only call if not already in this state
-		#auxIndent = currentIndent-globalIndent-1-auxIndent
-		globalIndent=globalIndent+1
+		if globalIndent == 0:
+			t.lexer.begin('leadingWhitespace')
+		globalIndent += 1
 		return t
 
+# match anything without consuming, keep returning DEDENT's until we've balanced
 def t_dedentCount_empty(t):
 	r'(?=[.\n])'
 	global globalIndent
 	global currentIndent
-	global auxIndent
 	if (globalIndent > currentIndent):
-		#print "here"
 		t.value = t.type = "DEDENT"
-		t.value = globalIndent
-		globalIndent=globalIndent-1
+		globalIndent -= 1
 		return t
 	else:
 		if globalIndent > 0:
@@ -116,21 +108,18 @@ def t_dedentCount_empty(t):
 			t.lexer.begin('INITIAL')
 
 def t_leadingWhitespace_EOF(t):
-	r'\n\Z'
-	print('eof')
-	t.lexer.lexpos -= 1
+	r'\r?\n\Z'
+	t.lexer.lexpos -= 1  # rollback lexpos so there's something to match for subsequent DEDENT's
 	t.lexer.begin('eofDedent')
 	t.type = 'NEWLINE'
 	return t
 
-def t_leadingWhitespace_lastDEDENT(t):
-	r'\n(?=[^ \t\r\n])'
+def t_leadingWhitespace_leftmostDEDENT(t):
+	r'\r?\n(?=[^ \t\r\n])'
 	global globalIndent
 	global currentIndent
-	global auxIndent
-	auxIndent=0; 
-	currentIndent=0
-	t.type="NEWLINE"
+	currentIndent = 0
+	t.type = "NEWLINE"
 	t.lexer.begin('dedentCount')
 	return t
 
@@ -142,7 +131,7 @@ def t_eofDedent_DEDENT(t):
 		t.type = t.value = 'DEDENT'
 		return t
 	else:
-		t.lexer.lexpos += 1
+		t.lexer.lexpos += 1  # undo rollback so we don't consume last \n twice
 		t.lexer.begin('INITIAL')
 
 
