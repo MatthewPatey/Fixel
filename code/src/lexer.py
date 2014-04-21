@@ -20,7 +20,9 @@ reserved = {
 
 # declare new state for dedent analysis
 states = (
-	('dedentCount','inclusive'),
+	('dedentCount', 'exclusive'),
+    ('leadingWhitespace', 'inclusive'),
+	('eofDedent', 'exclusive')
 )
 
 literals = ['#', '@', '+', '-', '*', '/', '=', '(', ')', 
@@ -48,6 +50,11 @@ t_GREATERTHANEQ = r'>='
 t_NEQUAL      = r'!='
 t_NEWLINE     = r'\r?\n'
 
+# drop blank lines
+def t_blankline(t):
+	r'^[ \t]*\n'
+	pass
+
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
     if t.value in reserved:
@@ -69,7 +76,7 @@ t_ignore = " "
 
 # count number of indents
 def t_INDENT(t):
-	r'^[\t]+'
+	r'^[\t]+(?=[^ \t\r\n])'
 	global globalIndent
 	global currentIndent
 	global auxIndent
@@ -81,17 +88,19 @@ def t_INDENT(t):
 		else:
 			t.value = t.type = "DEDENT"
 			globalIndent=globalIndent-1
+			if globalIndent > 0:
+				t.lexer.begin('leadingWhitespace')
 			return t
 	elif currentIndent > (globalIndent+auxIndent):
 		t.value = t.type = "INDENT"
+		t.lexer.begin('leadingWhitespace')  # todo: only call if not already in this state
 		#auxIndent = currentIndent-globalIndent-1-auxIndent
 		globalIndent=globalIndent+1
 		return t
 
 def t_dedentCount_empty(t):
-	r'[ \t]*(?=[^ \t\r\n])'
+	r'(?=[.\n])'
 	global globalIndent
-	print "t_dedentCount_empty"
 	global currentIndent
 	global auxIndent
 	if (globalIndent > currentIndent):
@@ -101,28 +110,42 @@ def t_dedentCount_empty(t):
 		globalIndent=globalIndent-1
 		return t
 	else:
-		#print t
-		t.lexer.begin('INITIAL')
+		if globalIndent > 0:
+			t.lexer.begin('leadingWhitespace')
+		else:
+			t.lexer.begin('INITIAL')
 
-def t_lastDEDENT(t):
+def t_leadingWhitespace_EOF(t):
+	r'\n\Z'
+	print('eof')
+	t.lexer.lexpos -= 1
+	t.lexer.begin('eofDedent')
+	t.type = 'NEWLINE'
+	return t
+
+def t_leadingWhitespace_lastDEDENT(t):
 	r'\n(?=[^ \t\r\n])'
 	global globalIndent
 	global currentIndent
 	global auxIndent
 	auxIndent=0; 
-	print "here"
 	currentIndent=0
-	#t.type="NEWLINE"
-	if (globalIndent != 0):
-		t.type="NEWLINE"
-		#print "if"
-		t.lexer.begin('dedentCount')
-		return t;
+	t.type="NEWLINE"
+	t.lexer.begin('dedentCount')
+	return t
+
+def t_eofDedent_DEDENT(t):
+	r'(?=[.\n])'
+	global globalIndent
+	if globalIndent > 0:
+		globalIndent -= 1
+		t.type = t.value = 'DEDENT'
+		return t
 	else:
-		#print "else"
-		t.type="NEWLINE"
-		return t;
-		
+		t.lexer.lexpos += 1
+		t.lexer.begin('INITIAL')
+
+
 def t_error(t):
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)

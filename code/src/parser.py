@@ -12,7 +12,7 @@ class Node:
         return self.traverse(1)
 
     def traverse(self, i):
-        s = self.value
+        s = repr(self.value)
         indent = "\n" + i*' |'
         for child in self.children:
             #print children
@@ -29,9 +29,9 @@ def p_program(p):
 
 def p_block(p):
     """
-    block : ':' NEWLINE INDENT statement_list 
+    block : ':' NEWLINE INDENT statement_list DEDENT
     """
-    p[0] = Node('block', Node(p[1]), Node(p[2]), Node(p[3]), p[4])
+    p[0] = Node('block', Node(p[1]), Node(p[2]), Node(p[3]), p[4], Node(p[5]))
 
 
 def p_function_definition(p):
@@ -300,7 +300,7 @@ def p_epsilon(p):
     """
     p[0] = Node('')
 
-
+"""
 def p_error(p):
     if p is None:
         tok = lex.LexToken()
@@ -308,7 +308,7 @@ def p_error(p):
         tok.type = 'NEWLINE'
         yacc.errok()
         return tok
-
+"""
 
 tokens = lexer.tokens
 
