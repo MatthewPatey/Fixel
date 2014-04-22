@@ -37,15 +37,15 @@ selection-statement:
 	‘if’ expression block ‘else’ block
 
 iteration-statement:
-	‘for’ ID ‘in’ intermediate-expression block
-	‘for’ ID ‘in’ intermediate-expression ‘,’ intermediate-expression block
+	‘for’ ID ‘in’ primary-expression block
+	‘for’ ID ‘in’ primary-expression ‘,’ primary-expression block
 	‘while’ expression block
 
 expression:
 	assignment-expression
 
 assignment-expression:
-	ID ‘=’ assignment-expression 
+	variable-expression ‘=’ assignment-expression 
 	logical-OR-expression
 
 logical-OR-expression: 
@@ -106,7 +106,7 @@ parameters:
 variable-access-expression:
 	variable-expression
 	variable-access-expression '.' ID
-	variable-access-expression '[' intermediate-expression ']'
+	variable-access-expression '[' primary-expression ']'
 
 variable-expression:
 	‘@’ ID

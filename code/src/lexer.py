@@ -115,13 +115,10 @@ def t_leadingWhitespace_EOF(t):
 	return t
 
 def t_leadingWhitespace_leftmostDEDENT(t):
-	r'\r?\n(?=[^ \t\r\n])'
-	global globalIndent
+	r'^(?=[^ \t\r\n])'
 	global currentIndent
 	currentIndent = 0
-	t.type = "NEWLINE"
 	t.lexer.begin('dedentCount')
-	return t
 
 def t_eofDedent_DEDENT(t):
 	r'(?=.|\n)'
@@ -132,7 +129,6 @@ def t_eofDedent_DEDENT(t):
 		return t
 	else:
 		t.lexer.lexpos += 1  # undo rollback so we don't consume last \n twice
-		t.lexer.begin('INITIAL')
 
 
 def t_error(t):

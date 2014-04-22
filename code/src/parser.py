@@ -120,8 +120,8 @@ def p_selection_statement(p):
 
 def p_iteration_statement(p):
     """
-    iteration_statement     : FOR ID IN intermediate_expression block
-                            | FOR ID IN intermediate_expression ',' intermediate_expression block
+    iteration_statement     : FOR ID IN primary_expression block
+                            | FOR ID IN primary_expression ',' primary_expression block
                             | WHILE expression block
     """
     if len(p) == 4:
@@ -143,7 +143,7 @@ def p_expression(p):
 
 def p_assignment_expression(p):
     """
-    assignment_expression   : ID '=' assignment_expression
+    assignment_expression   : variable_expression '=' assignment_expression
                             | logical_OR_expression
     """
     if len(p) == 2:
@@ -227,6 +227,12 @@ def p_logical_NOT_expression(p):
     else:
         p[0] = Node('logical_NOT_expression', Node(p[1]), p[2])
 
+def p_intermediate_expression(p):
+    """
+    intermediate_expression     : primary_expression
+                                | function_expression
+    """
+    p[0] = Node('intermediate_expression', p[1])
 
 def p_primary_expression_token(p):
     """
@@ -236,13 +242,6 @@ def p_primary_expression_token(p):
                         | FALSE
     """
     p[0] = Node(p[1])
-
-def p_intermediate_expression(p):
-    """
-    intermediate_expression     : primary_expression
-                                | function_expression
-    """
-    p[0] = Node('intermediate_expression', p[1])
 
 def p_primary_expression(p):
     """
@@ -283,7 +282,7 @@ def p_variable_access_expression(p):
     """
     variable_access_expression : variable_expression
                                | variable_access_expression '.' ID
-                               | variable_access_expression '[' intermediate_expression ']'
+                               | variable_access_expression '[' primary_expression ']'
     """
     if len(p) == 2:
         p[0] = Node('variable_access_expression', p[1])
