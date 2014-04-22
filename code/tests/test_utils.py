@@ -61,7 +61,7 @@ def string_to_tree(tree_string, index):
 
     # child starts with ( character
     if tree_string[index] != '[':
-        raise ValueError('invalid tree string format, each subtree must start with \"(\"')
+        raise ValueError('invalid tree string format, each subtree must start with \"[\"')
     index += 1
 
     children = []
