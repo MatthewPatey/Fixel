@@ -35,9 +35,20 @@ def tree_string_from_source(source_string):
     print(repr(tree_string))
 
 
-def string_tree_pretty_version(tree_string):
+def token_stream_from_source(source_string):
+    my_lex = lexer.get_lex()
+    my_lex.input(source_string)
+    token_stream = []
+    token = my_lex.token()
+    while token is not None:
+        token_stream.append((token.type, token.value))
+        token = my_lex.token()
+    print(repr(token_stream))
+
+
+def tree_string_pretty_version(tree_string):
     """
-    For debuggging, meant for human to view tree in easier to read format
+    For debugging, meant for human to view tree in easier to read format
     """
     print('input tree string:\n')
     print(repr(tree_string) + '\n')
