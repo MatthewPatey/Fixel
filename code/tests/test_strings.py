@@ -4,7 +4,7 @@ source strings
 
 oneliner_source = '#grayscale @image1\n'
 
-indent_source = ''' \
+indent_source = '''\
 if @hey < not 1:
 	#sup
 #hey @image1
@@ -22,6 +22,22 @@ hey @myImage:
 	return @x
 '''
 
+function_def_source = '''\
+#sup @image1, @image2
+
+sup @myImage1, @myImage2:
+	return @myImage1.height + @myImage2.height
+'''
+
+or_and_source = '''\
+true and false or @str == "cool string"
+true and (false or @str == "cool string")
+'''
+
+not_source = '''\
+@myList = [40, 500]
+not 100 <= @myList[1]
+'''
 
 '''
 token streams
