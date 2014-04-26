@@ -120,8 +120,8 @@ def p_selection_statement(p):
 
 def p_iteration_statement(p):
     """
-    iteration_statement     : FOR variable-expression IN primary_expression block
-                            | FOR variable-expression IN primary_expression ',' primary_expression block
+    iteration_statement     : FOR variable_expression IN primary_expression block
+                            | FOR variable_expression IN primary_expression ',' primary_expression block
                             | WHILE expression block
     """
     if len(p) == 4:

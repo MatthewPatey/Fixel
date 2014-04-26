@@ -51,7 +51,7 @@ else
 	@y=3
 '''
 
-iteraton_for_source='''\
+iteration_for_source='''\
 for @image in @images:
 	@x=@x+1
 '''
@@ -65,13 +65,29 @@ equality_notequal_source='''\
 test=(5!=3)
 '''
 
+
 '''
 token streams
 '''
 
+
 oneliner_tokens = [('#', '#'), ('ID', 'grayscale'), ('@', '@'), ('ID', 'image1'), ('NEWLINE', '\n')]
 
-function_def_tokens = [('#', '#'), ('ID', 'hey'), ('@', '@'), ('ID', 'image1'), (',', ','), ('@', '@'), ('ID', 'image2'), ('NEWLINE', '\n'), ('ID', 'hey'), ('@', '@'), ('ID', 'image1'), (',', ','), ('@', '@'), ('ID', 'image2'), (':', ':'), ('NEWLINE', '\n'), ('INDENT', 'INDENT'), ('RETURN', 'return'), ('@', '@'), ('ID', 'image1'), ('+', '+'), ('@', '@'), ('ID', 'image2'), ('NEWLINE', '\n'), ('DEDENT', 'DEDENT')]
+function_def_tokens = [('#', '#'), ('ID', 'sup'), ('@', '@'), ('ID', 'image1'), (',', ','), ('@', '@'), ('ID', 'image2'), ('NEWLINE', '\n'), ('ID', 'sup'), ('@', '@'), ('ID', 'myImage1'), (',', ','), ('@', '@'), ('ID', 'myImage2'), (':', ':'), ('NEWLINE', '\n'), ('INDENT', 'INDENT'), ('RETURN', 'return'), ('@', '@'), ('ID', 'myImage1'), ('.', '.'), ('ID', 'height'), ('+', '+'), ('@', '@'), ('ID', 'myImage2'), ('.', '.'), ('ID', 'height'), ('NEWLINE', '\n'), ('DEDENT', 'DEDENT')]
+
+or_and_tokens = [('TRUE', 'true'), ('AND', 'and'), ('FALSE', 'false'), ('OR', 'or'), ('@', '@'), ('ID', 'str'), ('DUBEQUAL', '=='), ('STRING', '"cool string"'), ('NEWLINE', '\n'), ('TRUE', 'true'), ('AND', 'and'), ('(', '('), ('FALSE', 'false'), ('OR', 'or'), ('@', '@'), ('ID', 'str'), ('DUBEQUAL', '=='), ('STRING', '"cool string"'), (')', ')'), ('NEWLINE', '\n')]
+
+not_tokens = [('@', '@'), ('ID', 'myList'), ('=', '='), ('[', '['), ('NUMBER', '40'), (',', ','), ('NUMBER', '500'), (']', ']'), ('NEWLINE', '\n'), ('NOT', 'not'), ('NUMBER', '100'), ('LESSTHANEQ', '<='), ('@', '@'), ('ID', 'myList'), ('[', '['), ('NUMBER', '1'), (']', ']'), ('NEWLINE', '\n')]
+
+selection_if_tokens = [('IF', 'if'), ('@', '@'), ('ID', 'x'), ('<', '<'), ('NUMBER', '1'), (':', ':'), ('NEWLINE', '\n'), ('INDENT', 'INDENT'), ('@', '@'), ('ID', 'y'), ('=', '='), ('NUMBER', '5'), ('NEWLINE', '\n'), ('DEDENT', 'DEDENT')]
+
+selection_ifelse_tokens = [('IF', 'if'), ('@', '@'), ('ID', 'x'), ('>', '>'), ('NUMBER', '1'), ('AND', 'and'), ('@', '@'), ('ID', 'y'), ('GREATERTHANEQ', '>='), ('NUMBER', '1'), (':', ':'), ('NEWLINE', '\n'), ('INDENT', 'INDENT'), ('@', '@'), ('ID', 'y'), ('=', '='), ('@', '@'), ('ID', 'y'), ('-', '-'), ('NUMBER', '5'), ('NEWLINE', '\n'), ('DEDENT', 'DEDENT'), ('ELSE', 'else'), ('NEWLINE', '\n'), ('INDENT', 'INDENT'), ('@', '@'), ('ID', 'y'), ('=', '='), ('NUMBER', '3'), ('NEWLINE', '\n'), ('DEDENT', 'DEDENT')]
+
+iteraton_for_tokens = [('FOR', 'for'), ('@', '@'), ('ID', 'image'), ('IN', 'in'), ('@', '@'), ('ID', 'images'), (':', ':'), ('NEWLINE', '\n'), ('INDENT', 'INDENT'), ('@', '@'), ('ID', 'x'), ('=', '='), ('@', '@'), ('ID', 'x'), ('+', '+'), ('NUMBER', '1'), ('NEWLINE', '\n'), ('DEDENT', 'DEDENT')]
+
+multiplicative_tokens = [('@', '@'), ('ID', 'x'), ('=', '='), ('@', '@'), ('ID', 'y'), ('*', '*'), ('NUMBER', '5'), ('NEWLINE', '\n'), ('@', '@'), ('ID', 'y'), ('=', '='), ('@', '@'), ('ID', 'x'), ('/', '/'), ('NUMBER', '5'), ('NEWLINE', '\n')]
+
+equality_notequal_tokens = [('ID', 'test'), ('=', '='), ('(', '('), ('NUMBER', '5'), ('NEQUAL', '!='), ('NUMBER', '3'), (')', ')'), ('NEWLINE', '\n')]
 
 indent_tokens = [('IF', 'if'), ('@', '@'), ('ID', 'hey'), ('<', '<'), ('NOT', 'not'), ('NUMBER', '1'), (':', ':'), ('NEWLINE', '\n'), ('INDENT', 'INDENT'), ('#', '#'), ('ID', 'sup'), ('NEWLINE', '\n'), ('DEDENT', 'DEDENT'), ('#', '#'), ('ID', 'hey'), ('@', '@'), ('ID', 'image1'), ('NEWLINE', '\n'), ('FOR', 'for'), ('@', '@'), ('ID', 'image'), ('IN', 'in'), ('@', '@'), ('ID', 'images'), (':', ':'), ('NEWLINE', '\n'), ('INDENT', 'INDENT'), ('IF', 'if'), ('@', '@'), ('ID', 'image'), ('DUBEQUAL', '=='), ('@', '@'), ('ID', 'image1'), (':', ':'), ('NEWLINE', '\n'), ('INDENT', 'INDENT'), ('#', '#'), ('ID', 'hey'), ('@', '@'), ('ID', 'image'), ('NEWLINE', '\n'), ('DEDENT', 'DEDENT'), ('DEDENT', 'DEDENT'), ('ID', 'hey'), ('@', '@'), ('ID', 'myImage'), (':', ':'), ('NEWLINE', '\n'), ('INDENT', 'INDENT'), ('IF', 'if'), ('@', '@'), ('ID', 'myImage'), ('.', '.'), ('ID', 'width'), ('>', '>'), ('NUMBER', '100'), (':', ':'), ('NEWLINE', '\n'), ('INDENT', 'INDENT'), ('IF', 'if'), ('@', '@'), ('ID', 'myImage'), ('.', '.'), ('ID', 'height'), ('>', '>'), ('NUMBER', '50'), ('AND', 'and'), ('@', '@'), ('ID', 'myImage'), ('.', '.'), ('ID', 'height'), ('<', '<'), ('NUMBER', '60'), (':', ':'), ('NEWLINE', '\n'), ('INDENT', 'INDENT'), ('@', '@'), ('ID', 'x'), ('=', '='), ('NUMBER', '10'), ('NEWLINE', '\n'), ('DEDENT', 'DEDENT'), ('@', '@'), ('ID', 'y'), ('=', '='), ('NUMBER', '50'), ('NEWLINE', '\n'), ('DEDENT', 'DEDENT'), ('ELSE', 'else'), (':', ':'), ('NEWLINE', '\n'), ('INDENT', 'INDENT'), ('@', '@'), ('ID', 'x'), ('=', '='), ('NUMBER', '100'), ('NEWLINE', '\n'), ('@', '@'), ('ID', 'y'), ('=', '='), ('NUMBER', '20'), ('NEWLINE', '\n'), ('DEDENT', 'DEDENT'), ('RETURN', 'return'), ('@', '@'), ('ID', 'x'), ('NEWLINE', '\n'), ('DEDENT', 'DEDENT')]
 
