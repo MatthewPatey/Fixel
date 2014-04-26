@@ -37,8 +37,8 @@ selection-statement:
 	‘if’ expression block ‘else’ block
 
 iteration-statement:
-	‘for’ ID ‘in’ primary-expression block
-	‘for’ ID ‘in’ primary-expression ‘,’ primary-expression block
+	‘for’ variable-expression ‘in’ primary-expression block
+	‘for’ variable-expression ‘in’ primary-expression ‘,’ primary-expression block
 	‘while’ expression block
 
 expression:

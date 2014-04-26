@@ -120,20 +120,20 @@ def p_selection_statement(p):
 
 def p_iteration_statement(p):
     """
-    iteration_statement     : FOR ID IN primary_expression block
-                            | FOR ID IN primary_expression ',' primary_expression block
+    iteration_statement     : FOR variable-expression IN primary_expression block
+                            | FOR variable-expression IN primary_expression ',' primary_expression block
                             | WHILE expression block
     """
     if len(p) == 4:
         p[0] = Node('iteration_statement', Node(p[1]), p[2], p[3])
     else:
         for_node = Node(p[1])
-        id_node = Node(p[2])
+        #id_node = Node(p[2])
         in_node = Node(p[3])
         if len(p) == 6:
-            p[0] = Node('iteration_statement', for_node, id_node, in_node, p[4], p[5])
+            p[0] = Node('iteration_statement', for_node, p[2], in_node, p[4], p[5])
         else:
-            p[0] = Node('iteration_statement', for_node, id_node, in_node, p[4], Node(p[5]), p[6], p[7])
+            p[0] = Node('iteration_statement', for_node, p[2], in_node, p[4], Node(p[5]), p[6], p[7])
 
 def p_expression(p):
     """

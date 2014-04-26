@@ -39,6 +39,32 @@ not_source = '''\
 not 100 <= @myList[1]
 '''
 
+selection_if_source='''\
+if @x<1:
+	@y=5
+'''
+
+selection_ifelse_source='''\
+if @x>1 and @y>=1:
+	@y=@y-5
+else
+	@y=3
+'''
+
+iteraton_for_source='''\
+for @image in @images:
+	@x=@x+1
+'''
+
+multiplicative_source='''\
+@x=@y*5
+@y=@x/5
+'''
+
+equality_notequal_source='''\
+test=(5!=3)
+'''
+
 '''
 token streams
 '''
