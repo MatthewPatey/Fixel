@@ -15,10 +15,10 @@ class ParserTests(TestCase):
 	def function_def_test(self):
 		self.run_parser_on_tokens(test_strings.function_def_tokens, test_strings.function_def_tree)
 
-	def or_and_source(self):
+	def or_and_test(self):
 		self.run_parser_on_tokens(test_strings.or_and_tokens, test_strings.or_and_tree)
 
-	def not_source(self):
+	def not_test(self):
 		self.run_parser_on_tokens(test_strings.not_tokens, test_strings.not_tree)
 
 	def selection_if_test(self):
