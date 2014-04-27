@@ -241,7 +241,7 @@ def p_primary_expression_token(p):
                         | TRUE
                         | FALSE
     """
-    p[0] = Node(p[1])
+    p[0] = Node('primary_expression', Node(p[1]))
 
 def p_primary_expression(p):
     """
