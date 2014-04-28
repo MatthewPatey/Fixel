@@ -2,14 +2,13 @@
 import os, sys, fixelFunctions
 
 # create variables for the system to iterate through
-inputImages = list(sys.argv)
-del inputImages[0]
-inputImageCount = 0
+inputImages = list(sys.argv)[1:]
+inputImageCount = 1
 
 # create variables for each image
 thisModule = sys.modules[__name__]
 for currentImage in inputImages:
-	setattr(thisModule,"image"+str(inputImageCount+1),[fixelFunctions.imageData(currentImage),currentImage])
+	setattr(thisModule,"image"+str(inputImageCount),[fixelFunctions.imageData(currentImage),currentImage])
 	inputImageCount += 1
 
 ############
