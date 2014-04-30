@@ -96,7 +96,7 @@ class Generator:
     def process_dedent(self,node):
         global indent_level 
         indent_level -= 1
-        self.string_list = self.string_list[:-1]
+        del self.string_list[-1]  #todo worry about index errors
 
 custom_functions_table = {
     'function_definition': Generator.process_function_definition,
