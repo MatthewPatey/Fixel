@@ -122,7 +122,8 @@ python strings
 oneliner_python = 'grayscale(image1)\n'
 
 selection_if_python='''\
-if x < 1:\n\ty = 5
+if x < 1:
+	y = 5
 '''
 
 selection_ifelse_python='''\
