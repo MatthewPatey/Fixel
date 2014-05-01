@@ -55,7 +55,7 @@ This feature has no inputs. It simply takes the user’s test image and returns 
 The colorize feature is predicated on the user having some degree of familiarity with RGB color schemes and the basic principles behind color hex values. They are able to use the colorize command to manipulate the hue and saturation of the image by manually entering the offset for these two values.
 
 ###Brightness and Contrast
-Users may specify how they’d like change the brightness and contrast of their images with percentages (for example, changing the brightness to be 125% would increase it by 25%).
+Users may specify how they’d like change the brightness and contrast of their images with percentages (for example, changing the brightness to be 125\% would increase it by 25\%).
 
 ###Border
 The user can select from a collection of pre-configured border styles for their images and define the thickness of these borders. Some borders are more ornate than others.
