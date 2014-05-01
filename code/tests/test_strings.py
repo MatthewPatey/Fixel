@@ -120,3 +120,37 @@ python strings
 '''
 
 oneliner_python = 'grayscale(image1)\n'
+
+indent_python = '''\
+if hey < not 1:
+	sup()
+hey(image1)
+for image in images:
+	if image==imate1:
+		hey(image)
+def hey(myImage):
+	if myImage.width>100:
+		if myImage.height>50 and myImage.height<60:
+			x=10
+			y-50
+	else:
+		x=100
+		y=20
+	return x
+'''
+
+function_def_python = '''\
+sup(image1, image2)
+def sup(myImage1, myImage2):
+	return myImage1.height + myImage2.height
+'''
+
+or_and_python='''\
+true and false or str == "coolstring"
+true and (false or str == "coolstring")
+'''
+
+not_python='''\
+myList = [40, 500]
+not 100 <= myList[1]
+'''
