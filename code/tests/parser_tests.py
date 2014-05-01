@@ -1,3 +1,4 @@
+import difflib
 from unittest import TestCase
 import mock
 from src import parser
@@ -48,4 +49,13 @@ class ParserTests(TestCase):
 
 		my_parser = parser.get_yacc()
 		tree = my_parser.parse('', lexer=mock_lex)
-		self.assertEqual(expected_tree.replace(' ', ''), test_utils.tree_to_string(tree).replace(' ', ''))
+		tree_string = test_utils.tree_to_string(tree)
+		diff_string = self.get_diff(expected_tree, tree_string)
+		self.assertEqual(expected_tree.replace(' ', ''), tree_string.replace(' ', ''), 'diff:\n' + diff_string)
+
+	def get_diff(self, tree1, tree2):
+		diff_gen = difflib.context_diff(tree1.split(' '), tree2.split(' '))
+		diff_string = ''
+		for diff in diff_gen:
+			diff_string += diff
+		return diff_string
