@@ -19,24 +19,35 @@ We initially implemented a skeleton of the lexer and the parser in separately, a
 
 
 ## Responsibilities
-In order to ensure that collaboration was not only fair, but also as efficient as possible we decided on all weekly coding responsibilities during our meeting.  These were detailed on the Google Document associated with that week's meeting.  This document provided everyone with a reminder of the information covered during that particular session as well as kept track of what contribution was expected.  We worked to ensure that everyone got to participate in the development of each level  of the compiler as well as testing.  In order to ensure consistency we made sure that one of the people in the group for each section had worked on it the previous week or had experience in that particular section.
+In order to ensure that collaboration was not only fair, but also as efficient as possible we decided on all weekly coding responsibilities during our meeting.  These were detailed on the Google Document associated with that week's meeting.  This document provided everyone with a reminder of the information covered during that particular session as well as kept track of what contribution was expected.  We worked to ensure that everyone got to participate in the development of each level  of the compiler as well as testing.  In order to ensure consistency we made sure that one of the people in the group for each section had worked on it the previous week or had experience in that particular section.In addition, everyone was in charge of a particular portion of the devlopment at a high level as follows:
 
-
-In addition, everyone was in charge of a particular portion of the devlopment at a high level as follows:
 Project Manager - Kavita Jain-Cocks
+
 Language and Tools Guru - Amrita Mazumdar
+
 System Architect - Darien Nurse
+
 System Integrator: Nilkanth Patel
+
 Tester and Validator - Matthew Patey
 
 ## Timeline
-Date				Milestone
-February 1, 2014	Decide on language idea
-March 3, 2014		Determine basic language syntax
-March 24, 2014		Create full grammar
-April 7, 2014		Generate single line programs in python
-April 14, 2014		Create Skeleton of lexer and parser
-April 21, 2014		Complete backend python code
-April 28, 2014		Generate multiline programs in python
-May 5, 2014			Turn fixel source code into executable python
-May 12, 2014		Additional functionality, Complete Presentation and Final Report
+The following is the timeline we followed for the development of Fixel:
+
+February 1, 2014....Decide on language idea
+
+March 3, 2014....Determine basic language syntax
+
+March 24, 2014....Create full grammar
+
+April 7, 2014....Generate single line programs in python
+
+April 14, 2014....Create Skeleton of lexer and parser
+
+April 21, 2014....Complete backend python code
+
+April 28, 2014....Generate multiline programs in python
+
+May 5, 2014....Turn fixel source code into executable python
+
+May 12, 2014....Additional functionality, Complete Presentation and Final Report
