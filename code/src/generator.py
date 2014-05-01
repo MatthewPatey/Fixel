@@ -1,4 +1,4 @@
-
+import pdb
 
 """
 keys are nodes that should have spaces printed around them, and values say where to print.
@@ -30,6 +30,7 @@ spaces_table = {
 
 ignore = ['#', '@', '']
 
+indent_level = 0
 
 class Generator:
     def __init__(self, tree):
@@ -41,6 +42,7 @@ class Generator:
         return ''.join(self.string_list)
 
     def process_tree(self, node):
+        #pdb.set_trace()
         if node.value in custom_functions_table:  # call custom processing function
             custom_function = custom_functions_table[node.value]
             custom_function(self, node)
@@ -80,8 +82,26 @@ class Generator:
         self.process_tree(parameters)
         self.string_list.append(')')
 
+    def process_newline(self,node):
+        self.string_list.append(node.value)
+        for i in range(0, indent_level):
+            self.string_list.append('\t')
+
+
+    def process_indent(self,node):
+        global indent_level 
+        indent_level += 1
+        self.string_list.append('\t')
+
+    def process_dedent(self,node):
+        global indent_level 
+        indent_level -= 1
+        del self.string_list[-1]  #todo worry about index errors
 
 custom_functions_table = {
     'function_definition': Generator.process_function_definition,
-    'function_expression': Generator.process_function_expression
+    'function_expression': Generator.process_function_expression,
+    '\n': Generator.process_newline,
+    'INDENT': Generator.process_indent,
+    'DEDENT': Generator.process_dedent
 }
