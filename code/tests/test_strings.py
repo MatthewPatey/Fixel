@@ -154,3 +154,29 @@ not_python='''\
 myList = [40, 500]
 not 100 <= myList[1]
 '''
+
+selection_if_python='''\
+if x < 1:
+	y = 5
+'''
+
+selection_ifelse_python='''\
+if x > 1 and y >= 1:
+	y = y - 5
+else:
+	y = 3
+'''
+
+equality_notequal_python='''\
+test = (5 != 3)
+'''
+
+multiplicative_python='''\
+x = y * 5
+y = x / 5
+'''
+
+iteration_for_python='''\
+for image in images:
+	x = x + 1
+'''
