@@ -11,12 +11,15 @@ def get_mock_token(type, value):
 
 
 def tree_to_string(tree):
-    s = '[' + tree.value
-    if hasattr(tree, 'children'):
-        for child in tree.children:
-            s += ' ' + tree_to_string(child)
-    s += ']'
-    return s
+	s = '['
+	if tree.value == '[' or tree.value == ']':
+		s += '\\'
+	s += tree.value
+	if hasattr(tree, 'children'):
+		for child in tree.children:
+			s += ' ' + tree_to_string(child)
+	s += ']'
+	return s
 
 
 def tree_string_from_source(source_string):
@@ -65,32 +68,35 @@ def tree_string_pretty_version(tree_string):
 
 
 def string_to_tree(tree_string, index):
-    """
-    builds node for current level and creates children recursively
-    must be given string with no whitespace.
-    """
+	"""
+	builds node for current level and creates children recursively
+	must be given string with no whitespace.
+	"""
 
-    # child starts with ( character
-    if tree_string[index] != '[':
-        raise ValueError('invalid tree string format, each subtree must start with \"[\"')
-    index += 1
+	# child starts with ( character
+	if tree_string[index] != '[':
+		raise ValueError('invalid tree string format, each subtree must start with \"[\"')
+	index += 1
 
-    children = []
-    node_name = ''
-    i = index
-    while i < len(tree_string):
-        char = tree_string[i]
-        if char == '[':  # new child
-            child, new_index = string_to_tree(tree_string, i)
-            children.append(child)
-            i = new_index
-        elif char == ']':  # end of this tree, return
-            node = parser.Node(node_name)
-            node.children = tuple(children)  # passing tuple to constructor results in nested tuple
-            return node, i  # return node and current place in iteration
-        else:  # character is part of node name
-            node_name += char
+	children = []
+	node_name = ''
+	i = index
+	while i < len(tree_string):
+		char = tree_string[i]
+		if char == '[':  # new child
+			child, new_index = string_to_tree(tree_string, i)
+			children.append(child)
+			i = new_index
+		elif char == ']':  # end of this tree, return
+			node = parser.Node(node_name)
+			node.children = tuple(children)  # passing tuple to constructor results in nested tuple
+			return node, i  # return node and current place in iteration
+		elif char == '\\' and (tree_string[i+1] == '[' or tree_string[i+1] == ']'):
+			i += 1  # skip past \ character
+			node_name += tree_string[i]
+		else:  # character is part of node name
+			node_name += char
 
-        i += 1  # increment to next character
+		i += 1  # increment to next character
 
-    raise ValueError('bad format, reached end of string with without balancing all open parentheses')
+	raise ValueError('bad format, reached end of string with without balancing all open parentheses')

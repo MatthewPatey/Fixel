@@ -120,8 +120,8 @@ def p_selection_statement(p):
 
 def p_iteration_statement(p):
     """
-    iteration_statement     : FOR variable-expression IN primary_expression block
-                            | FOR variable-expression IN primary_expression ',' primary_expression block
+    iteration_statement     : FOR variable_expression IN primary_expression block
+                            | FOR variable_expression IN primary_expression ',' primary_expression block
                             | WHILE expression block
     """
     if len(p) == 4:
@@ -241,7 +241,7 @@ def p_primary_expression_token(p):
                         | TRUE
                         | FALSE
     """
-    p[0] = Node(p[1])
+    p[0] = Node('primary_expression', Node(p[1]))
 
 def p_primary_expression(p):
     """
