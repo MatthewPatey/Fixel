@@ -8,8 +8,8 @@ class GeneratorTests(TestCase):
 	def oneliner_test(self):
 		self.run_generator_on_tree(test_strings.oneliner_tree, test_strings.oneliner_python)
 	
-	#def indent_test(self):
-		#self.run_generator_on_tree(test_strings.indent_tree, test_strings.indent_python)
+	def indent_test(self):
+		self.run_generator_on_tree(test_strings.indent_tree, test_strings.indent_python)
 	
 	def function_def_test(self):
 		self.run_generator_on_tree(test_strings.function_def_tree, test_strings.function_def_python)

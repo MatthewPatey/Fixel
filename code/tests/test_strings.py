@@ -128,16 +128,16 @@ if hey < not 1:
 	sup()
 hey(image1)
 for image in images:
-	if image==imate1:
+	if image == image1:
 		hey(image)
 def hey(myImage):
-	if myImage.width>100:
-		if myImage.height>50 and myImage.height<60:
-			x=10
-			y-50
+	if myImage.width > 100:
+		if myImage.height > 50 and myImage.height < 60:
+			x = 10
+			y = 50
 	else:
-		x=100
-		y=20
+		x = 100
+		y = 20
 	return x
 '''
 
