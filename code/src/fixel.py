@@ -1,6 +1,7 @@
 import parser
 import lexer
 import generator
+import post_process
 
 
 def translate(source_string=None, verbose=False):
@@ -17,7 +18,8 @@ def translate(source_string=None, verbose=False):
 
     tree = my_parser.parse(source_string, lexer=my_lex)
     gen = generator.Generator(tree)
-    python_string = gen.get_string()
+	main_string, functions_string = gen.get_strings()
+	python_string = post_process.create_program(main_string, functions_string)
 
     if verbose:
         print("\nAST:\n")
