@@ -26,5 +26,10 @@ def translate(source_string=None, verbose=False):
         print(str(tree) + '\n')
         print('python:\n')
 
+    
+    file  = open('fixel_to_python_output.py','w')
+    file.write(python_string)
+    file.close()
+    
     print(python_string)
     return python_string
