@@ -13,6 +13,9 @@ class ParserTests(TestCase):
 	def oneliner_test(self):
 		self.run_parser_on_tokens(test_strings.oneliner_tokens, test_strings.oneliner_tree)
 
+	def indent_test(self):
+		self.run_parser_on_tokens(test_strings.indent_tokens, test_strings.indent_tree)
+
 	def function_def_test(self):
 		self.run_parser_on_tokens(test_strings.function_def_tokens, test_strings.function_def_tree)
 
