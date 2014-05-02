@@ -48,7 +48,7 @@ ignore = ['#', '@', '']
 
 class Generator:
 	def __init__(self, tree):
-		self.indent_level
+		self.indent_level = 0
 		self.in_main = True
 		self.main_list = []
 		self.function_def_list = []
@@ -105,7 +105,7 @@ class Generator:
 	def process_function_expression(self, node):
 		hashtag, id_node, parameters = node.children
 		if id_node.value in bif_set:
-			self.string_list.append('fixelFunction.')
+			self.string_list.append('fixelFunctions.')
 		self.process_tree(id_node)
 		self.string_list.append('(')
 		self.process_tree(parameters)
@@ -135,5 +135,6 @@ custom_functions_table = {
     'function_expression': Generator.process_function_expression,
     '\n': Generator.process_newline,
     'INDENT': Generator.process_indent,
-    'DEDENT': Generator.process_dedent
+    'DEDENT': Generator.process_dedent,
+	'variable_expression': Generator.process_variable_expression
 }

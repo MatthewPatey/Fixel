@@ -1,0 +1,5 @@
+#generateWallpaper @image1, 1600, 1200
+
+generateWallpaper @imageName, @desktopWidth, @desktopHeight:
+	#grayscale @imageName
+	#stretch @imageName, @desktopWidth, @desktopHeight

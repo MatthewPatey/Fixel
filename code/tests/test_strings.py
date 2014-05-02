@@ -116,20 +116,15 @@ iteration_for_tree = '[program [statement_list [statement [iteration_statement [
 multiplicative_tree = '[program [statement_list [statement_list [statement [expression_statement [expression [assignment_expression [variable_expression [@] [x]] [=] [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [variable_access_expression [variable_expression [@] [y]]]]]]] [*] [logical_NOT_expression [intermediate_expression [primary_expression [5]]]]]]]]]]]]] [\n]]]] [statement [expression_statement [expression [assignment_expression [variable_expression [@] [y]] [=] [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [variable_access_expression [variable_expression [@] [x]]]]]]] [/] [logical_NOT_expression [intermediate_expression [primary_expression [5]]]]]]]]]]]]] [\n]]]]]'
 
 equality_notequal_tree = '[program [statement_list [statement [expression_statement [expression [assignment_expression [variable_expression [@] [test]] [=] [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [(] [expression [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [5]]]]]]]] [!=] [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [3]]]]]]]]]]]] [)]]]]]]]]]]]]] [\n]]]]]'
-				
+
+
 '''
 python strings
 '''
 
-oneliner_python = 'grayscale(image1)\n'
+oneliner_python = 'fixelFunctions.grayscale(ns.image1)\n'
 
 indent_python = '''\
-if hey < not 1:
-	sup()
-hey(image1)
-for image in images:
-	if image == image1:
-		hey(image)
 def hey(myImage):
 	if myImage.width > 100:
 		if myImage.height > 50 and myImage.height < 60:
@@ -139,46 +134,52 @@ def hey(myImage):
 		x = 100
 		y = 20
 	return x
+if ns.hey < not 1:
+	sup()
+hey(ns.image1)
+for ns.image in ns.images:
+	if ns.image == ns.image1:
+		hey(ns.image)
 '''
 
 function_def_python = '''\
-sup(image1, image2)
 def sup(myImage1, myImage2):
 	return myImage1.height + myImage2.height
+sup(ns.image1, ns.image2)
 '''
 
 or_and_python='''\
-true and false or str == "coolstring"
-true and (false or str == "coolstring")
+true and false or ns.str == "coolstring"
+true and (false or ns.str == "coolstring")
 '''
 
 not_python='''\
-myList = [40, 500]
-not 100 <= myList[1]
+ns.myList = [40, 500]
+not 100 <= ns.myList[1]
 '''
 
 selection_if_python='''\
-if x < 1:
-	y = 5
+if ns.x < 1:
+	ns.y = 5
 '''
 
 selection_ifelse_python='''\
-if x > 1 and y >= 1:
-	y = y - 5
+if ns.x > 1 and ns.y >= 1:
+	ns.y = ns.y - 5
 else:
-	y = 3
+	ns.y = 3
 '''
 
 equality_notequal_python='''\
-test = (5 != 3)
+ns.test = (5 != 3)
 '''
 
 multiplicative_python='''\
-x = y * 5
-y = x / 5
+ns.x = ns.y * 5
+ns.y = ns.x / 5
 '''
 
 iteration_for_python='''\
-for image in images:
-	x = x + 1
+for ns.image in ns.images:
+	ns.x = ns.x + 1
 '''

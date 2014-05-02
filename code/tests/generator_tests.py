@@ -39,5 +39,5 @@ class GeneratorTests(TestCase):
 		tree_string_no_ws = tree_string.replace(' ', '')
 		tree, _ = test_utils.string_to_tree(tree_string_no_ws, 0)
 		gen = generator.Generator(tree)
-		actual_python = gen.get_string()
-		self.assertEqual(expected_python, actual_python)
+		main_string, functions_string = gen.get_strings()
+		self.assertEqual(expected_python, functions_string + main_string)
