@@ -3,6 +3,15 @@ def create_program(main_string, functions_string):
 
 
 imports = '''\
+\'\'\'
+  ______   __     __  __     ______     __        
+ /\  ___\ /\ \   /\_\_\_\   /\  ___\   /\ \       
+ \ \  __\ \ \ \  \/_/\_\/_  \ \  __\   \ \ \____  
+  \ \_\    \ \_\   /\_\/\_\  \ \_____\  \ \_____\ 
+   \/_/     \/_/   \/_/\/_/   \/_____/   \/_____/ 
+                                                     
+\'\'\'
+
 import sys
 from py import fixelFunctions
 
