@@ -9,6 +9,10 @@ from PIL import ImageDraw
 def imageData(infile):
 	return Image.open(infile)
 	
+def imageLoad(infile):
+	im = Image.open(infile)
+	return im.load()
+	
 def saveImage(indata,filetype):
 	outfile = os.path.splitext(indata[1])[0] + "-fixel.jpg"
 	indata[0].save(outfile,filetype)
@@ -93,6 +97,9 @@ def caption(indata,text):
 	im = ImageDraw.Draw(indata[0])
 	im.text((10, 10), text, fill='red', font=font)
 	del im
+	
+def color(r,g,b):
+	return [r,g,b]
 
 class fixelGaussianBlur(ImageFilter.Filter):
     name = "GaussianBlur"

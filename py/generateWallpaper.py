@@ -8,7 +8,7 @@ inputImageCount = 1
 # create variables for each image
 thisModule = sys.modules[__name__]
 for currentImage in inputImages:
-	setattr(thisModule,"image"+str(inputImageCount),[fixelFunctions.imageData(currentImage),currentImage])
+	setattr(thisModule,"image"+str(inputImageCount),[fixelFunctions.imageData(currentImage),fixelFunctions.imageLoad(currentImage),currentImage])
 	inputImageCount += 1
 
 ############
@@ -19,8 +19,8 @@ def generateWallpaper(imageName,desktopWidth,desktopHeight):
 	fixelFunctions.stretch(imageName,desktopWidth,desktopHeight)
 	fixelFunctions.caption(imageName,"Welcome to My Computer!")
 	
-generateWallpaper(image1,1600,1200)
-
+red = fixelFunctions.color(0,34,55)
+print image1[1][2,4]
 
 # end fixel script
 ############
