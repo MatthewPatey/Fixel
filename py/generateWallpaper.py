@@ -20,7 +20,7 @@ def generateWallpaper(imageName,desktopWidth,desktopHeight):
 	fixelFunctions.caption(imageName,"Welcome to My Computer!")
 	
 red = fixelFunctions.color(0,34,55)
-print image1[1][2,4]
+image1[1][2,4] = red
 
 # end fixel script
 ############

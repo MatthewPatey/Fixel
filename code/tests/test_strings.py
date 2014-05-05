@@ -65,6 +65,11 @@ equality_notequal_source='''\
 @test=(5!=3)
 '''
 
+color_setting_source='''\
+@red = color(0,0,0)
+@image1[302,19] = @red
+'''
+
 
 '''
 token streams
@@ -90,6 +95,8 @@ iteraton_for_tokens = [('FOR', 'for'), ('@', '@'), ('ID', 'image'), ('IN', 'in')
 multiplicative_tokens = [('@', '@'), ('ID', 'x'), ('=', '='), ('@', '@'), ('ID', 'y'), ('*', '*'), ('NUMBER', '5'), ('NEWLINE', '\n'), ('@', '@'), ('ID', 'y'), ('=', '='), ('@', '@'), ('ID', 'x'), ('/', '/'), ('NUMBER', '5'), ('NEWLINE', '\n')]
 
 equality_notequal_tokens = [('@', '@'), ('ID', 'test'), ('=', '='), ('(', '('), ('NUMBER', '5'), ('NEQUAL', '!='), ('NUMBER', '3'), (')', ')'), ('NEWLINE', '\n')]
+
+color_setting_tokens = [('@', '@'), ('ID', 'red'), ('=', '='), ('ID', 'color'), ('(', '('), ('NUMBER', '0'), (',', ','), ('NUMBER', '0'), (',', ','), ('NUMBER', '0'), (')', ')'), ('NEWLINE', '\n'), ('@', '@'), ('ID', 'image1'), ('=', '='), ('@', '@'), ('ID', 'red') ]
 
 
 '''
@@ -117,6 +124,7 @@ multiplicative_tree = '[program [statement_list [statement_list [statement [expr
 
 equality_notequal_tree = '[program [statement_list [statement [expression_statement [expression [assignment_expression [variable_expression [@] [test]] [=] [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [(] [expression [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [5]]]]]]]] [!=] [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [3]]]]]]]]]]]] [)]]]]]]]]]]]]] [\n]]]]]'
 
+color_setting_tree = '[program [statement_list [statement [expression_statement [expression [assignment_expression [variable_expression [@] [test]] [=] [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [(] [expression [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [5]]]]]]]] [!=] [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [3]]]]]]]]]]]] [)]]]]]]]]]]]]] [\n]]]]]'
 
 '''
 python strings
@@ -182,4 +190,9 @@ ns.y = ns.x / 5
 iteration_for_python='''\
 for ns.image in ns.images:
 	ns.x = ns.x + 1
+'''
+
+color_setting_python='''\
+red = color(0,0,0)
+image1[302,19] = red
 '''

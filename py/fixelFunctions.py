@@ -14,7 +14,7 @@ def imageLoad(infile):
 	return im.load()
 	
 def saveImage(indata,filetype):
-	outfile = os.path.splitext(indata[1])[0] + "-fixel.jpg"
+	outfile = os.path.splitext(indata[2])[0] + "-fixel.jpg"
 	indata[0].save(outfile,filetype)
 
 def grayscale(indata):
@@ -99,7 +99,7 @@ def caption(indata,text):
 	del im
 	
 def color(r,g,b):
-	return [r,g,b]
+	return (r,g,b,0)
 
 class fixelGaussianBlur(ImageFilter.Filter):
     name = "GaussianBlur"
