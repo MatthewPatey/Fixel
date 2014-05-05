@@ -17,3 +17,10 @@ I keep a calendar!
 ### Matt
 I like Vin Diesel!
 
+## Advice for Future Teams
++ start early
++ plan ahead
++ have a pizza party
+
+## Suggestions
++ be like us
