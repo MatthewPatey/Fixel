@@ -39,35 +39,52 @@ not_source = '''\
 not 100 <= @myList[1]
 '''
 
-selection_if_source='''\
+selection_if_source = '''\
 if @x<1:
 	@y=5
 '''
 
-selection_ifelse_source='''\
+selection_ifelse_source = '''\
 if @x>1 and @y>=1:
 	@y=@y-5
 else:
 	@y=3
 '''
 
-iteration_for_source='''\
+iteration_for_source = '''\
 for @image in @images:
 	@x=@x+1
 '''
 
-multiplicative_source='''\
+multiplicative_source = '''\
 @x=@y*5
 @y=@x/5
 '''
 
-equality_notequal_source='''\
+equality_notequal_source = '''\
 @test=(5!=3)
 '''
 
-color_setting_source='''\
+color_setting_source = '''\
 @red = color(0,0,0)
 @image1[302,19] = @red
+'''
+
+complex_source = '''\
+#ghost @image1
+#my_collage @image1, @image2, @image3, @image4
+
+ghost @image:
+	#blur @image
+	#grayscale @image
+
+my_collage @image1, @image2, @image3, @image4:
+	@my_list = [@image1, @image2, @image3, @image4]
+	for @image in @my_list:
+		if @image == @image1 or @image == @image2:
+			#sharpen @image
+		else:
+			#caption @image, "pretty colors"
 '''
 
 
@@ -130,9 +147,16 @@ color_setting_tree = '[program [statement_list [statement [expression_statement 
 python strings
 '''
 
-oneliner_python = 'fixelFunctions.grayscale(ns.image1)\n'
+oneliner_python = ('fixelFunctions.grayscale(ns.image1)\n', '')
 
-indent_python = '''\
+indent_python = ('''\
+if ns.hey < not 1:
+	sup()
+hey(ns.image1)
+for ns.image in ns.images:
+	if ns.image == ns.image1:
+		hey(ns.image)
+''', '''\
 def hey(myImage):
 	if myImage.width > 100:
 		if myImage.height > 50 and myImage.height < 60:
@@ -142,57 +166,68 @@ def hey(myImage):
 		x = 100
 		y = 20
 	return x
-if ns.hey < not 1:
-	sup()
-hey(ns.image1)
-for ns.image in ns.images:
-	if ns.image == ns.image1:
-		hey(ns.image)
-'''
+''')
 
-function_def_python = '''\
+function_def_python = ('''\
+sup(ns.image1, ns.image2)
+''', '''\
 def sup(myImage1, myImage2):
 	return myImage1.height + myImage2.height
-sup(ns.image1, ns.image2)
-'''
+''')
 
-or_and_python='''\
+or_and_python = ('''\
 true and false or ns.str == "coolstring"
 true and (false or ns.str == "coolstring")
-'''
+''', '')
 
-not_python='''\
+not_python = ('''\
 ns.myList = [40, 500]
 not 100 <= ns.myList[1]
-'''
+''', '')
 
-selection_if_python='''\
+selection_if_python = ('''\
 if ns.x < 1:
 	ns.y = 5
-'''
+''', '')
 
-selection_ifelse_python='''\
+selection_ifelse_python = ('''\
 if ns.x > 1 and ns.y >= 1:
 	ns.y = ns.y - 5
 else:
 	ns.y = 3
-'''
+''', '')
 
-equality_notequal_python='''\
+equality_notequal_python = ('''\
 ns.test = (5 != 3)
-'''
+''', '')
 
-multiplicative_python='''\
+multiplicative_python = ('''\
 ns.x = ns.y * 5
 ns.y = ns.x / 5
-'''
+''', '')
 
-iteration_for_python='''\
+iteration_for_python = ('''\
 for ns.image in ns.images:
 	ns.x = ns.x + 1
-'''
+''', '')
 
-color_setting_python='''\
+color_setting_python = ('''\
 red = color(0,0,0)
 image1[302,19] = red
-'''
+''', '')
+
+complex_python = ('''\
+ghost(ns.image1)
+my_collage(ns.image1, ns.image2, ns.image3, ns.image4)
+''', '''\
+def ghost(image):
+	fixelFunctions.blur(image)
+	fixelFunctions.grayscale(image)
+def my_collage(image1, image2, image3, image4):
+	my_list = [image1, image2, image3, image4]
+	for image in my_list:
+		if image == image1 or image == image2:
+			fixelFunctions.sharpen(image)
+		else:
+			fixelFunctions.caption(image, "pretty colors")
+''')
