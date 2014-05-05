@@ -19,11 +19,13 @@ def generateWallpaper(imageName,desktopWidth,desktopHeight):
 	fixelFunctions.stretch(imageName,desktopWidth,desktopHeight)
 	fixelFunctions.caption(imageName,"Welcome to My Computer!")
 	
-red = fixelFunctions.color(0,34,55)
-image1[1][2,4] = red
+#red = fixelFunctions.color(0,34,55)
+#image1[1][2,4] = red
 
 # end fixel script
 ############
+
+generateWallpaper(image1,1600,1400)
 
 # output the final images
 outputImageCount = 1
