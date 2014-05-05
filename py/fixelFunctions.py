@@ -93,7 +93,7 @@ def cropit(indata,coordinates):
 	indata[0] = im
 	
 def caption(indata,text):
-	font = ImageFont.truetype("/System/Library/Fonts/HelveticaNeue.dfont",100)
+	font = ImageFont.truetype("./HelveticaNeue.ttc",100)
 	im = ImageDraw.Draw(indata[0])
 	im.text((10, 10), text, fill='red', font=font)
 	del im
