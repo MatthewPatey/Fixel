@@ -26,8 +26,4 @@ def translate(source_string=None, verbose=False):
 		print('python:\n')
 		print(python_string)
 
-	f = open('fixel_to_python_output.py', 'w')
-	f.write(python_string)
-	f.close()
-
 	return python_string
