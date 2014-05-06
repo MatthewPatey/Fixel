@@ -23,7 +23,7 @@ import sys
 sys.path.append(os.path.abspath('''
 
 import_fixel_functions = '''
-from py import fixelFunctions
+from runtime import fixelFunctions
 
 '''
 
