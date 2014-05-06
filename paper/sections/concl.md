@@ -28,9 +28,27 @@ Creating fixel provided a novel opportunity to view programming in a new light. 
 I like Vin Diesel!
 
 ## Advice for Future Teams
-+ start early
-+ plan ahead
-+ have a pizza party
+Developing your own language is a very rigorous and rewarding endeavour. Here's some advice to help in the process.
+
+1. Start early.
+
+2. Plan ahead.  Stick to your plans.
+
+3. Develop clear milestones to maintain progress.
+
+4. Make sure your goals are practical.  Its better to do it right.
+
+5. Use version control.  Especially in large groups this is paramount.
+
+6. Maintain open communication with TAs and the professor.  Also, referencing examples can help make sure you are on the right track
+
+7. Keep track of decisions made so everyone is on the same page.
+
+8. Make skeleton of your program before delving into more complex functionality.  This will make your job easier later on.
+
+9.  Have weekly scheduled meetings or other times when the team can meet in person.  This really helps with communication.
+
+10. Have fun!
 
 ## Suggestions
 + be like us
