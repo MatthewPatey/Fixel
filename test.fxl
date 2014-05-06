@@ -3,3 +3,4 @@
 generateWallpaper @imageName, @desktopWidth, @desktopHeight:
 	#grayscale @imageName
 	#stretch @imageName, @desktopWidth, @desktopHeight
+	#caption @imageName, "Welcome to My Computer!"

@@ -1,8 +1,12 @@
+import os
+
+
 def create_program(main_string, functions_string):
-	return imports + functions_string + main_pre_fixel + main_string + main_post_fixel
+	path_to_fixel_top = os.path.join(os.path.dirname(__file__), '..', '..')
+	return header + repr(path_to_fixel_top) + '))\n' + import_fixel_functions + functions_string + main_pre_fixel + main_string + main_post_fixel
 
 
-imports = '''\
+header = '''\
 \'\'\'
   ______   __     __  __     ______     __
  /\  ___\ /\ \   /\_\_\_\   /\  ___\   /\ \       
@@ -12,7 +16,13 @@ imports = '''\
                                                      
 \'\'\'
 
+import os
 import sys
+
+# add fixel top to path so fixel functions can be imported
+sys.path.append(os.path.abspath('''
+
+import_fixel_functions = '''
 from py import fixelFunctions
 
 '''
@@ -26,7 +36,7 @@ ns = Namespace()
 
 # create variables for each image
 for currentImage in inputImages:
-	image = [fixelFunctions.imageData(currentImage),fixelFunctions.imageLoad(currentImage),currentImage]
+	image = [fixelFunctions.imageData(currentImage), fixelFunctions.imageLoad(currentImage), currentImage]
 	setattr(ns, "image"+str(inputImageCount), image)
 	ns.images.append(image)
 	inputImageCount += 1

@@ -24,10 +24,10 @@ def translate(source_string=None, verbose=False):
 		print("\nAST:\n")
 		print(str(tree) + '\n')
 		print('python:\n')
+		print(python_string)
 
 	f = open('fixel_to_python_output.py', 'w')
 	f.write(python_string)
 	f.close()
 
-	print(python_string)
 	return python_string
