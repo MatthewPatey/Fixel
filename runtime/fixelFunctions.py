@@ -1,4 +1,4 @@
-import os, sys
+import os
 from PIL import Image
 from PIL import ImageFilter
 from PIL import ImageEnhance
@@ -9,9 +9,8 @@ from PIL import ImageDraw
 def imageData(infile):
 	return Image.open(infile)
 	
-def imageLoad(infile):
-	im = Image.open(infile)
-	return im.load()
+def imageLoad(indata):
+	return indata.load()
 	
 def saveImage(indata,filetype):
 	outfile = os.path.splitext(indata[2])[0] + "-fixel.jpg"
@@ -55,7 +54,7 @@ def blur(indata,degree):
 		degree = 10
 	elif (degree<0):
 		degree=0
-	im = indata[0].filter(fixelGaussianBlur(radius=blurDegree))
+	im = indata[0].filter(fixelGaussianBlur(radius=degree))
 	indata[0] = im
 	
 def sharpen(indata,degree):
