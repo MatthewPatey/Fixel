@@ -176,8 +176,8 @@ def sup(myImage1, myImage2):
 ''')
 
 or_and_python = ('''\
-true and false or ns.str == "coolstring"
-true and (false or ns.str == "coolstring")
+True and False or ns.str == "coolstring"
+True and (False or ns.str == "coolstring")
 ''', '')
 
 not_python = ('''\
