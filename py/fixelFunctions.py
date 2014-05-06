@@ -15,10 +15,10 @@ def imageLoad(infile):
 	
 def saveImage(indata,filetype):
 	outfile = os.path.splitext(indata[2])[0] + "-fixel.jpg"
-	indata[0].save(outfile,filetype)
+	indata[0].convert('RGB').save(outfile,filetype)
 
 def grayscale(indata):
-	im = indata[0].convert("L")
+	im = indata[0].convert("L").convert("RGB")
 	indata[0] = im
 	
 def scale(indata,ratio):
@@ -96,7 +96,7 @@ def caption(indata,text):
 	font_file_path = os.path.join(os.path.dirname(__file__), "HelveticaNeue.ttc")
 	font = ImageFont.truetype(font_file_path, 100)
 	im = ImageDraw.Draw(indata[0])
-	im.text((10, 10), text, fill='red', font=font)
+	im.text((10, 10), text, fill="#ff0000", font=font)
 	del im
 	
 def color(r,g,b):
