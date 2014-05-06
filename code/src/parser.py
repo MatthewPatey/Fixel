@@ -279,25 +279,27 @@ def p_parameters_eps(p):
     p[0] = p[1]
 
 def p_variable_access_expression(p):
-    """
-    variable_access_expression : variable_expression
-                               | variable_access_expression '.' ID
-                               | variable_access_expression '[' primary_expression ']'
-    """
-    if len(p) == 2:
-        p[0] = Node('variable_access_expression', p[1])
-    elif len(p) == 4:
-        p[0] = Node('variable_access_expression', p[1], Node(p[2]), Node(p[3]))
-    else:
-        p[0] = Node('variable_access_expression', p[1], Node(p[2]), p[3], Node(p[4]))
+	"""
+	variable_access_expression : variable_expression
+	                           | variable_access_expression '.' ID
+	"""
+	if len(p) == 2:
+		p[0] = Node('variable_access_expression', p[1])
+	elif len(p) == 4:
+		p[0] = Node('variable_access_expression', p[1], Node(p[2]), Node(p[3]))
+
 
 def p_variable_expression(p):
-    """
-    variable_expression : '@' ID
-    """
-    at = Node(p[1])
-    iden = Node(p[2])
-    p[0] = Node('variable_expression', at, iden)
+	"""
+	variable_expression : '@' ID
+						| variable_expression '[' parameters ']'
+	"""
+	if len(p) == 3:
+		at = Node(p[1])
+		iden = Node(p[2])
+		p[0] = Node('variable_expression', at, iden)
+	else:
+		p[0] = Node('variable_expression', p[1], Node(p[2]), p[3], Node(p[4]))
 
 
 def p_epsilon(p):

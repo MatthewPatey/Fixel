@@ -87,6 +87,12 @@ my_collage @image1, @image2, @image3, @image4:
 			#caption @image, "pretty colors"
 '''
 
+pixel_source = '''\
+@color = @image1[1,1]
+#grayscale @image1
+@image1[1,1] = @color
+'''
+
 
 '''
 token streams
@@ -115,6 +121,8 @@ equality_notequal_tokens = [('@', '@'), ('ID', 'test'), ('=', '='), ('(', '('), 
 
 color_setting_tokens = [('@', '@'), ('ID', 'red'), ('=', '='), ('ID', 'color'), ('(', '('), ('NUMBER', '0'), (',', ','), ('NUMBER', '0'), (',', ','), ('NUMBER', '0'), (')', ')'), ('NEWLINE', '\n'), ('@', '@'), ('ID', 'image1'), ('=', '='), ('@', '@'), ('ID', 'red') ]
 
+pixel_tokens = [('@', '@'), ('ID', 'color'), ('=', '='), ('@', '@'), ('ID', 'image1'), ('[', '['), ('NUMBER', '1'), (',', ','), ('NUMBER', '1'), (']', ']'), ('NEWLINE', '\n'), ('#', '#'), ('ID', 'grayscale'), ('@', '@'), ('ID', 'image1'), ('NEWLINE', '\n'), ('@', '@'), ('ID', 'image1'), ('[', '['), ('NUMBER', '1'), (',', ','), ('NUMBER', '1'), (']', ']'), ('=', '='), ('@', '@'), ('ID', 'color'), ('NEWLINE', '\n')]
+
 
 '''
 abstract syntax tress
@@ -129,7 +137,7 @@ function_def_tree = '[program [statement_list [statement [expression_statement [
 
 or_and_tree = '[program [statement_list [statement_list [statement [expression_statement [expression [assignment_expression [logical_OR_expression [logical_OR_expression [logical_AND_expression [logical_AND_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [true]]]]]]]]] [and] [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [false]]]]]]]]]] [or] [logical_AND_expression [equality_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [variable_access_expression [variable_expression [@] [str]]]]]]]]]] [==] [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression ["cool string"]]]]]]]]]]]] [\n]]]] [statement [expression_statement [expression [assignment_expression [logical_OR_expression [logical_AND_expression [logical_AND_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [true]]]]]]]]] [and] [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [(] [expression [assignment_expression [logical_OR_expression [logical_OR_expression [logical_AND_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [false]]]]]]]]]] [or] [logical_AND_expression [equality_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [variable_access_expression [variable_expression [@] [str]]]]]]]]]] [==] [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression ["cool string"]]]]]]]]]]]] [)]]]]]]]]]]]] [\n]]]]]'
 
-not_tree = '[program [statement_list [statement_list [statement [expression_statement [expression [assignment_expression [variable_expression [@] [myList]] [=] [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [\\[] [parameters [parameters [primary_expression [40]]] [,] [primary_expression [500]]] [\\]]]]]]]]]]]]]] [\n]]]] [statement [expression_statement [expression [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [relational_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [not] [logical_NOT_expression [intermediate_expression [primary_expression [100]]]]]]]] [<=] [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [variable_access_expression [variable_access_expression [variable_expression [@] [myList]]] [\\[] [primary_expression [1]] [\\]]]]]]]]]]]]]] [\n]]]]]'
+not_tree = '[program [statement_list [statement_list [statement [expression_statement [expression [assignment_expression [variable_expression [@] [myList]] [=] [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [\\[] [parameters [parameters [primary_expression [40]]] [,] [primary_expression [500]]] [\\]]]]]]]]]]]]]] [\n]]]] [statement [expression_statement [expression [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [relational_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [not] [logical_NOT_expression [intermediate_expression [primary_expression [100]]]]]]]] [<=] [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [variable_access_expression [variable_expression [variable_expression [@] [myList]] [\\[] [parameters [primary_expression [1]]] [\\]]]]]]]]]]]]]]] [\n]]]]]'
 
 selection_if_tree = '[program [statement_list [statement [selection_statement [if] [expression [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [relational_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [variable_access_expression [variable_expression [@] [x]]]]]]]]] [<] [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [1]]]]]]]]]]]] [block [:] [\n] [INDENT] [statement_list [statement [expression_statement [expression [assignment_expression [variable_expression [@] [y]] [=] [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [5]]]]]]]]]]]]] [\n]]]] [DEDENT]]]]]]'
 
@@ -142,6 +150,8 @@ multiplicative_tree = '[program [statement_list [statement_list [statement [expr
 equality_notequal_tree = '[program [statement_list [statement [expression_statement [expression [assignment_expression [variable_expression [@] [test]] [=] [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [(] [expression [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [5]]]]]]]] [!=] [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [3]]]]]]]]]]]] [)]]]]]]]]]]]]] [\n]]]]]'
 
 color_setting_tree = '[program [statement_list [statement [expression_statement [expression [assignment_expression [variable_expression [@] [test]] [=] [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [(] [expression [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [5]]]]]]]] [!=] [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [3]]]]]]]]]]]] [)]]]]]]]]]]]]] [\n]]]]]'
+
+pixel_tree = '[program [statement_list [statement_list [statement_list [statement [expression_statement [expression [assignment_expression [variable_expression [@] [color]] [=] [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [variable_access_expression [variable_expression [variable_expression [@] [image1]] [\\[] [parameters [parameters [primary_expression [1]]] [,] [primary_expression [1]]] [\\]]]]]]]]]]]]]]]] [\n]]]] [statement [expression_statement [expression [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [function_expression [#] [grayscale] [parameters [primary_expression [variable_access_expression [variable_expression [@] [image1]]]]]]]]]]]]]]]] [\n]]]] [statement [expression_statement [expression [assignment_expression [variable_expression [variable_expression [@] [image1]] [\\[] [parameters [parameters [primary_expression [1]]] [,] [primary_expression [1]]] [\\]]] [=] [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [variable_access_expression [variable_expression [@] [color]]]]]]]]]]]]]]] [\n]]]]]'
 
 '''
 python strings
@@ -214,6 +224,12 @@ for ns.image in ns.images:
 color_setting_python = ('''\
 red = color(0,0,0)
 image1[302,19] = red
+''', '')
+
+pixel_python = ('''\
+ns.color = ns.image1[1, 1]
+fixelFunctions.grayscale(ns.image1)
+ns.image1[1, 1] = ns.color
 ''', '')
 
 complex_python = ('''\
