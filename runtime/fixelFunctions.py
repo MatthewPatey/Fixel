@@ -13,57 +13,57 @@ def imageLoad(indata):
 	return indata.load()
 	
 def saveImage(indata,filetype):
-	outfile = os.path.splitext(indata[2])[0] + "-fixel.jpg"
-	indata[0].convert('RGB').save(outfile,filetype)
+	outfile = os.path.splitext(indata.name)[0] + "-fixel.jpg"
+	indata.image_data.convert('RGB').save(outfile,filetype)
 
 def grayscale(indata):
-	im = indata[0].convert("L").convert("RGB")
-	indata[0] = im
+	im = indata.image_data.convert("L").convert("RGB")
+	indata.image_data = im
 	
 def scale(indata,ratio):
-	im = indata[0]
+	im = indata.image_data
 	size = im.size[0]*ratio,im.size[1]*ratio
 	im.resize(size, Image.ANTIALIAS)
-	indata[0] = im
+	indata.image_data = im
 
 def stretch(indata,newWidth,newHeight):
-	im = indata[0]
+	im = indata.image_data
 	size = newWidth,newHeight
 	newIm = im.resize(size, Image.ANTIALIAS)
-	indata[0] = newIm
+	indata.image_data = newIm
 
 def rotate(indata,angle):
-	im = indata.convert('RGBA')
+	im = indata.image_data.convert('RGBA')
 	rot = im.rotate(22.2, expand=1)
 	white = Image.new('RGBA', rot.size, (255,)*4)
 	im = Image.composite(rot, white, rot)
-	im.convert(indata.mode)
-	indata[0] = im
+	im.convert(indata.image_data.mode)
+	indata.image_data = im
 		
 def overlay(indata,rgb,opacity):
 	opacity = int(255*float(opacity)/100)	
 	rgb.append(opacity)
 	rgb=tuple(rgb)
-	im = indata[0]
+	im = indata.image_data
 	overlayColor = Image.new(mode='RGBA',size=im.size,color=rgb)
 	im.paste(overlayColor, [0,0,im.size[0],im.size[1]], overlayColor)
-	indata[0] = im
+	indata.image_data = im
 
 def blur(indata,degree):
 	if (degree>10):
 		degree = 10
 	elif (degree<0):
 		degree=0
-	im = indata[0].filter(fixelGaussianBlur(radius=degree))
-	indata[0] = im
-	
+	im = indata.image_data.filter(fixelGaussianBlur(radius=degree))
+	indata.image_data = im
+
 def sharpen(indata,degree):
 	if (degree>10):
 		degree = 10
 	elif (degree<0):
 		degree=0
-	im = ImageEnhance.Sharpness(indata[0]).enhance(degree)
-	indata[0] = im
+	im = ImageEnhance.Sharpness(indata.image_data]).enhance(degree)
+	indata.image_data = im
 	
 def brighten(indata,degree):
 	degree=(degree/10)+1
@@ -71,8 +71,8 @@ def brighten(indata,degree):
 		degree = 2
 	elif (degree<0):
 		degree=0
-	im = ImageEnhance.Brightness(indata[0]).enhance(degree)
-	indata[0] = im
+	im = ImageEnhance.Brightness(indata.image_data).enhance(degree)
+	indata.image_data = im
 
 def contrast(indata,degree):
 	degree=(degree/10)+1
@@ -80,21 +80,21 @@ def contrast(indata,degree):
 		degree = 2
 	elif (degree<0):
 		degree=0
-	im = ImageEnhance.Contrast(indata[0]).enhance(2)
-	indata[0] = im
+	im = ImageEnhance.Contrast(indata.image_data).enhance(2)
+	indata.image_data = im
 	
 def border(indata,border,color):
-	im = ImageOps.expand(indata[0],border=border,fill=color)
-	indata[0] = im
+	im = ImageOps.expand(indata.image_data,border=border,fill=color)
+	indata.image_data = im
 
 def cropit(indata,coordinates):
-	im = indata[0].crop(coordinates)
-	indata[0] = im
+	im = indata.image_data.crop(coordinates)
+	indata.image_data = im
 	
 def caption(indata,text):
 	font_file_path = os.path.join(os.path.dirname(__file__), "HelveticaNeue.ttc")
 	font = ImageFont.truetype(font_file_path, 100)
-	im = ImageDraw.Draw(indata[0])
+	im = ImageDraw.Draw(indata.image_data)
 	im.text((10, 10), text, fill="#ff0000", font=font)
 	del im
 	
