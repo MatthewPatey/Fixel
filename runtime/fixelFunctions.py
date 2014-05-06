@@ -62,7 +62,7 @@ def sharpen(indata,degree):
 		degree = 10
 	elif (degree<0):
 		degree=0
-	im = ImageEnhance.Sharpness(indata.image_data]).enhance(degree)
+	im = ImageEnhance.Sharpness(indata.image_data).enhance(degree)
 	indata.image_data = im
 	
 def brighten(indata,degree):
