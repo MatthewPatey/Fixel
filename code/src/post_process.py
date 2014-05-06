@@ -30,7 +30,7 @@ from py import fixelFunctions
 
 main_pre_fixel = '''
 inputImages = sys.argv[1:]
-inputImageCount = 1
+inputImageCount = 0
 Namespace = type('Namespace', (object,), {'images': []})  # cleaner than having to declare a class
 ns = Namespace()
 

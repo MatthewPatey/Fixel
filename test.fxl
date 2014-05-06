@@ -1,4 +1,4 @@
-#generateWallpaper @image1, 1600, 1200
+#generateWallpaper @image0, 1600, 1200
 
 generateWallpaper @imageName, @desktopWidth, @desktopHeight:
 	#grayscale @imageName
