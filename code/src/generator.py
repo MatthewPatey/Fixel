@@ -40,7 +40,8 @@ bif_set = {
 	'contrast',
 	'border',
 	'cropit',
-	'caption'
+	'caption',
+	'color'
 }
 
 

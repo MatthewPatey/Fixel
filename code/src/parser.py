@@ -1,3 +1,4 @@
+import sys
 import lexer
 import ply.yacc as yacc
 import ply.lex as lex
@@ -308,15 +309,9 @@ def p_epsilon(p):
     """
     p[0] = Node('')
 
-"""
 def p_error(p):
-    if p is None:
-        tok = lex.LexToken()
-        tok.value = '\n'
-        tok.type = 'NEWLINE'
-        yacc.errok()
-        return tok
-"""
+    if p is not None:
+        sys.stderr.write('syntax error for ' + p.type + ' ' + p.value + ' at ' + str(p.lexpos) + '\n')
 
 tokens = lexer.tokens
 
