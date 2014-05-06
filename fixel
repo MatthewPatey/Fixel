@@ -1,9 +1,9 @@
-#!python
+#!/usr/bin/env python
 
 import os
 import subprocess
 import sys
 
 fixel_top = os.path.dirname(__file__)
-subprocess.call(['python', os.path.join(fixel_top, 'code', 'run_fixel.py'), '-f', sys.argv[1]])
-subprocess.call(['python', 'fixel_to_python_output.py'] + sys.argv[2:])
+subprocess.call(['python', os.path.join(fixel_top, 'code', 'run_translator.py'), '-f', sys.argv[1]])
+subprocess.call(['python', sys.argv[1].split('.')[0] + '.py'] + sys.argv[2:])
