@@ -17,6 +17,10 @@ reserved = {
   'not'   : 'NOT',
 }
 
+forbidden = ['del','from','as','elif', 'global', 'with', 'assert', 'pass',
+'yield', 'break', 'except', 'import', 'print', 'class', 'exec', 'raise', 'continue', 'finally', 'is', 'def', 'lambda', 'try']
+
+
 # declare new state for dedent analysis
 states = (
 	('dedentCount', 'exclusive'),
@@ -54,10 +58,12 @@ def t_blankline(t):
 	pass
 
 def t_ID(t):
-    r'[a-zA-Z_][a-zA-Z0-9_]*'
-    if t.value in reserved:
-        t.type = reserved[t.value]
-    return t
+	r'[a-zA-Z_][a-zA-Z0-9_]*'
+	if t.value in reserved:
+		t.type = reserved[t.value]
+	elif t.value in forbidden:
+		raise NameError(t.value)
+	return t
 
 # produces a token for any integer number and stores the value as an int
 def t_NUMBER(t):
