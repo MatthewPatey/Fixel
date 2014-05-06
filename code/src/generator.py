@@ -128,7 +128,15 @@ class Generator:
 		if self.in_main:
 			self.string_list.append('ns.')
 		self.process_tree(node.children[1])
-
+	
+	def process_true(self, node):
+		self.string_list.append('True')
+	
+	def process_false(self, node):
+		self.string_list.append('False')
+	
+	
+	
 custom_functions_table = {
 	'program': Generator.process_program,
     'function_definition': Generator.process_function_definition,
@@ -136,5 +144,7 @@ custom_functions_table = {
     '\n': Generator.process_newline,
     'INDENT': Generator.process_indent,
     'DEDENT': Generator.process_dedent,
-	'variable_expression': Generator.process_variable_expression
+	'variable_expression': Generator.process_variable_expression,
+	'true': Generator.process_true,
+	'false': Generator.process_false
 }
