@@ -300,12 +300,12 @@ def p_variable_expression(p):
 		p[0] = Node('variable_expression', p[1], Node(p[2]), p[3], Node(p[4]))
 
 def p_variable(p):
-    """
-    variable : '@' ID
-    """
-    at = Node(p[1])
-    iden = Node(p[2]
-    p[0] = Node('variable_expression', at, iden)
+	"""
+	variable : '@' ID
+	"""
+	at = Node(p[1])
+	iden = Node(p[2])
+	p[0] = Node('variable_expression', at, iden)
 
 def p_epsilon(p):
     """
