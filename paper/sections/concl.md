@@ -14,7 +14,9 @@ Writing Fixel would certainly not have been as efficient or pleasant as it was i
 I like to wear clothes that match with Amrita!
 
 ### Neel
-I wear headphones!
+The idea of building a programming language from the ground up is daunting, but given the right mix of expertises, it can be a pleasant experience. What worked well for us was our shared enthusiasm for the idea of the program—everyone was on board with the goals laid out in our initial meetings, and so we had a pretty comprehensive vision for the language from the beginning. It always helps to have one individual who has a clear vision for how we will implement the language from the technical standpoint. For us, that was Matt, nominally our tester and validator. It was helpful to have him manage the abstract implementation for the parser and lexer, with all of us sharing the work for coding them. Everyone seemed to find their niche fairly quickly, and I think we did a good job of distributing assignments that tapped into our team members' strengths.
+
+One piece of advice I'd give to future teams is to really hammer down the tutorial as early as possible. If there is the possibility for change, that should be discussed from the onset, rather than halfway into the process for building the lexer or parser. It's difficult to understate the importance of the tutorial, as the programs described therein will form the foundation of the compiler.
 
 ### Kavita
 Creating fixel provided a novel opportunity to view programming in a new light.  While working on this project it became necessary to understand why decisions were made in programming languages and not just memorize the rules.  Here are just some of the many things I learned:
