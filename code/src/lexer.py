@@ -15,6 +15,7 @@ reserved = {
   'and'   : 'AND',
   'or'    : 'OR',
   'not'   : 'NOT',
+  'forp'   : 'FORP',
 }
 
 # declare new state for dedent analysis

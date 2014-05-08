@@ -121,8 +121,8 @@ def p_selection_statement(p):
 
 def p_iteration_statement(p):
     """
-    iteration_statement     : FOR variable_expression IN primary_expression block
-                            | FOR variable_expression IN primary_expression ',' primary_expression block
+    iteration_statement     : FOR variable IN variable block
+                            | FORP variable IN variable block
                             | WHILE expression block
     """
     if len(p) == 4:
@@ -131,10 +131,7 @@ def p_iteration_statement(p):
         for_node = Node(p[1])
         #id_node = Node(p[2])
         in_node = Node(p[3])
-        if len(p) == 6:
-            p[0] = Node('iteration_statement', for_node, p[2], in_node, p[4], p[5])
-        else:
-            p[0] = Node('iteration_statement', for_node, p[2], in_node, p[4], Node(p[5]), p[6], p[7])
+        p[0] = Node('iteration_statement', forp_node, p[2], in_node, p[4], p[5])
 
 def p_expression(p):
     """
@@ -292,7 +289,7 @@ def p_variable_access_expression(p):
 
 def p_variable_expression(p):
 	"""
-	variable_expression : '@' ID
+	variable_expression : variable
 						| variable_expression '[' parameters ']'
 	"""
 	if len(p) == 3:
@@ -302,6 +299,13 @@ def p_variable_expression(p):
 	else:
 		p[0] = Node('variable_expression', p[1], Node(p[2]), p[3], Node(p[4]))
 
+def p_variable(p):
+    """
+    variable : '@' ID
+    """
+    at = Node(p[1])
+    iden = Node(p[2]
+    p[0] = Node('variable_expression', at, iden)
 
 def p_epsilon(p):
     """
