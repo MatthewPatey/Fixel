@@ -106,11 +106,10 @@ parameters:
 variable-access-expression:
 	variable-expression
 	variable-access-expression '.' ID
-	variable-access-expression '[' primary-expression ']'
-	variable-access-expression '[' primary-expression ',' primary-expression ']'
 
 variable-expression:
 	‘@’ ID
+	variable_expression '[' parameters ']'
 
 block:
 	‘:’ NEWLINE INDENT statement-list DEDENT
