@@ -18,3 +18,7 @@ class Image:
 	def load_pixel_data_if_needed(self):
 		if self.pixel_data is None:
 			self.pixel_data = fixelFunctions.imageLoad(self.image_data)
+
+	def set_image_data(self, new_image_data):
+		self.image_data = new_image_data
+		self.pixel_data = None

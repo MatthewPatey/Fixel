@@ -40,6 +40,9 @@ class ParserTests(TestCase):
 	def equality_notequal_test(self):
 		self.run_parser_on_tokens(test_strings.equality_notequal_tokens, test_strings.equality_notequal_tree)
 
+	def pixel_test(self):
+		self.run_parser_on_tokens(test_strings.pixel_tokens, test_strings.pixel_tree)
+
 	def run_parser_on_tokens(self, tokens, expected_tree):
 		mock_lex = mock.MagicMock()
 		mock_tokens = []

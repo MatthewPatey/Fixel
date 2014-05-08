@@ -11,7 +11,7 @@ if namespace.fixel_file:
 	file_name = namespace.fixel_file.name
 	namespace.fixel_file.close()
 	result = translator.translate(source_string, namespace.verbose)
-	f = open(file_name.split('.')[0] + '.py', 'w')
+	f = open(file_name.split('.')[0] + '.py', 'w')  # todo split around . doesn't work for cases such as ../name.fxl
 	f.write(result)
 	f.close()
 else:

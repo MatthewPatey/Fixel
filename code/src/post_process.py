@@ -14,22 +14,22 @@ header = '''\
   \ \_\    \ \_\   /\_\/\_\  \ \_____\  \ \_____\ 
    \/_/     \/_/   \/_/\/_/   \/_____/   \/_____/ 
                                                      
-\'\'\''''
+\'\'\'
 
 import os
 import sys
 
 # add fixel top to path so fixel functions can be imported
-#sys.path.append(os.path.abspath('''
+sys.path.append(os.path.abspath('''
 
-#import_fixel_functions = '''
+import_fixel_functions = '''
 from runtime import fixelFunctions
 from runtime import runtime_classes
 
+'''
 
 
-
-#main_pre_fixel = '''
+main_pre_fixel = '''
 inputImages = sys.argv[1:]
 inputImageCount = 1
 Namespace = type('Namespace', (object,), {'images': []})  # cleaner than having to declare a class
@@ -41,9 +41,10 @@ for currentImage in inputImages:
 	setattr(ns, "image"+str(inputImageCount), image)
 	ns.images.append(image)
 	inputImageCount += 1
-#'''
 
-#main_post_fixel = '''
+'''
+
+main_post_fixel = '''
 for image in ns.images:
 	fixelFunctions.saveImage(image, "JPEG")
-#'''
+'''

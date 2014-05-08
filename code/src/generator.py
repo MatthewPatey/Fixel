@@ -40,7 +40,8 @@ bif_set = {
 	'contrast',
 	'border',
 	'cropit',
-	'caption'
+	'caption',
+	'color'
 }
 
 
@@ -125,9 +126,13 @@ class Generator:
 		del self.string_list[-1]  #todo worry about index errors
 
 	def process_variable_expression(self, node):
-		if self.in_main:
-			self.string_list.append('ns.')
-		self.process_tree(node.children[1])
+		if len(node.children) == 2:
+			if self.in_main:
+				self.string_list.append('ns.')
+			self.process_tree(node.children[1])
+		else:
+			for child in node.children:
+				self.process_tree(child)
 
 custom_functions_table = {
 	'program': Generator.process_program,

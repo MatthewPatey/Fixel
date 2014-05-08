@@ -18,19 +18,19 @@ def saveImage(indata,filetype):
 
 def grayscale(indata):
 	im = indata.image_data.convert("L").convert("RGB")
-	indata.image_data = im
-	
+	indata.set_image_data(im)
+
 def scale(indata,ratio):
 	im = indata.image_data
 	size = im.size[0]*ratio,im.size[1]*ratio
-	im.resize(size, Image.ANTIALIAS)
-	indata.image_data = im
+	im = im.resize(size, Image.ANTIALIAS)
+	indata.set_image_data(im)
 
 def stretch(indata,newWidth,newHeight):
 	im = indata.image_data
 	size = newWidth,newHeight
 	newIm = im.resize(size, Image.ANTIALIAS)
-	indata.image_data = newIm
+	indata.set_image_data(newIm)
 
 def rotate(indata,angle):
 	im = indata.image_data.convert('RGBA')
@@ -38,7 +38,7 @@ def rotate(indata,angle):
 	white = Image.new('RGBA', rot.size, (255,)*4)
 	im = Image.composite(rot, white, rot)
 	im.convert(indata.image_data.mode)
-	indata.image_data = im
+	indata.set_image_data(im)
 		
 def overlay(indata,rgb,opacity):
 	opacity = int(255*float(opacity)/100)	
@@ -47,7 +47,7 @@ def overlay(indata,rgb,opacity):
 	im = indata.image_data
 	overlayColor = Image.new(mode='RGBA',size=im.size,color=rgb)
 	im.paste(overlayColor, [0,0,im.size[0],im.size[1]], overlayColor)
-	indata.image_data = im
+	indata.set_image_data(im)
 
 def blur(indata,degree):
 	if (degree>10):
@@ -55,15 +55,15 @@ def blur(indata,degree):
 	elif (degree<0):
 		degree=0
 	im = indata.image_data.filter(fixelGaussianBlur(radius=degree))
-	indata.image_data = im
+	indata.set_image_data(im)
 
 def sharpen(indata,degree):
 	if (degree>10):
 		degree = 10
 	elif (degree<0):
 		degree=0
-	im = ImageEnhance.Sharpness(indata.image_data]).enhance(degree)
-	indata.image_data = im
+	im = ImageEnhance.Sharpness(indata.image_data).enhance(degree)
+	indata.set_image_data(im)
 	
 def brighten(indata,degree):
 	degree=(degree/10)+1
@@ -72,7 +72,7 @@ def brighten(indata,degree):
 	elif (degree<0):
 		degree=0
 	im = ImageEnhance.Brightness(indata.image_data).enhance(degree)
-	indata.image_data = im
+	indata.set_image_data(im)
 
 def contrast(indata,degree):
 	degree=(degree/10)+1
@@ -81,15 +81,15 @@ def contrast(indata,degree):
 	elif (degree<0):
 		degree=0
 	im = ImageEnhance.Contrast(indata.image_data).enhance(2)
-	indata.image_data = im
+	indata.set_image_data(im)
 	
 def border(indata,border,color):
 	im = ImageOps.expand(indata.image_data,border=border,fill=color)
-	indata.image_data = im
+	indata.set_image_data(im)
 
 def cropit(indata,coordinates):
 	im = indata.image_data.crop(coordinates)
-	indata.image_data = im
+	indata.set_image_data(im)
 	
 def caption(indata,text):
 	font_file_path = os.path.join(os.path.dirname(__file__), "HelveticaNeue.ttc")

@@ -1,3 +1,4 @@
+import sys
 import lexer
 import ply.yacc as yacc
 import ply.lex as lex
@@ -279,25 +280,27 @@ def p_parameters_eps(p):
     p[0] = p[1]
 
 def p_variable_access_expression(p):
-    """
-    variable_access_expression : variable_expression
-                               | variable_access_expression '.' ID
-                               | variable_access_expression '[' primary_expression ']'
-    """
-    if len(p) == 2:
-        p[0] = Node('variable_access_expression', p[1])
-    elif len(p) == 4:
-        p[0] = Node('variable_access_expression', p[1], Node(p[2]), Node(p[3]))
-    else:
-        p[0] = Node('variable_access_expression', p[1], Node(p[2]), p[3], Node(p[4]))
+	"""
+	variable_access_expression : variable_expression
+	                           | variable_access_expression '.' ID
+	"""
+	if len(p) == 2:
+		p[0] = Node('variable_access_expression', p[1])
+	elif len(p) == 4:
+		p[0] = Node('variable_access_expression', p[1], Node(p[2]), Node(p[3]))
+
 
 def p_variable_expression(p):
-    """
-    variable_expression : '@' ID
-    """
-    at = Node(p[1])
-    iden = Node(p[2])
-    p[0] = Node('variable_expression', at, iden)
+	"""
+	variable_expression : '@' ID
+						| variable_expression '[' parameters ']'
+	"""
+	if len(p) == 3:
+		at = Node(p[1])
+		iden = Node(p[2])
+		p[0] = Node('variable_expression', at, iden)
+	else:
+		p[0] = Node('variable_expression', p[1], Node(p[2]), p[3], Node(p[4]))
 
 
 def p_epsilon(p):
@@ -306,15 +309,9 @@ def p_epsilon(p):
     """
     p[0] = Node('')
 
-"""
 def p_error(p):
-    if p is None:
-        tok = lex.LexToken()
-        tok.value = '\n'
-        tok.type = 'NEWLINE'
-        yacc.errok()
-        return tok
-"""
+    if p is not None:
+        sys.stderr.write('syntax error for ' + p.type + ' ' + p.value + ' at ' + str(p.lexpos) + '\n')
 
 tokens = lexer.tokens
 
