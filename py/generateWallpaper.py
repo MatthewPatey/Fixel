@@ -1,34 +1,21 @@
-# standard libraries to import
-import os, sys, fixelFunctions
+import os
+import sys
+import fixelFunctions
 
-# create variables for the system to iterate through
-inputImages = list(sys.argv)[1:]
-inputImageCount = 1
+inputImages = sys.argv[1:]
+inputImageCount = 0
+Namespace = type('Namespace', (object,), {'images': []})  # cleaner than having to declare a class
+ns = Namespace()
 
 # create variables for each image
-thisModule = sys.modules[__name__]
 for currentImage in inputImages:
-	setattr(thisModule,"image"+str(inputImageCount),[fixelFunctions.imageData(currentImage),fixelFunctions.imageLoad(currentImage),currentImage])
+	image = [fixelFunctions.imageData(currentImage), fixelFunctions.imageLoad(currentImage), currentImage]
+	setattr(ns, "image"+str(inputImageCount), image)
+	ns.images.append(image)
 	inputImageCount += 1
-
-############
-# begin fixel script
-
-def generateWallpaper(imageName,desktopWidth,desktopHeight):
-	fixelFunctions.grayscale(imageName)
-	fixelFunctions.stretch(imageName,desktopWidth,desktopHeight)
-	fixelFunctions.caption(imageName,"Welcome to My Computer!")
 	
-#red = fixelFunctions.color(0,34,55)
-#image1[1][2,4] = red
+images = [ns.image0, ns.image1, ns.image2, ns.image3]
+fixelFunctions.collage(ns.image1, images, 1600, 1200)
 
-# end fixel script
-############
-
-generateWallpaper(image1,1600,1400)
-
-# output the final images
-outputImageCount = 1
-for currentImage in inputImages:
-	fixelFunctions.saveImage(getattr(thisModule,"image"+str(outputImageCount)),"JPEG")
-	outputImageCount += 1
+for image in ns.images:
+	fixelFunctions.saveImage(image, "JPEG")
