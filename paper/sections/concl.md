@@ -3,7 +3,9 @@
 ## Lessons Learned
 
 ### Amrita
-Things are hard! Plan a lot!
+Writing Fixel not only gave me insight into the art of crafting a programming language, but also a depeer understanding of our target language, Python, as well. In making design decisions about our own language, I learned a great deal about Python, and how its implementation would inform our own language's structure. Working on a translator gave was a great way to really critically understand the implications of the concepts learned during the semester, such as typing, scope, etc. 
+
+Writing Fixel would certainly not have been as efficient or pleasant as it was if not for our team group dynamic. Early on, we decided on a weekly meeting schedule to best accommodate our team members' varied schedules. This emphasis on weekly meetings really helped maintain productivity levels throughout the semester. 
 
 ### Darien
 I like to wear clothes that match with Amrita!
