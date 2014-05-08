@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, math
 from PIL import Image
 from PIL import ImageFilter
 from PIL import ImageEnhance
@@ -23,10 +23,6 @@ def saveImage(indata,filetype):
 def grayscale(indata):
 	pixelmap = indata.load()
 	im = indata[0].convert("L")
-	for y in xrange(im.size[0]):
-        for x in xrange(im.size[1]):
-            pixelmap[x, y] = (0,0,0,0)
-	indata[0] = im
 	
 def scale(indata,ratio):
 	im = indata[0]
@@ -114,7 +110,26 @@ def color(r,*argv):
 			return colorValues[colors.index(r)]
 		else:
 			return hex2rgb(r)
- 
+
+def collage(indata,images,w,h):
+	im = Image.new("RGB", (w, h), "white")
+	count = len(images)
+	heightMax = int(math.floor(math.sqrt(count)))
+	widthMax = int(math.ceil(count/heightMax))
+	widthCount = 0
+	heightCount = 0
+	for image in images:
+		im2 = image[0]
+		ratio = float(float(w/widthMax)/im2.size[0])
+		size = int(math.ceil(im2.size[0]*ratio)),int(math.ceil(im2.size[1]*ratio))
+		im2 = im2.resize(size, Image.ANTIALIAS)
+		im.paste(im2,(widthCount*(w/widthMax),heightCount*(h/heightMax)))
+		widthCount = widthCount+1
+		if widthCount == widthMax:
+			widthCount = 0
+			heightCount = heightCount+1
+	indata[0] = im
+
 def hex2rgb(v):
     v = v.lstrip('#')
     lv = len(v)
