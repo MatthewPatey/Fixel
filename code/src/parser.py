@@ -303,7 +303,7 @@ def p_variable(p):
 	"""
 	at = Node(p[1])
 	iden = Node(p[2])
-	p[0] = Node('variable_expression', at, iden)
+	p[0] = Node('variable', at, iden)
 
 def p_epsilon(p):
     """
