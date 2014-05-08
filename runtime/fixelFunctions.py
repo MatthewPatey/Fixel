@@ -6,6 +6,9 @@ from PIL import ImageOps
 from PIL import ImageFont
 from PIL import ImageDraw
 
+colors = ["red","blue","green","yellow","pink","orange","purple","gray","white","black"]
+colorValues = [(255,255,0),(0,0,255),(0,255,0),(255,255,0),(255,20,147),(255,140,0),(148,0,211),(139,137,137),(255,255,255),(0,0,0)]
+
 def imageData(infile):
 	return Image.open(infile)
 	
@@ -18,7 +21,11 @@ def saveImage(indata,filetype):
 	indata[0].convert('RGB').save(outfile,filetype)
 
 def grayscale(indata):
-	im = indata[0].convert("L").convert("RGB")
+	pixelmap = indata.load()
+	im = indata[0].convert("L")
+	for y in xrange(im.size[0]):
+        for x in xrange(im.size[1]):
+            pixelmap[x, y] = (0,0,0,0)
 	indata[0] = im
 	
 def scale(indata,ratio):
@@ -99,8 +106,19 @@ def caption(indata,text):
 	im.text((10, 10), text, fill="#ff0000", font=font)
 	del im
 	
-def color(r,g,b):
-	return (r,g,b,0)
+def color(r,*argv):
+	if (r.isdigit()):
+		return (r,argv[0],argv[1],0)
+	else:
+		if r in colors:
+			return colorValues[colors.index(r)]
+		else:
+			return hex2rgb(r)
+ 
+def hex2rgb(v):
+    v = v.lstrip('#')
+    lv = len(v)
+    return tuple(int(v[i:i+lv/3], 16) for i in range(0, lv, lv/3))
 
 class fixelGaussianBlur(ImageFilter.Filter):
     name = "GaussianBlur"
