@@ -5,15 +5,9 @@ from PIL import ImageEnhance
 from PIL import ImageOps
 from PIL import ImageFont
 from PIL import ImageDraw
+from PIL import ImageColor
+import runtime_classes
 
-colors = ["red","blue","green","yellow","pink","orange","purple","gray","white","black"]
-colorValues = [(255,255,0),(0,0,255),(0,255,0),(255,255,0),(255,20,147),(255,140,0),(148,0,211),(139,137,137),(255,255,255),(0,0,0)]
-
-def imageData(infile):
-	return Image.open(infile)
-	
-def imageLoad(indata):
-	return indata.load()
 	
 def saveImage(indata,filetype):
 	outfile = os.path.splitext(indata.name)[0] + "-fixel.jpg"
@@ -101,14 +95,12 @@ def caption(indata,text):
 	im.text((10, 10), text, fill="#ff0000", font=font)
 	del im
 	
-def color(r,*argv):
-	if (r.isdigit()):
-		return (r,argv[0],argv[1],0)
+def color(*argv):
+	if type(argv[0]) is str:
+		rgb = ImageColor.getrgb(argv[0])
 	else:
-		if r in colors:
-			return colorValues[colors.index(r)]
-		else:
-			return hex2rgb(r)
+		rgb = argv
+	return runtime_classes.Color(rgb)
 
 def collage(indata,images,w,h):
 	im = Image.new("RGB", (w, h), "white")
@@ -128,11 +120,6 @@ def collage(indata,images,w,h):
 			widthCount = 0
 			heightCount = heightCount+1
 	indata[0] = im
-
-def hex2rgb(v):
-    v = v.lstrip('#')
-    lv = len(v)
-    return tuple(int(v[i:i+lv/3], 16) for i in range(0, lv, lv/3))
 
 class fixelGaussianBlur(ImageFilter.Filter):
     name = "GaussianBlur"
