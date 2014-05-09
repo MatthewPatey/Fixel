@@ -135,12 +135,17 @@ class Generator(object):
 
 		# check if we need to replace pixel with image pixel access
 		variable_name = id_node.value
-		if self.in_forp and self.in_assignment_left and variable_name in self.forp_image_table:
-			forp_image = self.forp_image_table[variable_name]
-			if self.in_main:
-				variable_name = 'ns.' + variable_name
-			str_list = [forp_image, '[', variable_name, '.x, ', variable_name, '.y', ']']
-			self.string_list.extend(str_list)
+		if self.in_forp and self.in_assignment_left:
+			self.in_assignment_left = False
+
+			if variable_name in self.forp_image_table:
+				forp_image = self.forp_image_table[variable_name]
+				if self.in_main:
+					variable_name = 'ns.' + variable_name
+				str_list = [forp_image, '[', variable_name, '.x, ', variable_name, '.y', ']']
+				self.string_list.extend(str_list)
+			else:
+				self.process_tree(id_node)
 		else:
 			self.process_tree(id_node)
 
@@ -189,13 +194,8 @@ class Generator(object):
 		children = node.children
 		if self.in_forp and len(children) == 3:
 			self.in_assignment_left = True
-			self.process_tree(children[0])
-			self.in_assignment_left = False
-			self.process_tree(children[1])
-			self.process_tree(children[2])
-		else:
-			for child in children:
-				self.process_tree(child)
+		for child in children:
+			self.process_tree(child)
 
 	def process_true(self, node):
 		self.string_list.append('True')

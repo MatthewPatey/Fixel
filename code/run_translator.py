@@ -9,8 +9,9 @@ arg_parser.add_argument('-f', '--fixel-file', type=argparse.FileType('r'))
 namespace = arg_parser.parse_args()
 
 if namespace.fixel_file:
+	path, name = os.path.split(namespace.fixel_file.name)
+
 	source_string = namespace.fixel_file.read()
-	file_name = namespace.fixel_file.name
 	namespace.fixel_file.close()
 
 	pwd = os.getcwd()
@@ -20,7 +21,8 @@ if namespace.fixel_file:
 	result = translator.translate(source_string, namespace.verbose)
 
 	os.chdir(pwd)  # go back to original pwd before writing out file
-	f = open(file_name.split('.')[0] + '.py', 'w')  # todo split around . doesn't work for cases such as ../name.fxl
+	outname = path + name.split('.')[0] + '.py'
+	f = open(outname, 'w')
 	f.write(result)
 	f.close()
 else:
