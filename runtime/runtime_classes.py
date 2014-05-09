@@ -7,6 +7,12 @@ class Image:
 		self.image_data = fixelFunctions.imageData(name)
 		self.pixel_data = None
 
+	def __getattr__(self, item):
+		if item == 'width':
+			return getattr(self.image_data, 'size')[0]
+		elif item == 'height':
+			return getattr(self.image_data, 'size')[1]
+
 	def __getitem__(self, index):
 		self.load_pixel_data_if_needed()
 		return self.pixel_data[index]
@@ -22,3 +28,7 @@ class Image:
 	def set_image_data(self, new_image_data):
 		self.image_data = new_image_data
 		self.pixel_data = None
+
+
+class Pixel:
+	pass

@@ -1,7 +1,6 @@
 import sys
 import lexer
 import ply.yacc as yacc
-import ply.lex as lex
 
 
 class Node:
