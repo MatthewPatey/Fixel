@@ -38,6 +38,9 @@ class GeneratorTests(TestCase):
 	def pixel_test(self):
 		self.run_generator_on_tree(test_strings.pixel_tree, test_strings.pixel_python)
 
+	def forp_test(self):
+		self.run_generator_on_tree(test_strings.forp_tree, test_strings.forp_python)
+
 	def run_generator_on_tree(self, tree_string, expected_python):
 		tree_string_no_ws = tree_string.replace(' ', '')
 		tree, _ = test_utils.string_to_tree(tree_string_no_ws, 0)

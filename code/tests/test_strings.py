@@ -93,6 +93,12 @@ pixel_source = '''\
 @image1[1,1] = @color
 '''
 
+forp_source = '''\
+forp @pixel in @image1:
+	@color = @pixel.color
+	@pixel = @color
+'''
+
 
 '''
 token streams
@@ -123,6 +129,8 @@ color_setting_tokens = [('@', '@'), ('ID', 'red'), ('=', '='), ('ID', 'color'), 
 
 pixel_tokens = [('@', '@'), ('ID', 'color'), ('=', '='), ('@', '@'), ('ID', 'image1'), ('[', '['), ('NUMBER', '1'), (',', ','), ('NUMBER', '1'), (']', ']'), ('NEWLINE', '\n'), ('#', '#'), ('ID', 'grayscale'), ('@', '@'), ('ID', 'image1'), ('NEWLINE', '\n'), ('@', '@'), ('ID', 'image1'), ('[', '['), ('NUMBER', '1'), (',', ','), ('NUMBER', '1'), (']', ']'), ('=', '='), ('@', '@'), ('ID', 'color'), ('NEWLINE', '\n')]
 
+forp_tokens = [('FORP', 'forp'), ('@', '@'), ('ID', 'pixel'), ('IN', 'in'), ('@', '@'), ('ID', 'image1'), (':', ':'), ('NEWLINE', '\n'), ('INDENT', 'INDENT'), ('@', '@'), ('ID', 'color'), ('=', '='), ('@', '@'), ('ID', 'pixel'), ('.', '.'), ('ID', 'color'), ('NEWLINE', '\n'), ('@', '@'), ('ID', 'pixel'), ('=', '='), ('@', '@'), ('ID', 'color'), ('NEWLINE', '\n'), ('DEDENT', 'DEDENT')]
+
 
 '''
 abstract syntax tress
@@ -152,6 +160,8 @@ equality_notequal_tree = '[program [statement_list [statement [expression_statem
 color_setting_tree = '[program [statement_list [statement [expression_statement [expression [assignment_expression [variable_expression [variable [@] [test]]] [=] [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [(] [expression [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [5]]]]]]]] [!=] [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [3]]]]]]]]]]]] [)]]]]]]]]]]]]] [\n]]]]]'
 
 pixel_tree = '[program [statement_list [statement_list [statement_list [statement [expression_statement [expression [assignment_expression [variable_expression [variable [@] [color]]] [=] [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [variable_access_expression [variable_expression [variable_expression [variable [@] [image1]]] [\\[] [parameters [parameters [primary_expression [1]]] [,] [primary_expression [1]]] [\\]]]]]]]]]]]]]]]] [\n]]]] [statement [expression_statement [expression [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [function_expression [#] [grayscale] [parameters [primary_expression [variable_access_expression [variable_expression [variable [@] [image1]]]]]]]]]]]]]]]]] [\n]]]] [statement [expression_statement [expression [assignment_expression [variable_expression [variable_expression [variable [@] [image1]]] [\\[] [parameters [parameters [primary_expression [1]]] [,] [primary_expression [1]]] [\\]]] [=] [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [variable_access_expression [variable_expression [variable [@] [color]]]]]]]]]]]]]]]] [\n]]]]]'
+
+forp_tree = '[program [statement_list [statement [iteration_statement [forp] [variable [@] [pixel]] [in] [variable [@] [image1]] [block [:] [\n] [INDENT] [statement_list [statement_list [statement [expression_statement [expression [assignment_expression [variable_expression [variable [@] [color]]] [=] [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [variable_access_expression [variable_access_expression [variable_expression [variable [@] [pixel]]]] [.] [color]]]]]]]]]]]]]] [\n]]]] [statement [expression_statement [expression [assignment_expression [variable_expression [variable [@] [pixel]]] [=] [assignment_expression [logical_OR_expression [logical_AND_expression [equality_expression [relational_expression [additive_expression [multiplicative_expression [logical_NOT_expression [intermediate_expression [primary_expression [variable_access_expression [variable_expression [variable [@] [color]]]]]]]]]]]]]]]] [\n]]]] [DEDENT]]]]]]'
 
 '''
 python strings
@@ -230,6 +240,15 @@ pixel_python = ('''\
 ns.color = ns.image1[1, 1]
 fixelFunctions.grayscale(ns.image1)
 ns.image1[1, 1] = ns.color
+''', '')
+
+forp_python = ('''\
+ns.pixel = runtime_classes.Pixel()
+for ns.pixel.x in xrange(0, ns.image1.width):
+	for ns.pixel.y in xrange(0, ns.image1.height):
+		ns.pixel.color = ns.image1[ns.pixel.x, ns.pixel.y]
+		ns.color = ns.pixel.color
+		ns.image1[ns.pixel.x, ns.pixel.y] = ns.color
 ''', '')
 
 complex_python = ('''\

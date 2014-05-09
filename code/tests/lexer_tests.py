@@ -37,6 +37,9 @@ class LexerTests(TestCase):
 	def pixel_test(self):
 		self.run_lexer_on_source(test_strings.pixel_source, test_strings.pixel_tokens)
 
+	def forp_test(self):
+		self.run_lexer_on_source(test_strings.forp_source, test_strings.forp_tokens)
+
 	def run_lexer_on_source(self, source, expected_tokens):
 		my_lex = lexer.get_lex()
 		my_lex.input(source)

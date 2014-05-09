@@ -49,13 +49,6 @@ bif_set = {
 ignore = ['#', '@', '']
 
 
-class ForpInfo:
-	def __init__(self):
-		self.image_variable = None
-		self.pixel_variable = None
-		self.in_assignment_left = False
-
-
 class Generator:
 	def __init__(self, tree):
 		self.indent_level = 0
@@ -64,8 +57,10 @@ class Generator:
 		self.function_def_list = []  # output python for rest of program
 		self.string_list = self.main_list
 		self.tree = tree
+		self.forp_pixel_stack = []
+		self.forp_image_table = {}
 		self.in_forp = False
-		self.forp_info = ForpInfo()
+		self.in_assignment_left = False
 		self.process_tree(tree)
 
 	def get_strings(self):
@@ -143,10 +138,11 @@ class Generator:
 
 		# check if we need to replace pixel with image pixel access
 		variable_name = ID_node.value
-		if self.in_forp and self.forp_info.in_assignment_left and variable_name == self.forp_info.pixel_variable:
+		if self.in_forp and self.in_assignment_left and variable_name in self.forp_image_table:
+			forp_image = self.forp_image_table[variable_name]
 			if self.in_main:
 				variable_name = 'ns.' + variable_name
-			str_list = [self.forp_info.image_variable, '[', variable_name, '.x, ', variable_name, '.y', ']']
+			str_list = [forp_image, '[', variable_name, '.x, ', variable_name, '.y', ']']
 			self.string_list.extend(str_list)
 		else:
 			self.process_tree(ID_node)
@@ -155,23 +151,25 @@ class Generator:
 		children = node.children
 		if children[0].value == 'forp':
 			self.in_forp = True
-			#todo add ns when needed for images
 
 			# grab names of two variables
-			pixel = self.forp_info.pixel_variable = children[1].children[1].value
-			image = self.forp_info.image_variable = children[3].children[1].value
-			if self.in_main:
+			image = children[3].children[1].value
+			pixel = children[1].children[1].value
+			self.forp_pixel_stack.append(pixel)
+			self.forp_image_table[pixel] = image
+
+			if self.in_main:  # prepend 'ns.' if needed
 				pixel = 'ns.' + pixel
 				image = 'ns.' + image
 
 			# create the pixel object
-			self.string_list.extend([pixel, ' = runtime_classes.Pixel()\n', ('t' * self.indent_level)])
+			self.string_list.extend([pixel, ' = runtime_classes.Pixel()\n', ('\t' * self.indent_level)])
 
 			# create two loops and set pixel color
 			self.indent_level += 1  # increment for first loop
-			self.string_list.extend(['for ', pixel, '.x in range(0, ', image, '.width):\n', ('\t' * self.indent_level)])
+			self.string_list.extend(['for ', pixel, '.x in xrange(0, ', image, '.width):\n', ('\t' * self.indent_level)])
 			self.indent_level += 1  # increment for second loop
-			self.string_list.extend(['for ', pixel, '.y in range(0, ', image, '.height):\n', ('\t' * self.indent_level)])
+			self.string_list.extend(['for ', pixel, '.y in xrange(0, ', image, '.height):\n', ('\t' * self.indent_level)])
 			self.string_list.extend([pixel, '.color = ', image, '[', pixel, '.x, ', pixel, '.y]\n', ('\t' * self.indent_level)])
 
 			# only process the statement list of the block
@@ -181,7 +179,11 @@ class Generator:
 			# get back to state before the forp loop
 			self.indent_level -= 2
 			del self.string_list[-2:]
-			self.in_forp = False
+			pixel = self.forp_pixel_stack[-1]
+			del self.forp_image_table[pixel]
+			del self.forp_pixel_stack[-1]
+			if len(self.forp_pixel_stack) == 0:
+				self.in_forp = False
 		else:
 			for child in children:
 				self.process_tree(child)
@@ -189,9 +191,9 @@ class Generator:
 	def process_assignment_expression(self, node):
 		children = node.children
 		if self.in_forp and len(children) == 3:
-			self.forp_info.in_assignment_left = True
+			self.in_assignment_left = True
 			self.process_tree(children[0])
-			self.forp_info.in_assignment_left = False
+			self.in_assignment_left = False
 			self.process_tree(children[1])
 			self.process_tree(children[2])
 		else:
