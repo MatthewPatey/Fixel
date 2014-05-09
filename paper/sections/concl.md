@@ -34,8 +34,6 @@ Creating fixel provided a novel opportunity to view programming in a new light. 
 5. A great team makes all the difference!
 
 ### Matt
-I like Vin Diesel!
-
 1. The early the test suite is started the better. Even before we had a working translator to test, thinking about how the translator would be tested helped clarify what needed to be done. Also, having testing working early allowed the whole team to write tests as they work on the translator, which was a lot easier than going back afterwards and trying to figure out how to write tests for a large code base.
 2. It was very important to decide on a general work flow as a team. Developing such a complex software project is a challenge in its own right, and adding source control and collaboration to the mix makes it even more complicated. Having the whole team use the same work pattern makes handling merge conflicts and other source control issues manageable.
 3. Designing the layout for a project as big as this is not a trivial task. Creating a layout that is intuitive, simple, and works well is quite a challenge. Making the project easy to use and test is also very useful. Being able to easily run the translator on an input and see all the intermediate steps of translation makes debugging a lot easier.
