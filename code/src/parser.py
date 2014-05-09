@@ -1,6 +1,6 @@
+import sys
 import lexer
 import ply.yacc as yacc
-import ply.lex as lex
 
 
 class Node:
@@ -120,20 +120,17 @@ def p_selection_statement(p):
 
 def p_iteration_statement(p):
     """
-    iteration_statement     : FOR variable_expression IN primary_expression block
-                            | FOR variable_expression IN primary_expression ',' primary_expression block
+    iteration_statement     : FOR variable IN variable block
+                            | FORP variable IN variable block
                             | WHILE expression block
     """
     if len(p) == 4:
         p[0] = Node('iteration_statement', Node(p[1]), p[2], p[3])
     else:
-        for_node = Node(p[1])
+        forp_node = Node(p[1])
         #id_node = Node(p[2])
         in_node = Node(p[3])
-        if len(p) == 6:
-            p[0] = Node('iteration_statement', for_node, p[2], in_node, p[4], p[5])
-        else:
-            p[0] = Node('iteration_statement', for_node, p[2], in_node, p[4], Node(p[5]), p[6], p[7])
+        p[0] = Node('iteration_statement', forp_node, p[2], in_node, p[4], p[5])
 
 def p_expression(p):
     """
@@ -279,26 +276,33 @@ def p_parameters_eps(p):
     p[0] = p[1]
 
 def p_variable_access_expression(p):
-    """
-    variable_access_expression : variable_expression
-                               | variable_access_expression '.' ID
-                               | variable_access_expression '[' primary_expression ']'
-    """
-    if len(p) == 2:
-        p[0] = Node('variable_access_expression', p[1])
-    elif len(p) == 4:
-        p[0] = Node('variable_access_expression', p[1], Node(p[2]), Node(p[3]))
-    else:
-        p[0] = Node('variable_access_expression', p[1], Node(p[2]), p[3], Node(p[4]))
+	"""
+	variable_access_expression : variable_expression
+	                           | variable_access_expression '.' ID
+	"""
+	if len(p) == 2:
+		p[0] = Node('variable_access_expression', p[1])
+	elif len(p) == 4:
+		p[0] = Node('variable_access_expression', p[1], Node(p[2]), Node(p[3]))
+
 
 def p_variable_expression(p):
-    """
-    variable_expression : '@' ID
-    """
-    at = Node(p[1])
-    iden = Node(p[2])
-    p[0] = Node('variable_expression', at, iden)
+	"""
+	variable_expression : variable
+						| variable_expression '[' parameters ']'
+	"""
+	if len(p) == 2:
+		p[0] = Node('variable_expression', p[1])
+	else:
+		p[0] = Node('variable_expression', p[1], Node(p[2]), p[3], Node(p[4]))
 
+def p_variable(p):
+	"""
+	variable : '@' ID
+	"""
+	at = Node(p[1])
+	iden = Node(p[2])
+	p[0] = Node('variable', at, iden)
 
 def p_epsilon(p):
     """
@@ -306,15 +310,9 @@ def p_epsilon(p):
     """
     p[0] = Node('')
 
-"""
 def p_error(p):
-    if p is None:
-        tok = lex.LexToken()
-        tok.value = '\n'
-        tok.type = 'NEWLINE'
-        yacc.errok()
-        return tok
-"""
+    if p is not None:
+        sys.stderr.write('syntax error for ' + p.type + ' ' + p.value + ' at ' + str(p.lexpos) + '\n')
 
 tokens = lexer.tokens
 

@@ -37,7 +37,7 @@ selection-statement:
 	‘if’ expression block ‘else’ block
 
 iteration-statement:
-	‘for’ variable-expression ‘in’ primary-expression block
+	‘forp’ variable-expression ‘in’ primary-expression block
 	‘for’ variable-expression ‘in’ primary-expression ‘,’ primary-expression block
 	‘while’ expression block
 
@@ -106,10 +106,10 @@ parameters:
 variable-access-expression:
 	variable-expression
 	variable-access-expression '.' ID
-	variable-access-expression '[' primary-expression ']'
 
 variable-expression:
 	‘@’ ID
+	variable_expression '[' parameters ']'
 
 block:
 	‘:’ NEWLINE INDENT statement-list DEDENT

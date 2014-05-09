@@ -20,7 +20,7 @@ if namespace.fixel_file:
 	result = translator.translate(source_string, namespace.verbose)
 
 	os.chdir(pwd)  # go back to original pwd before writing out file
-	f = open(file_name.split('.')[0] + '.py', 'w')
+	f = open(file_name.split('.')[0] + '.py', 'w')  # todo split around . doesn't work for cases such as ../name.fxl
 	f.write(result)
 	f.close()
 else:

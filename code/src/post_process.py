@@ -24,6 +24,7 @@ sys.path.append(os.path.abspath('''
 
 import_fixel_functions = '''
 from runtime import fixelFunctions
+from runtime import runtime_classes
 
 '''
 
@@ -36,10 +37,11 @@ ns = Namespace()
 
 # create variables for each image
 for currentImage in inputImages:
-	image = [fixelFunctions.imageData(currentImage), fixelFunctions.imageLoad(currentImage), currentImage]
+	image = runtime_classes.Image(currentImage)
 	setattr(ns, "image"+str(inputImageCount), image)
 	ns.images.append(image)
 	inputImageCount += 1
+
 '''
 
 main_post_fixel = '''

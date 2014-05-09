@@ -15,6 +15,7 @@ reserved = {
   'and'   : 'AND',
   'or'    : 'OR',
   'not'   : 'NOT',
+  'forp'   : 'FORP',
 }
 
 forbidden = ['del','from','as','elif', 'global', 'with', 'assert', 'pass',

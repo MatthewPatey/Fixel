@@ -4,27 +4,26 @@ keys are nodes that should have spaces printed around them, and values say where
 """
 spaces_table = {
 	',': 2,
-    'return': 2,
-    'if': 2,
-    'for': 2,
-    'in': 3,
-    'while': 2,
-    '=': 3,
-    'or': 3,
-    'and': 3,
-    '!=': 3,
-    '==': 3,
-    '<': 3,
-    '>': 3,
-    '<=': 3,
-    '>=': 3,
-    '+': 3,
-    '-': 3,
-    '*': 3,
-    '/': 3,
-    'not': 2
+	'return': 2,
+	'if': 2,
+	'for': 2,
+	'in': 3,
+	'while': 2,
+	'=': 3,
+	'or': 3,
+	'and': 3,
+	'!=': 3,
+	'==': 3,
+	'<': 3,
+	'>': 3,
+	'<=': 3,
+	'>=': 3,
+	'+': 3,
+	'-': 3,
+	'*': 3,
+	'/': 3,
+	'not': 2
 }
-
 
 bif_set = {
 	'imageData',
@@ -40,20 +39,25 @@ bif_set = {
 	'contrast',
 	'border',
 	'cropit',
-	'caption'
+	'caption',
+	'color'
 }
 
-
 ignore = ['#', '@', '']
+
 
 class Generator:
 	def __init__(self, tree):
 		self.indent_level = 0
 		self.in_main = True
-		self.main_list = []
-		self.function_def_list = []
+		self.main_list = []  # output python for main function
+		self.function_def_list = []  # output python for rest of program
 		self.string_list = self.main_list
 		self.tree = tree
+		self.forp_pixel_stack = []
+		self.forp_image_table = {}
+		self.in_forp = False
+		self.in_assignment_left = False
 		self.process_tree(tree)
 
 	def get_strings(self):
@@ -74,7 +78,7 @@ class Generator:
 
 			if len(node.children) > 0:  # non-leaf
 				# process the children
-			    for child in node.children:
+				for child in node.children:
 					self.process_tree(child)
 			elif node.value not in ignore:  # leaf
 				# if it's a leaf add it to the string list
@@ -111,40 +115,105 @@ class Generator:
 		self.process_tree(parameters)
 		self.string_list.append(')')
 
-	def process_newline(self,node):
+	def process_newline(self, node):
 		self.string_list.append(node.value)
 		for i in range(0, self.indent_level):
 			self.string_list.append('\t')
 
-	def process_indent(self,node):
+	def process_indent(self, node):
 		self.indent_level += 1
 		self.string_list.append('\t')
 
-	def process_dedent(self,node):
+	def process_dedent(self, node):
 		self.indent_level -= 1
 		del self.string_list[-1]  #todo worry about index errors
 
-	def process_variable_expression(self, node):
+	def process_variable(self, node):
+		id_node = node.children[1]
 		if self.in_main:
 			self.string_list.append('ns.')
-		self.process_tree(node.children[1])
-	
+
+		# check if we need to replace pixel with image pixel access
+		variable_name = id_node.value
+		if self.in_forp and self.in_assignment_left and variable_name in self.forp_image_table:
+			forp_image = self.forp_image_table[variable_name]
+			if self.in_main:
+				variable_name = 'ns.' + variable_name
+			str_list = [forp_image, '[', variable_name, '.x, ', variable_name, '.y', ']']
+			self.string_list.extend(str_list)
+		else:
+			self.process_tree(id_node)
+
+	def process_iteration_statement(self, node):
+		children = node.children
+		if children[0].value == 'forp':
+			self.in_forp = True
+
+			# grab names of two variables
+			image = children[3].children[1].value
+			pixel = children[1].children[1].value
+			self.forp_pixel_stack.append(pixel)
+			self.forp_image_table[pixel] = image
+
+			if self.in_main:  # prepend 'ns.' if needed
+				pixel = 'ns.' + pixel
+				image = 'ns.' + image
+
+			# create the pixel object
+			self.string_list.extend([pixel, ' = runtime_classes.Pixel()\n', ('\t' * self.indent_level)])
+
+			# create two loops and set pixel color
+			self.indent_level += 1  # increment for first loop
+			self.string_list.extend(['for ', pixel, '.x in xrange(0, ', image, '.width):\n', ('\t' * self.indent_level)])
+			self.indent_level += 1  # increment for second loop
+			self.string_list.extend(['for ', pixel, '.y in xrange(0, ', image, '.height):\n', ('\t' * self.indent_level)])
+			self.string_list.extend([pixel, '.color = ', image, '[', pixel, '.x, ', pixel, '.y]\n', ('\t' * self.indent_level)])
+
+			# only process the statement list of the block
+			block = children[4]
+			self.process_tree(block.children[3])
+
+			# get back to state before the forp loop
+			self.indent_level -= 2
+			del self.string_list[-2:]
+			pixel = self.forp_pixel_stack[-1]
+			del self.forp_image_table[pixel]
+			del self.forp_pixel_stack[-1]
+			if len(self.forp_pixel_stack) == 0:
+				self.in_forp = False
+		else:
+			for child in children:
+				self.process_tree(child)
+
+	def process_assignment_expression(self, node):
+		children = node.children
+		if self.in_forp and len(children) == 3:
+			self.in_assignment_left = True
+			self.process_tree(children[0])
+			self.in_assignment_left = False
+			self.process_tree(children[1])
+			self.process_tree(children[2])
+		else:
+			for child in children:
+				self.process_tree(child)
+
 	def process_true(self, node):
 		self.string_list.append('True')
-	
+
 	def process_false(self, node):
 		self.string_list.append('False')
-	
-	
-	
+
+
 custom_functions_table = {
 	'program': Generator.process_program,
-    'function_definition': Generator.process_function_definition,
-    'function_expression': Generator.process_function_expression,
-    '\n': Generator.process_newline,
-    'INDENT': Generator.process_indent,
-    'DEDENT': Generator.process_dedent,
-	'variable_expression': Generator.process_variable_expression,
+	'function_definition': Generator.process_function_definition,
+	'function_expression': Generator.process_function_expression,
+	'\n': Generator.process_newline,
+	'INDENT': Generator.process_indent,
+	'DEDENT': Generator.process_dedent,
+	'variable': Generator.process_variable,
+	'iteration_statement': Generator.process_iteration_statement,
+	'assignment_expression': Generator.process_assignment_expression,
 	'true': Generator.process_true,
 	'false': Generator.process_false
 }
