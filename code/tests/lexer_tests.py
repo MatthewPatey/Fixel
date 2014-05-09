@@ -46,7 +46,6 @@ class LexerTests(TestCase):
 
 		for expected_token in expected_tokens:
 			actual_token = my_lex.token()
-			self.assertEqual(expected_token[0], actual_token.type)
-			self.assertEqual(expected_token[1], actual_token.value)
+			self.assertEqual(expected_token, (actual_token.type, actual_token.value))
 
 		self.assertIsNone(my_lex.token())  # make sure token stream was exhausted

@@ -15,10 +15,10 @@ reserved = {
   'and'   : 'AND',
   'or'    : 'OR',
   'not'   : 'NOT',
-  'forp'   : 'FORP',
+  'forp'  : 'FORP',
 }
 
-forbidden = ['del','from','as','elif', 'global', 'with', 'assert', 'pass',
+forbidden = ['del','from','as','elif', 'global', 'with', 'assert', 'pass', 'True', 'False'
 'yield', 'break', 'except', 'import', 'print', 'class', 'exec', 'raise', 'continue', 'finally', 'is', 'def', 'lambda', 'try']
 
 
@@ -45,7 +45,6 @@ tokens = [
     ] + list(reserved.values())
 
 # Tokens produced by simple regexes
-t_COMMENT     = r'//'
 t_STRING      = r'\"([^"])*\"'
 t_DUBEQUAL   = r'=='
 t_LESSTHANEQ  = r'<='
@@ -55,7 +54,11 @@ t_NEWLINE     = r'\r?\n'
 
 # drop blank lines
 def t_blankline(t):
-	r'^[ \t]*\r?\n'
+	r'^[ \t]*(//.*)?\r?\n'
+	pass
+
+def t_COMMENT(t):
+	r'//.*'
 	pass
 
 def t_ID(t):
