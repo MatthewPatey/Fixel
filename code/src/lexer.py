@@ -145,7 +145,7 @@ def t_error(t):
 
 # Build the lexer
 
-class VerboseLexer:
+class VerboseLexer(object):
     def __init__(self, lex):
         self.lex = lex
 

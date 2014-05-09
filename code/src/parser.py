@@ -3,7 +3,7 @@ import lexer
 import ply.yacc as yacc
 
 
-class Node:
+class Node(object):
     def __init__(self, value, *children):
         self.value = value
         self.children = children

@@ -46,7 +46,7 @@ bif_set = {
 ignore = ['#', '@', '']
 
 
-class Generator:
+class Generator(object):
 	def __init__(self, tree):
 		self.indent_level = 0
 		self.in_main = True

@@ -1,7 +1,8 @@
 from runtime import fixelFunctions
 
 
-class Image:
+
+class Image(object):
 	def __init__(self, name):
 		self.name = name
 		self.image_data = fixelFunctions.imageData(name)
