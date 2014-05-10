@@ -3,7 +3,7 @@ from runtime import fixelFunctions
 from runtime import runtime_classes
 
 
-test_file_path = 'Walter_white.jpg'
+test_file_path = 'Walter_White.jpg'
 
 
 class RuntimeTests(TestCase):
