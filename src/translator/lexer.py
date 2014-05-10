@@ -38,7 +38,6 @@ currentIndent = 0
 # a list of all tokens produced by the lexer
 tokens = [
     'ID','NUMBER',
-    'COMMENT',
     'LESSTHANEQ',
     'GREATERTHANEQ', 'NEQUAL',
     'STRING','NEWLINE','INDENT', 'DUBEQUAL', 'DEDENT'
@@ -57,7 +56,7 @@ def t_blankline(t):
 	r'^[ \t]*(//.*)?\r?\n'
 	pass
 
-def t_COMMENT(t):
+def t_comment(t):
 	r'//.*'
 	pass
 
