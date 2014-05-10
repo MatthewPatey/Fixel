@@ -99,6 +99,26 @@ forp @pixel in @image1:
 	@pixel = @color
 '''
 
+big_source = '''\
+@l1 = [@image0, @image1, @image2]
+@i2 = [@image3, @image4, @image5]
+
+for @image in @l1:
+	#invert @image
+
+for @image in @l2:
+	#my_blur @image
+
+invert @image:
+	forp @p in @image:
+		@p = 255 - @p.color
+
+my_blur @image:
+	forp @p1 in @image:
+		forp @p2 in @image:
+			if @p2.y - @p1.y < 5:
+				@p1 = (@p1.color + @p2.color)/2
+'''
 
 '''
 token streams
@@ -265,4 +285,31 @@ def my_collage(image1, image2, image3, image4):
 			fixelFunctions.sharpen(image)
 		else:
 			fixelFunctions.caption(image, "pretty colors")
+''')
+
+big_python = ('''\
+ns.l1 = [ns.image0, ns.image1, ns.image2]
+ns.i2 = [ns.image3, ns.image4, ns.image5]
+for ns.image in ns.l1:
+	invert(ns.image)
+for ns.image in ns.l2:
+	my_blur(ns.image)
+''','''\
+def invert(image):
+	p = runtime_classes.Pixel()
+	for p.x in xrange(0, image.width):
+		for p.y in xrange(0, image.height):
+			p.color = image[p.x, p.y]
+			image[p.x, p.y] = 255 - p.color
+def my_blur(image):
+	p1 = runtime_classes.Pixel()
+	for p1.x in xrange(0, image.width):
+		for p1.y in xrange(0, image.height):
+			p1.color = image[p1.x, p1.y]
+			p2 = runtime_classes.Pixel()
+			for p2.x in xrange(0, image.width):
+				for p2.y in xrange(0, image.height):
+					p2.color = image[p2.x, p2.y]
+					if p2.y - p1.y < 5:
+						image[p1.x, p1.y] = (p1.color + p2.color) / 2
 ''')

@@ -100,12 +100,8 @@ def p_return_statement(p):
 def p_expression_statement(p):
     """
     expression_statement    : expression NEWLINE
-                            | NEWLINE
     """
-    if len(p) == 3:
-        p[0] = Node('expression_statement', p[1], Node(p[2]))
-    else:
-        p[0] = Node('expression_statement', Node(p[1]))
+    p[0] = Node('expression_statement', p[1], Node(p[2]))
 
 def p_selection_statement(p):
     """

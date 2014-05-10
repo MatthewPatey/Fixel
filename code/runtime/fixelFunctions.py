@@ -31,16 +31,16 @@ def stretch(indata,newWidth,newHeight):
 
 def rotate(indata,angle):
 	im = indata.image_data.convert('RGBA')
-	rot = im.rotate(22.2, expand=1)
+	rot = im.rotate(angle, expand=1)
 	white = Image.new('RGBA', rot.size, (255,)*4)
 	im = Image.composite(rot, white, rot)
 	im.convert(indata.image_data.mode)
 	indata.set_image_data(im)
 		
-def overlay(indata,rgb,opacity):
+def overlay(indata,color,opacity):
 	opacity = int(255*float(opacity)/100)	
-	rgb.append(opacity)
-	rgb=tuple(rgb)
+	rgb = list(color.rgb) + [opacity]
+	rgb = tuple(rgb)
 	im = indata.image_data
 	overlayColor = Image.new(mode='RGBA',size=im.size,color=rgb)
 	im.paste(overlayColor, [0,0,im.size[0],im.size[1]], overlayColor)
@@ -81,11 +81,11 @@ def contrast(indata,degree):
 	indata.set_image_data(im)
 	
 def border(indata,border,color):
-	im = ImageOps.expand(indata.image_data,border=border,fill=color)
+	im = ImageOps.expand(indata.image_data,border=border,fill=color.rgb)
 	indata.set_image_data(im)
 
-def cropit(indata,coordinates):
-	im = indata.image_data.crop(coordinates)
+def cropit(indata, left, top, right, bottom):
+	im = indata.image_data.crop((left, top, right, bottom))
 	indata.set_image_data(im)
 	
 def caption(indata,text):

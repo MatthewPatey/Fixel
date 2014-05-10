@@ -11,6 +11,9 @@ class FixelTests(TestCase):
 
 	def complex_test(self):
 		self.run_fixel_on_input(test_strings.complex_source, test_strings.complex_python)
+
+	def big_test(self):
+		self.run_fixel_on_input(test_strings.big_source, test_strings.big_python)
 	
 	def run_fixel_on_input(self, source, expected_python):
 		fixel_output = translator.translate(source)

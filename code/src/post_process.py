@@ -2,8 +2,8 @@ import os
 
 
 def create_program(main_string, functions_string):
-	path_to_fixel_top = os.path.join(os.path.dirname(__file__), '..', '..')
-	return header + repr(path_to_fixel_top) + '))\n' + import_fixel_functions + functions_string + main_pre_fixel + main_string + main_post_fixel
+	path_to_fixel_code = os.path.join(os.path.dirname(__file__), '..')
+	return header + repr(path_to_fixel_code) + '))\n' + import_fixel_functions + functions_string + main_pre_fixel + main_string + main_post_fixel
 
 
 header = '''\
