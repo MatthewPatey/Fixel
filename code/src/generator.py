@@ -58,7 +58,10 @@ class Generator(object):
 		self.forp_image_table = {}
 		self.in_forp = False
 		self.in_assignment_left = False
-		self.process_tree(tree)
+		try:
+			self.process_tree(tree)
+		except AttributeError:
+			print 'Parsing error - review the syntax error(s) above'
 
 	def get_strings(self):
 		return ''.join(self.main_list), ''.join(self.function_def_list)

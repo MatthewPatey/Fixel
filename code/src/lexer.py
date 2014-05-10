@@ -82,6 +82,10 @@ def t_NUMBER(t):
 # Ignored characters
 t_ignore = " "
 
+t_dedentCount_ignore = " "
+
+t_eofDedent_ignore = " "
+
 # count number of indents
 def t_INDENT(t):
 	r'^[\t]+(?=[^ \t\r\n])'
@@ -145,6 +149,11 @@ def t_error(t):
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
 
+def t_dedentCount_error(t):
+    pass
+
+def t_eofDedent_error(t):
+    pass
 
 # Build the lexer
 
