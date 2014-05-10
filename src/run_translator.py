@@ -1,6 +1,6 @@
 import argparse
 import os
-from src import translator
+from translator import translator
 
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument('-v', '--verbose', help='prints every intermediate step in translation',

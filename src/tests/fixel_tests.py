@@ -1,7 +1,7 @@
 import difflib
 from unittest import TestCase
-from src import translator
-from src import post_process
+from translator import translator
+from translator import post_process
 import test_strings
 
 

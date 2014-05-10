@@ -1,7 +1,7 @@
 import difflib
 from unittest import TestCase
 import mock
-from src import parser
+from translator import parser
 import test_utils
 import test_strings
 

@@ -1,5 +1,5 @@
 from unittest import TestCase
-from src import lexer
+from translator import lexer
 import test_strings
 
 

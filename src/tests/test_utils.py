@@ -1,6 +1,6 @@
 import mock
-from src import lexer
-from src import parser
+from translator import lexer
+from translator import parser
 
 
 def get_mock_token(type, value):

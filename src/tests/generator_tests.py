@@ -1,5 +1,5 @@
 from unittest import TestCase
-from src import generator
+from translator import generator
 import test_strings
 import test_utils
 
