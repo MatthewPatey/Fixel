@@ -1,73 +1,75 @@
-import os, sys, math
+import os, math, sys
 from PIL import Image
 from PIL import ImageFilter
 from PIL import ImageEnhance
 from PIL import ImageOps
 from PIL import ImageFont
 from PIL import ImageDraw
+from PIL import ImageColor
+import runtime_classes
 
-colors = ["red","blue","green","yellow","pink","orange","purple","gray","white","black"]
-colorValues = [(255,255,0),(0,0,255),(0,255,0),(255,255,0),(255,20,147),(255,140,0),(148,0,211),(139,137,137),(255,255,255),(0,0,0)]
-
-def imageData(infile):
-	return Image.open(infile)
-	
-def imageLoad(infile):
-	im = Image.open(infile)
-	return im.load()
 	
 def saveImage(indata,filetype):
-	outfile = os.path.splitext(indata[2])[0] + "-fixel.jpg"
-	indata[0].convert('RGB').save(outfile,filetype)
+	outfile = os.path.splitext(indata.name)[0] + "-fixel.jpg"
+	indata.image_data.convert('RGB').save(outfile,filetype)
 
 def grayscale(indata):
-	pixelmap = indata.load()
-	im = indata[0].convert("L")
-	
+	im = indata.image_data.convert("L").convert("RGB")
+	indata.set_image_data(im)
+
 def scale(indata,ratio):
-	im = indata[0]
-	size = im.size[0]*ratio,im.size[1]*ratio
-	im.resize(size, Image.ANTIALIAS)
-	indata[0] = im
+	im = indata.image_data
+	try:
+		size = im.size[0]*ratio,im.size[1]*ratio
+	except:
+		print "\nNo ratio has been entered to scale the image '"+indata.name+"' to. Please add a ratio to your call to the Fixel scale function.\n"
+		sys.exit(0)
+	im = im.resize(size, Image.ANTIALIAS)
+	indata.set_image_data(im)
 
 def stretch(indata,newWidth,newHeight):
-	im = indata[0]
-	size = newWidth,newHeight
+	im = indata.image_data
+	try:
+		newWidth += 1;
+		newHeight += 1;
+	except:
+		print "\nEither the height or the width you specified in your call to the Fixel stretch() function is not an integer. Please make sure both are integers and try again.\n"
+		sys.exit(0)
 	newIm = im.resize(size, Image.ANTIALIAS)
-	indata[0] = newIm
+	indata.set_image_data(newIm)
 
 def rotate(indata,angle):
-	im = indata.convert('RGBA')
-	rot = im.rotate(22.2, expand=1)
+	im = indata.image_data.convert('RGBA')
+	rot = im.rotate(angle, expand=1)
 	white = Image.new('RGBA', rot.size, (255,)*4)
 	im = Image.composite(rot, white, rot)
-	im.convert(indata.mode)
-	indata[0] = im
+	im.convert(indata.image_data.mode)
+	indata.set_image_data(im)
 		
-def overlay(indata,rgb,opacity):
+def overlay(indata,color,opacity):
 	opacity = int(255*float(opacity)/100)	
-	rgb.append(opacity)
-	rgb=tuple(rgb)
-	im = indata[0]
+	rgb = list(color.rgb) + [opacity]
+	rgb = tuple(rgb)
+	im = indata.image_data
 	overlayColor = Image.new(mode='RGBA',size=im.size,color=rgb)
 	im.paste(overlayColor, [0,0,im.size[0],im.size[1]], overlayColor)
-	indata[0] = im
+	indata.set_image_data(im)
 
 def blur(indata,degree):
 	if (degree>10):
 		degree = 10
 	elif (degree<0):
 		degree=0
-	im = indata[0].filter(fixelGaussianBlur(radius=blurDegree))
-	indata[0] = im
-	
+	im = indata.image_data.filter(fixelGaussianBlur(radius=degree))
+	indata.set_image_data(im)
+
 def sharpen(indata,degree):
 	if (degree>10):
 		degree = 10
 	elif (degree<0):
 		degree=0
-	im = ImageEnhance.Sharpness(indata[0]).enhance(degree)
-	indata[0] = im
+	im = ImageEnhance.Sharpness(indata.image_data).enhance(degree)
+	indata.set_image_data(im)
 	
 def brighten(indata,degree):
 	degree=(degree/10)+1
@@ -75,8 +77,8 @@ def brighten(indata,degree):
 		degree = 2
 	elif (degree<0):
 		degree=0
-	im = ImageEnhance.Brightness(indata[0]).enhance(degree)
-	indata[0] = im
+	im = ImageEnhance.Brightness(indata.image_data).enhance(degree)
+	indata.set_image_data(im)
 
 def contrast(indata,degree):
 	degree=(degree/10)+1
@@ -84,32 +86,30 @@ def contrast(indata,degree):
 		degree = 2
 	elif (degree<0):
 		degree=0
-	im = ImageEnhance.Contrast(indata[0]).enhance(2)
-	indata[0] = im
+	im = ImageEnhance.Contrast(indata.image_data).enhance(2)
+	indata.set_image_data(im)
 	
 def border(indata,border,color):
-	im = ImageOps.expand(indata[0],border=border,fill=color)
-	indata[0] = im
+	im = ImageOps.expand(indata.image_data,border=border,fill=color.rgb)
+	indata.set_image_data(im)
 
-def cropit(indata,coordinates):
-	im = indata[0].crop(coordinates)
-	indata[0] = im
+def cropit(indata, left, top, right, bottom):
+	im = indata.image_data.crop((left, top, right, bottom))
+	indata.set_image_data(im)
 	
 def caption(indata,text):
 	font_file_path = os.path.join(os.path.dirname(__file__), "HelveticaNeue.ttc")
 	font = ImageFont.truetype(font_file_path, 100)
-	im = ImageDraw.Draw(indata[0])
+	im = ImageDraw.Draw(indata.image_data)
 	im.text((10, 10), text, fill="#ff0000", font=font)
 	del im
 	
-def color(r,*argv):
-	if (r.isdigit()):
-		return (r,argv[0],argv[1],0)
+def color(*argv):
+	if type(argv[0]) is str:
+		rgb = ImageColor.getrgb(argv[0])
 	else:
-		if r in colors:
-			return colorValues[colors.index(r)]
-		else:
-			return hex2rgb(r)
+		rgb = argv
+	return runtime_classes.Color(rgb)
 
 def collage(indata,images,w,h):
 	im = Image.new("RGB", (w, h), "white")
@@ -128,11 +128,6 @@ def collage(indata,images,w,h):
 			widthCount = 0
 			heightCount = heightCount+1
 	indata[0] = im
-
-def hex2rgb(v):
-    v = v.lstrip('#')
-    lv = len(v)
-    return tuple(int(v[i:i+lv/3], 16) for i in range(0, lv, lv/3))
 
 class fixelGaussianBlur(ImageFilter.Filter):
     name = "GaussianBlur"

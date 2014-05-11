@@ -31,6 +31,9 @@ from runtime import runtime_classes
 
 main_pre_fixel = '''
 inputImages = sys.argv[1:]
+if len(inputImages) < 1:
+	print "\nNo images were used as arguments. Please append the paths to the images you'd like to use as arguments and run this Fixel program again.\n"
+	sys.exit(0)
 inputImageCount = 0
 Namespace = type('Namespace', (object,), {'images': []})  # cleaner than having to declare a class
 ns = Namespace()

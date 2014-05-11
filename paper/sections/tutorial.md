@@ -42,15 +42,15 @@ The result of this program is a new image file, input-image-fixel.jpg, which is 
 
 Part of Fixel’s appeal is its ability to work with multiple images within a single instance of a filter program. To perform an action on multiple images, simply stack them on top of on another and run functions on them:
 
+	#grayscale @image0
 	#grayscale @image1
 	#grayscale @image2
-	#grayscale @image3
 	------------
 	gray-multi.fxl
 
 To run this program, the user executes the command:
 
-	> ./fixel gray-multi.fxl image1.jpg image2.gif image3.png
+	> ./fixel gray-multi.fxl image0.jpg image1.gif image2.png
 
 This program will result in the three input images passed as arguments through the execution command being reproduced in grayscale, in the same directory as their original name with ‘-fixel’ appended to the file name.
 
@@ -58,18 +58,18 @@ As can be seen from this execution command, for every image defined in a Fixel p
 
 Additionally, the images need not have the same file extension within a single Fixel program—so long as the files are of valid image format, they can be used with Fixel.
 
-Variables can only be used to declare non-image types, like integers, strings, lists and so on. They also cannot use the syntax reserved for image variables (`image1`,`image2`, and so on). These variables may be of the types listed later in the Variables section of the Tutorial and in the accompanying Language Reference Manual.
+Variables can only be used to declare non-image types, like integers, strings, lists and so on. They also cannot use the syntax reserved for image variables (`image0`,`image1`, and so on). These variables may be of the types listed later in the Variables section of the Tutorial and in the accompanying Language Reference Manual.
 
 ### Hello World
 Fixel’s Hello World program takes an image as input and overlays the text “Hello, World!” over the photo. This program demonstrates using Fixel to manipulate an input image using one of Fixel’s built-in functions, `#caption`.
 
-	#caption @image1, “Hello, World!”
+	#caption @image0, “Hello, World!”
 	------------
 	hello-world.fxl
 
 To run this program, the user executes the command:
 
-	> ./fixel hello-world.fxl image1.jpg
+	> ./fixel hello-world.fxl image0.jpg
 
 The input and resulting output photos of this program are shown below:
 
@@ -79,29 +79,29 @@ How does this program work? Let’s deconstruct the single code statement made i
 
 The first word is the function call, denoted by the `#` symbol. Because `#caption` is a built-in function (which are described in detail in the next section) it needs no function definition. 
 
-The next word, `@image1` refers to the input image, passed to the program during execution. The interpreter will throw an error during runtime if a program refers to `@image2` without passing in two input images.
+The next word, `@image0` refers to the input image, passed to the program during execution. The interpreter will throw an error during runtime if a program refers to `@image1` without passing in two input images.
 
 The final aspect of the code statement is the string in quotes, “Hello, World!” The built-in function `#caption` takes in an argument, the string to be overlaid on the image. Arguments to a function are passed as comma-separated statements. If we wanted to overlay a different text with the `#caption` function, we could write:
 
-	#caption @image1, “Hey!”
+	#caption @image0, “Hey!”
 
 or
 
-	#caption @image1, “?!?!!@()#$*#@”
+	#caption @image0, “?!?!!@()#$*#@”
 
 to display different text on the image.
 
 To further demonstrate the functionality presented in `hello-world.fxl`, let’s caption multiple images in one Fixel program:
 
-	#caption @image1, “Hello, World!”
-	#caption @image2, “Hello, again.”
-	#caption @image3, “Hi!”
+	#caption @image0, “Hello, World!”
+	#caption @image1, “Hello, again.”
+	#caption @image2, “Hi!”
 	------------
 	hello-world-multi.fxl
 
 We run this program by executing:
 
-	> ./fixel hello-world-multi.fxl image1.jpg image2.jpg image3.jpg
+	> ./fixel hello-world-multi.fxl image0.jpg image2.jpg image3.jpg
 
 The resulting images appear as follows:
 
@@ -114,7 +114,7 @@ As seen in `hello-world.fxl`, functions are invoked using the `#` symbol.
 
 ### Grayscale (a function without arguments)
 
-	#grayscale @image1
+	#grayscale @image0
 	------------
 	gray.fxl
 
@@ -122,7 +122,7 @@ Grayscale is a simple built-in function that converts an image to a grayscale im
 
 ### Overlay (a function with multiple arguments)
 
-	#overlay @image1, color(255,0,0), 10
+	#overlay @image0, color(255,0,0), 10
 	------------
 	red-overlay.fxl
 
@@ -133,16 +133,16 @@ Overlay allows the user to overlay an image with a color fill. The intensity of 
 ### Full List of Built-in Functions
 Presented here are basic instructions on how to call the functions built into Fixel on inputted images. For an explanation of what each of these functions does, please consult the white paper.
 
-+ Grayscale — `#grayscale @image1`
-+ Overlay — `#overlay @image1 [r,g,b],opacity`
-+ Brightness — `#brighten @image1 percentage`
-+ Contrast — `#contrast @image1 percentage`
-+ Border — `#border @image1 size, color`
-+ Crop — `#cropit @image1 coordinates`
-+ Scale — `#scale @image1 percentage`
++ Grayscale — `#grayscale @image0`
++ Overlay — `#overlay @image0 [r,g,b],opacity`
++ Brightness — `#brighten @image0 percentage`
++ Contrast — `#contrast @image0 percentage`
++ Border — `#border @image0 size, color`
++ Crop — `#cropit @image0 coordinates`
++ Scale — `#scale @image0 percentage`
 + Collage — `#collage outputImage, listOfImages, width, height`
-+ Rotate — `#rotate @image1 angle`
-+ Caption — `#caption @image1 text`
++ Rotate — `#rotate @image0 angle`
++ Caption — `#caption @image0 text`
 
 ## Primitives and Colors
 Fixel supports the following primitive types: `int`, `double`, `boolean`, `string`, and `image` type. These are useful for using data (like dimensions) from one image to make changes to another.
@@ -154,20 +154,20 @@ Fixel can also be used to read certain attributes of images and then use those v
 
 Say, for instance, we’d like to write a program that takes two images with different dimensions and stretch or compress them to be double the height and width of a third image. In that case, our program would look like this:
 
-	@desiredWidth = @image1.width*2
-	@desiredHeight = @image1.height*2
-	@imagesToStandardize = [@image2,@image3]
+	@desiredWidth = @image0.width*2
+	@desiredHeight = @image0.height*2
+	@imagesToStandardize = [@image1,@image2]
 
 	for @currentImage in @imagesToStandardize:
 			#stretch @desiredWidth, @desiredHeight, @currentImage
 	------------
 	standardizing-dimensions.fxl
 
-`standardizing-dimensions.fxl` first instantiates variables for the three input images. It then reads the height and width of `image1` into variables called `desiredWidth` and `desiredHeight`, doubling the value immediately using the `*` operator. Next, it loads the images to standardize into a list variable and cycles through them using a `for` loop to stretch them to double the dimensions of `image1`. This could also be done without the `for` loop, but it is used here to illustrate a sample syntax for this kind of operation. `for` and `if` statements will be explored further in the “Control Flow” section.
+`standardizing-dimensions.fxl` first instantiates variables for the three input images. It then reads the height and width of `image0` into variables called `desiredWidth` and `desiredHeight`, doubling the value immediately using the `*` operator. Next, it loads the images to standardize into a list variable and cycles through them using a `for` loop to stretch them to double the dimensions of `image0`. This could also be done without the `for` loop, but it is used here to illustrate a sample syntax for this kind of operation. `for` and `if` statements will be explored further in the “Control Flow” section.
 
 We run this program by executing:
 
-	> ./fixel standardizing-dimensions.fxl image1.jpg image2.jpg image3.jpg
+	> ./fixel standardizing-dimensions.fxl image0.jpg image1.jpg image2.jpg
 
 The resulting images appear as follows:
 
@@ -182,7 +182,7 @@ Custom functions are easy to design and implement. They are defined by beginning
  
 Here’s a sample program that first establishes a function that stretches an image to be the size of indicated by its input arguments, then converts it to grayscale and adds a caption that says `“Welcome to My Computer!”`:
 
-	#generateWallpaper @image1, 1600, 1200
+	#generateWallpaper @image0, 1600, 1200
 
 	generateWallpaper @imageName, @desktopWidth, @desktopHeight:
 			#stretch @imageName, @desktopWidth, @desktopHeight
@@ -191,11 +191,11 @@ Here’s a sample program that first establishes a function that stretches an im
 	------------
 	creating-wallpapers.fxl
 
-We are first defining the function generateWallpaper and establishing that it has two input arguments: desktopWidth and desktopHeight. We then stack three built-in functions within `#generateWallpaper`. The first, `stretch`, passes the two input arguments as its own. The other two, `grayscale` and `caption` have static input arguments. Once we’ve defined our custom function, we then can apply it to `@image1` using the desired parameters (in this case, a width of `1600` and a height of `1200`).
+We are first defining the function generateWallpaper and establishing that it has two input arguments: desktopWidth and desktopHeight. We then stack three built-in functions within `#generateWallpaper`. The first, `stretch`, passes the two input arguments as its own. The other two, `grayscale` and `caption` have static input arguments. Once we’ve defined our custom function, we then can apply it to `@image0` using the desired parameters (in this case, a width of `1600` and a height of `1200`).
 
 We run this program by executing:
 
-	> ./fixel creating-wallpapers.fxl image1.jpg
+	> ./fixel creating-wallpapers.fxl image0.jpg
 
 The resulting images appear as follows:
 
