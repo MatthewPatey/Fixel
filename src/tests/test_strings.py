@@ -263,10 +263,9 @@ ns.image1[1, 1] = ns.color
 ''', '')
 
 forp_python = ('''\
-ns.pixel = runtime_classes.Pixel()
+ns.pixel = runtime_classes.Pixel(ns.image1)
 for ns.pixel.x in xrange(0, ns.image1.width):
 	for ns.pixel.y in xrange(0, ns.image1.height):
-		ns.pixel.color = ns.image1[ns.pixel.x, ns.pixel.y]
 		ns.color = ns.pixel.color
 		ns.image1[ns.pixel.x, ns.pixel.y] = ns.color
 ''', '')
@@ -296,20 +295,17 @@ for ns.image in ns.l2:
 	my_blur(ns.image)
 ''','''\
 def invert(image):
-	p = runtime_classes.Pixel()
+	p = runtime_classes.Pixel(image)
 	for p.x in xrange(0, image.width):
 		for p.y in xrange(0, image.height):
-			p.color = image[p.x, p.y]
 			image[p.x, p.y] = 255 - p.color
 def my_blur(image):
-	p1 = runtime_classes.Pixel()
+	p1 = runtime_classes.Pixel(image)
 	for p1.x in xrange(0, image.width):
 		for p1.y in xrange(0, image.height):
-			p1.color = image[p1.x, p1.y]
-			p2 = runtime_classes.Pixel()
+			p2 = runtime_classes.Pixel(image)
 			for p2.x in xrange(0, image.width):
 				for p2.y in xrange(0, image.height):
-					p2.color = image[p2.x, p2.y]
 					if p2.y - p1.y < 5:
 						image[p1.x, p1.y] = (p1.color + p2.color) / 2
 ''')

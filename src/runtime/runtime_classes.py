@@ -1,6 +1,16 @@
 import PIL.Image
 
-Pixel = type('Pixel', (object,), {})
+class Pixel(object):
+	def __init__(self, image):
+		self.image = image
+		self.x = 0
+		self.y = 0
+
+	def __getattr__(self, item):
+		if item == 'color':
+			return self.image[self.x, self.y]
+		else:
+			raise AttributeError
 
 
 class Image(object):
@@ -11,9 +21,11 @@ class Image(object):
 
 	def __getattr__(self, item):
 		if item == 'width':
-			return getattr(self.image_data, 'size')[0]
+			return self.image_data.size[0]
 		elif item == 'height':
-			return getattr(self.image_data, 'size')[1]
+			return self.image_data.size[1]
+		else:
+			raise AttributeError
 
 	def __getitem__(self, index):
 		self.load_pixel_data_if_needed()
@@ -44,6 +56,16 @@ class Color(object):
 
 	def __getitem__(self, index):
 		return self.rgb[index]
+
+	def __getattr__(self, item):
+		if item == 'r':
+			return self.rgb[0]
+		elif item == 'g':
+			return self.rgb[1]
+		elif item == 'b':
+			return self.rgb[2]
+		else:
+			return AttributeError
 
 	def __add__(self, right):
 		if type(right) is Color:

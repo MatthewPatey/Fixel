@@ -165,14 +165,13 @@ class Generator(object):
 				image = 'ns.' + image
 
 			# create the pixel object
-			self.string_list.extend([pixel, ' = runtime_classes.Pixel()\n', ('\t' * self.indent_level)])
+			self.string_list.extend([pixel, ' = runtime_classes.Pixel(', image, ')\n', ('\t' * self.indent_level)])
 
 			# create two loops and set pixel color
 			self.indent_level += 1  # increment for first loop
 			self.string_list.extend(['for ', pixel, '.x in xrange(0, ', image, '.width):\n', ('\t' * self.indent_level)])
 			self.indent_level += 1  # increment for second loop
 			self.string_list.extend(['for ', pixel, '.y in xrange(0, ', image, '.height):\n', ('\t' * self.indent_level)])
-			self.string_list.extend([pixel, '.color = ', image, '[', pixel, '.x, ', pixel, '.y]\n', ('\t' * self.indent_level)])
 
 			# only process the statement list of the block
 			block = children[4]

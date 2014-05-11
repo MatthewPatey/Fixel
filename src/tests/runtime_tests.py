@@ -49,3 +49,13 @@ class RuntimeTests(TestCase):
 		self.assertEqual(color3[1], 11)
 		self.assertEqual(color3[2], 24)
 
+		self.assertEqual(color1.r, color1[0])
+		self.assertEqual(color1.g, color1[1])
+		self.assertEqual(color1.b, color1[2])
+
+	def pixel_test(self):
+		test_image = runtime_classes.Image(test_file_path)
+		p = runtime_classes.Pixel(test_image)
+		p.x = 45
+		p.y = 101
+		self.assertEqual(p.color.rgb, test_image[45, 101].rgb)
