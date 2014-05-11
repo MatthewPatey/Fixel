@@ -174,14 +174,18 @@ class Generator(object):
 			if variable_name in self.forp_image_table:
 				forp_image = self.forp_image_table[variable_name] #assigns image based on pixel
 				if self.in_main:
-					variable_name = 'ns.' + variable_name
-				str_list = [forp_image, '[', variable_name, '.x, ', variable_name, '.y', ']']
+					variable_name = 'ns.' + variable_name #prepend 'ns.' if necessary
+				str_list = [forp_image, '[', variable_name, '.x, ', variable_name, '.y', ']'] #changes form to allow for pixel access in python
 				self.string_list.extend(str_list)
 			else:
 				self.process_tree(id_node)
 		else:
 			self.process_tree(id_node)
 
+	
+	'''
+	process iteration statements
+	'''
 	def process_iteration_statement(self, node):
 		children = node.children
 		if children[0].value == 'forp':
