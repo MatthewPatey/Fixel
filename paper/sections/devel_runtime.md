@@ -9,15 +9,3 @@ fixe program_name.fxl [image_arguments]
 
 Fixel:
 
-#!/usr/bin/env python
-
-import os
-import subprocess
-import sys
-
-fixel_top = os.path.dirname(__file__)
-subprocess.call(['python', os.path.join(fixel_top, 'src', 'run_translator.py'), '-f', sys.argv[1]])
-
-path, name = os.path.split(sys.argv[1])
-outname = path + name.split('.')[0] + '.py'
-subprocess.call(['python', outname] + sys.argv[2:]) 

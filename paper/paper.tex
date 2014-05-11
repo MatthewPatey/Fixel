@@ -58,12 +58,13 @@ COMS W4115 Final Report}
 \newpage
 \tableofcontents
 \newpage
-\input{./sections/whitepaper.tex}
-\input{./sections/lrm.tex}
+%\input{./sections/whitepaper.tex}
+%\input{./sections/lrm.tex}
 \input{./sections/tutorial.tex}
 \input{./sections/projectplan.tex}
 \input{./sections/lang_evol.tex}
 \input{./sections/devel_runtime.tex}
+\lstinputlisting[language=Python]{../fixel}
 \input{./sections/test_plan.tex}
 \input{./sections/concl.tex}
 
@@ -73,22 +74,22 @@ COMS W4115 Final Report}
 \section{Source Code}
 	\subsection{Scripts}
 		\lstinputlisting[language=Python]{../fixel}
-		\lstinputlisting[language=Python]{../code/run_tests.py}
-		\lstinputlisting[language=Python]{../code/run_test_utils.py}
+		\lstinputlisting[language=Python]{../src/run_tests.py}
+		\lstinputlisting[language=Python]{../src/run_translator.py}
+		\lstinputlisting[language=Python]{../src/run_test_utils.py}
     \subsection{Lexer}
-        \lstinputlisting[language=Python]{../code/src/lexer.py} 
+        \lstinputlisting[language=Python]{../src/translator/lexer.py} 
     \subsection{Parser}
-        \lstinputlisting[language=Python]{../code/src/parser.py}
-%        \lstinputlisting[language=Python]{../code/src/parsetab.py}
+        \lstinputlisting[language=Python]{../src/translator/parser.py}
     \subsection{Code Generation}
-        \lstinputlisting[language=Python]{../code/src/generator.py}
-        \lstinputlisting[language=Python]{../code/src/post_process.py}
-        \lstinputlisting[language=Python]{../code/src/translator.py}
+        \lstinputlisting[language=Python]{../src/translator/generator.py}
+        \lstinputlisting[language=Python]{../src/translator/post_process.py}
+        \lstinputlisting[language=Python]{../src/translator/translator.py}
     \subsection{Testing}
-        \lstinputlisting[language=Python]{../code/tests/lexer_tests.py}
-        \lstinputlisting[language=Python]{../code/tests/parser_tests.py}
-        \lstinputlisting[language=Python]{../code/tests/generator_tests.py}
-        \lstinputlisting[language=Python]{../code/tests/fixel_tests.py}
-%        \lstinputlisting[language=Python]{../code/tests/test_strings.py}
-        \lstinputlisting[language=Python]{../code/tests/test_utils.py}
+        \lstinputlisting[language=Python]{../src/tests/lexer_tests.py}
+        \lstinputlisting[language=Python]{../src/tests/parser_tests.py}
+        \lstinputlisting[language=Python]{../src/tests/generator_tests.py}
+        \lstinputlisting[language=Python]{../src/tests/fixel_tests.py}
+        \lstinputlisting[language=Python]{../src/tests/test_strings.py}
+        \lstinputlisting[language=Python]{../src/tests/test_utils.py}
 \end{document}
