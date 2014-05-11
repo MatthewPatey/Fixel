@@ -17,13 +17,18 @@ if namespace.fixel_file:
 	pwd = os.getcwd()
 	script_dir = os.path.dirname(__file__)  # directory this script is in
 	os.chdir(script_dir)  # change directory so parse outputs are in right place
+	try:
+		result = translator.translate(source_string, namespace.verbose)
+		os.chdir(pwd)  # go back to original pwd before writing out file
+		outname = path + name.split('.')[0] + '.py'
+		f = open(outname, 'w')
+		f.write(result)
+		f.close()
+	except translator.parser.ParsingError as e:
+		print e.value
 
-	result = translator.translate(source_string, namespace.verbose)
-
-	os.chdir(pwd)  # go back to original pwd before writing out file
-	outname = path + name.split('.')[0] + '.py'
-	f = open(outname, 'w')
-	f.write(result)
-	f.close()
 else:
-	result = translator.translate(verbose=namespace.verbose)
+	try:
+		result = translator.translate(verbose=namespace.verbose)
+	except translator.parser.ParsingError as e:
+		print e.value
