@@ -20,6 +20,11 @@ class Node(object):
                 s += indent + child.traverse(i+1)
         return s
 
+class ParsingError(Exception):
+     def __init__(self, value):
+         self.value = value
+     def __str__(self):
+         return repr(self.value)
 
 def p_program(p):
     """
@@ -309,6 +314,7 @@ def p_epsilon(p):
 def p_error(p):
     if p is not None:
         sys.stderr.write('syntax error for ' + p.type + ' ' + p.value + ' at ' + str(p.lexpos) + '\n')
+        raise ParsingError('Parsing error - review the syntax error(s) above')
 
 tokens = lexer.tokens
 
