@@ -1,8 +1,10 @@
 import ply.lex as lex
 import re
 
-
-# reserved words that translate straight to tokens
+'''
+reserved words that translate straight to tokens
+correspond to the reserved words in fixel
+'''
 reserved = {
   'for'   : 'FOR',
   'while' : 'WHILE',
@@ -18,24 +20,41 @@ reserved = {
   'forp'  : 'FORP',
 }
 
+'''
+reserved words that throw an exception
+these words are forbidden since they are reserved words in python
+'''
 forbidden = ['del','from','as','elif', 'global', 'with', 'assert', 'pass', 'True', 'False'
 'yield', 'break', 'except', 'import', 'print', 'class', 'exec', 'raise', 'continue', 'finally', 'is', 'def', 'lambda', 'try']
 
 
-# declare new state for dedent analysis
+
+'''
+declare new state for dedent analysis and the various cases
+'''
 states = (
 	('dedentCount', 'exclusive'),
     ('leadingWhitespace', 'inclusive'),
 	('eofDedent', 'exclusive')
 )
 
+'''
+correspond to the literals in fixel
+'''
 literals = ['#', '@', '+', '-', '*', '/', '=', '(', ')', 
             '[', ']', ':', ';', '<', '>', ',', '.']
             
+'''
+used to help maintain state for indent and dedent calculations
+necessary to determine state transitions
+'''
 globalIndent = 0
 currentIndent = 0
 
-# a list of all tokens produced by the lexer
+'''
+a list of all tokens produced by the lexer
+will be matched to various patterns
+'''
 tokens = [
     'ID','NUMBER',
     'LESSTHANEQ',
@@ -56,10 +75,12 @@ def t_blankline(t):
 	r'^[ \t]*(//.*)?\r?\n'
 	pass
 
+#recognize comments
 def t_comment(t):
 	r'//.*'
 	pass
 
+#match variable ids, stores the whole name
 def t_ID(t):
 	r'[a-zA-Z_][a-zA-Z0-9_]*'
 	if t.value in reserved:
@@ -105,7 +126,10 @@ def t_INDENT(t):
 		globalIndent += 1
 		return t
 
-# match anything without consuming, keep returning DEDENT's until we've balanced
+'''
+match anything without consuming, keep returning DEDENT's until we've balanced
+accounts for the fact that it may be necessary to return multiple dedents
+'''
 def t_dedentCount_empty(t):
 	r'(?=.|\n)'
 	global globalIndent
@@ -120,6 +144,11 @@ def t_dedentCount_empty(t):
 		else:
 			t.lexer.begin('INITIAL')
 
+
+'''
+enteres a new state to allow the return of necessary dedents at the end of the file
+returns newline
+'''
 def t_leadingWhitespace_EOF(t):
 	r'\r?\n\Z'
 	t.lexer.lexpos -= 1  # rollback lexpos so there's something to match for subsequent DEDENT's
@@ -127,12 +156,18 @@ def t_leadingWhitespace_EOF(t):
 	t.type = 'NEWLINE'
 	return t
 
+'''
+accounts for the case when the line is dedented all the way to the left
+'''
 def t_leadingWhitespace_leftmostDEDENT(t):
 	r'^(?=[^ \t\r\n])'
 	global currentIndent
 	currentIndent = 0
 	t.lexer.begin('dedentCount')
 
+'''
+returns dedent at the end of the file until balanced
+'''
 def t_eofDedent_DEDENT(t):
 	r'(?=.|\n)'
 	global globalIndent
@@ -144,6 +179,9 @@ def t_eofDedent_DEDENT(t):
 		t.lexer.lexpos += 1  # undo rollback so we don't consume last \n twice
 
 
+'''
+deals with illegal character
+'''
 def t_error(t):
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
@@ -188,28 +226,4 @@ def get_lex(verbose=False):
         return verbose_lexer
     else:
         return my_lex
-
-'''
-lexer = lex.lex(reflags=re.MULTILINE)
-data=
-@image1
-@image
-	#grayscale1
-	#grayscale
-		#grayscale2
-	@image2
-#grayscale3
-	@image3
-		#grayscale4
-@image4
-@image5
-
-
-lexer.input(data)
-#tokenize
-while True:
-	tok = lexer.token()
-	if not tok: break
-	print tok
-'''
 
