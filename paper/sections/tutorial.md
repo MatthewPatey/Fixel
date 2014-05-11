@@ -172,3 +172,81 @@ We run this program by executing:
 The resulting images appear as follows:
 
 ![Output of the standardizing-dimensions.fxl program.](/img/tutorial4.png)
+
+This process can, of course, be extended to any of the image’s attributes. It can also be used to dynamically determine input arguments for Fixel’s colorization functions. We can, for instance, use a step function to output sequential images with incremental increases in opacity or redness.
+
+## Building Custom Functions
+Like most other programming languages, Fixel also allows users to group together and manipulate built-in functions to create custom ones. This is where the true power of Fixel lies—by empowering users with the ability to customize the filters they wish to apply to their images, they are no longer limited to the pre-determined combination of image transformations most image sharing applications offer them. 
+
+Custom functions are easy to design and implement. They are defined by beginning a line with the `#` symbol, followed by a space, then the name of the function, followed by the variable names for the function’s arguments (separated by a comma and an optional space), and finally a colon. This sequence of characters indicates to Fixel that we are about to define a function, rather than just call it on an image variable. We then add a line break, and stack the functions or statements we’d like the function to include in a tab-indented list.
+ 
+Here’s a sample program that first establishes a function that stretches an image to be the size of indicated by its input arguments, then converts it to grayscale and adds a caption that says `“Welcome to My Computer!”`:
+
+	#generateWallpaper @image1, 1600, 1200
+
+	generateWallpaper @imageName, @desktopWidth, @desktopHeight:
+			#stretch @imageName, @desktopWidth, @desktopHeight
+	#grayscale @imageName
+	#caption @imageName, “Welcome to My Computer!”
+	------------
+	creating-wallpapers.fxl
+
+We are first defining the function generateWallpaper and establishing that it has two input arguments: desktopWidth and desktopHeight. We then stack three built-in functions within `#generateWallpaper`. The first, `stretch`, passes the two input arguments as its own. The other two, `grayscale` and `caption` have static input arguments. Once we’ve defined our custom function, we then can apply it to `@image1` using the desired parameters (in this case, a width of `1600` and a height of `1200`).
+
+We run this program by executing:
+
+	> ./fixel creating-wallpapers.fxl image1.jpg
+
+The resulting images appear as follows:
+
+![Output of the generateWallpaper Fixel program.](/img/tutorial5.png)
+
+## Control Flow
+The Fixel language allows for two types of loops: `for` and `while` loops. In addition, users may employ `if` or `if...else` statements. The syntax for these loops is demonstrated in the following sections.
+
+### `for` Loops
+`for` loops in Fixel are written in the same way as in most other programming languages. It is especially useful for using the same set of transformation functions on a multitude of images at once. An example of how to use the for loop can be seen in `standardizing-dimensions.fxl` above.
+
+`for` loops are formatted as such: `for`, followed by a space, then the condition (which can instantiate a variable to use to cycle through the elements of an array, as in `standardizing-dimensions.fxl`), followed by a colon, followed by a line break, followed by a tab-indented list of commands to execute.
+
+### `while` Loops
+Similarly, `while` loops can help users make incremental changes to photos as it processes them one by one. In this case, as long as the condition in the initial line holds true, the functions within the statement continue to be executed. For instance, say if we have a list of six images in the variable `@imagesList`, and we’d like their opacities to range from `40` to `100`, with each one’s being ten percent higher than the previous one. In this case, we can create a `while` loop in our program like so:
+
+	@imageCount = 0
+	@currentOpacity = 0.4
+
+	while @imageCount<6:
+		#opacity @imagesList.imageCount, @currentOpacity
+		@currentOpacity = @currentOpacity + .1
+		imageCount++
+	------------
+	incremental-opacity.fxl
+
+`while` loops are structured in almost the exact same way as `for` loops.
+
+### `if` And `if...else` Statements
+Fixel also supports the use of `if` and `if...else` statements to direct control flow. This can be used to apply special transformations to certain images based on their properties. For example, if we have a list of images in the variable `@imagesList` and we’d like to compress all images with a pixel width less than `200` to `200`, we can do so with the `minimum-width.fxl` program:
+
+	for @currentImage in @imagesList:
+		if @currentImage.width<200:
+			@proportionalHeight = @currentImage.height*(200/@currentImage.width)
+			#stretch @currentImage, 200, @proportionalHeight
+	------------
+	minimum-width.fxl
+
+Here, the program is cycling through the images in `@imagesList` and checking to see if their width is less than `200`. If it is, then the program stretches them to have a width of `200` and retain a proportional height. In the same way, if we wanted the program to also standardize every image with a width above `200` to a width of `300`, we could use an `if...else` statement:
+
+	for @currentImage in @imagesList:
+		if @currentImage.width<200:
+			@proportionalHeight = @currentImage.height*(200/@currentImage.width)
+			#stretch @currentImage, 200, @proportionalHeight
+		else:
+			@proportionalHeight = @currentImage.height*(300/@currentImage.width)
+			#stretch @currentImage, 300, @proportionalHeight
+	------------
+	minimum-maximum-width.fxl
+
+Tab-indentation and line breaks hold the same amount of importance in `if` and `if...else` statements as in `while` and `for` loops.
+
+## Conclusion				
+This language tutorial for Fixel covers to core concepts for programming image processing filters, and will hopefully serve as a tool for users in getting started with the language. A more comprehensive analysis of the language’s characteristics can be found in the Language Reference Manual, and a complete listing of built-in functions and their usage can be found with the finalized documentation.
