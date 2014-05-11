@@ -120,8 +120,7 @@ def collage(indata,images,w,h):
 	heightCount = 0
 	for image in images:
 		im2 = image[0]
-		ratio = float(float(w/widthMax)/im2.size[0])
-		size = int(math.ceil(im2.size[0]*ratio)),int(math.ceil(im2.size[1]*ratio))
+		size = (w/widthMax),(h/heightMax)
 		im2 = im2.resize(size, Image.ANTIALIAS)
 		im.paste(im2,(widthCount*(w/widthMax),heightCount*(h/heightMax)))
 		widthCount = widthCount+1

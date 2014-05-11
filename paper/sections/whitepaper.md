@@ -51,8 +51,8 @@ A simple bit-by-bit translation can convert an image with RGB hex values to its 
 ###Invert
 This feature has no inputs. It simply takes the user’s test image and returns a negative version of the image.
 
-###Colorize
-The colorize feature is predicated on the user having some degree of familiarity with RGB color schemes and the basic principles behind color hex values. They are able to use the colorize command to manipulate the hue and saturation of the image by manually entering the offset for these two values.
+###Overlay
+The overlay feature is predicated on the user having some degree of familiarity with RGB color schemes and the basic principles behind color hex values. They are able to use the overlay command to manipulate the hue and saturation of the image by manually entering the offset for these two values.
 
 ###Brightness and Contrast
 Users may specify how they’d like change the brightness and contrast of their images with percentages (for example, changing the brightness to be 125\% would increase it by 25\%).

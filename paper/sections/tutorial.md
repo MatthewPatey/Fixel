@@ -134,15 +134,15 @@ Overlay allows the user to overlay an image with a color fill. The intensity of 
 Presented here are basic instructions on how to call the functions built into Fixel on inputted images. For an explanation of what each of these functions does, please consult the white paper.
 
 + Grayscale — `#grayscale @image1`
-+ Colorize — `#grayscale @image1`
-+ Brightness — `#grayscale @image1`
-+ Contrast — `#grayscale @image1`
-+ Border — `#grayscale @image1`
-+ Crop — `#grayscale @image1`
-+ Scale — `#grayscale @image1`
-+ Collage — `#grayscale @image1`
-+ Rotate — `#grayscale @image1`
-+ Caption — `#grayscale @image1`
++ Overlay — `#overlay @image1 [r,g,b],opacity`
++ Brightness — `#brighten @image1 percentage`
++ Contrast — `#contrast @image1 percentage`
++ Border — `#border @image1 size, color`
++ Crop — `#cropit @image1 coordinates`
++ Scale — `#scale @image1 percentage`
++ Collage — `#collage outputImage, listOfImages, width, height`
++ Rotate — `#rotate @image1 angle`
++ Caption — `#caption @image1 text`
 
 ## Primitives and Colors
 Fixel supports the following primitive types: `int`, `double`, `boolean`, `string`, and `image` type. These are useful for using data (like dimensions) from one image to make changes to another.
@@ -249,4 +249,4 @@ Here, the program is cycling through the images in `@imagesList` and checking to
 Tab-indentation and line breaks hold the same amount of importance in `if` and `if...else` statements as in `while` and `for` loops.
 
 ## Conclusion				
-This language tutorial for Fixel covers to core concepts for programming image processing filters, and will hopefully serve as a tool for users in getting started with the language. A more comprehensive analysis of the language’s characteristics can be found in the Language Reference Manual, and a complete listing of built-in functions and their usage can be found with the finalized documentation.
+This language tutorial for Fixel covers to core concepts for programming image processing filters, and will hopefully serve as a tool for users in getting started with the language. A more comprehensive analysis of the language’s characteristics can be found in the Language Reference Manual, and a complete explanation of how the built-in functions work can be found in the white paper.
