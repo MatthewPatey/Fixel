@@ -3,6 +3,9 @@ program:
 	statement-list
 	statement-list translation-unit
 
+block:
+	‘:’ NEWLINE INDENT statement-list DEDENT
+
 translation-unit:
 	function-definition
 	translation-unit function-definition
@@ -12,8 +15,8 @@ function-definition:
 
 parameter-declaration:
 	epsilon
-	variable-expression
-	parameter-declaration ‘,’ variable-expression
+	variable
+	parameter-declaration ‘,’ variable
 
 statement-list:
 	statement
@@ -29,7 +32,6 @@ return-statement:
 	‘return’ expression-statement
 
 expression-statement:
-	NEWLINE
 	expression NEWLINE
 
 selection-statement:
@@ -37,8 +39,8 @@ selection-statement:
 	‘if’ expression block ‘else’ block
 
 iteration-statement:
-	‘forp’ variable-expression ‘in’ primary-expression block
-	‘for’ variable-expression ‘in’ primary-expression ‘,’ primary-expression block
+	‘for’ variable ‘in’ variable block
+	‘forp’ variable ‘in’ variable block
 	‘while’ expression block
 
 expression:
@@ -108,8 +110,8 @@ variable-access-expression:
 	variable-access-expression '.' ID
 
 variable-expression:
-	‘@’ ID
+	variable
 	variable_expression '[' parameters ']'
 
-block:
-	‘:’ NEWLINE INDENT statement-list DEDENT
+variable:
+	‘@’ ID
