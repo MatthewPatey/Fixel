@@ -63,8 +63,8 @@ def p_translation_unit(p):
 
 def p_parameter_declaration(p):
     """
-    parameter_declaration   : variable_expression
-                            | parameter_declaration ',' variable_expression
+    parameter_declaration   : variable
+                            | parameter_declaration ',' variable
     """
     if len(p) == 2:
         p[0] = Node('parameter_declaration', p[1])
