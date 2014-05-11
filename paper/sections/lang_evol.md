@@ -12,13 +12,13 @@ In Phase 3, we added functionality for supporting Color and Point types, specifi
 
 ## Compiler Tools
 
-After evaluating our goals for Fixel as well as our group's programming background, we made the design decision to use Python as the target language for our compiler. This allowed us to use the well-documented *PLY* (Python Lex-Yacc) lexer and parser tools to develop our translator, as well as utilize Python's runtime interpreter to facilitate more user-friendly development.
+After evaluating our goals for Fixel as well as our group's programming background, we made the design decision to use Python as the target language for our compiler. Additionally, we chose to implement the compiler in Python. This allowed us to use the well-documented *PLY* (Python Lex-Yacc) lexer and parser tools to develop our translator, as well as utilize Python's runtime interpreter to facilitate more user-friendly development.
 
 ## Libraries
 
 We chose to construct our built-in functions on top of *PIL* (Python Imaging Library). Using PIL but abstracting away its lower levels provided us with the ability to support many complex image processing algorithms while focusing on the user-facing interface to these functions in Fixel.
 
-For testing, we chose to use *Mock*, an external library for testing in Python, as well as Python's built-in unit testing framework, *unittest*. These libraries allowed us to quickly and effectively achieve testing coverage across our code base during the development process.
+For testing, we chose to use Python's built-in unit testing framework, *unittest*, as well as the external libraries *Mock* to assist in isolating logical units of our code, *Nose* to assist in running the tests and *Coverage* to track our code coverage. These libraries allowed us to quickly and effectively achieve testing coverage across our code base during the development process.
 
 ## Consistency
 
