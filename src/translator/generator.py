@@ -25,6 +25,9 @@ spaces_table = {
 	'not': 2
 }
 
+'''
+keywords corresponding to the list of built in functions
+'''
 bif_set = {
 	'imageData',
 	'saveImage',
@@ -43,6 +46,10 @@ bif_set = {
 	'color'
 }
 
+'''
+remove these characters that are only used in fixel
+characters not needed for translation
+'''
 ignore = ['#', '@', '']
 
 
@@ -60,9 +67,14 @@ class Generator(object):
 		self.in_assignment_left = False
 		self.process_tree(tree)
 
+	#combines the string corresponding to the main and the funciton definitions
 	def get_strings(self):
 		return ''.join(self.main_list), ''.join(self.function_def_list)
 
+	'''
+	this calls the individual functions depending on the node being processed
+	if no such funciton exists, then default processing is used
+	'''
 	def process_tree(self, node):
 		if node.value in custom_functions_table:  # call custom processing function
 			custom_function = custom_functions_table[node.value]
@@ -87,6 +99,9 @@ class Generator(object):
 			if space_after:
 				self.string_list.append(' ')
 
+	'''
+	parses the program node
+	'''
 	def process_program(self, node):
 		if len(node.children) == 1:
 			self.process_tree(node.children[0])
@@ -97,6 +112,9 @@ class Generator(object):
 			self.in_main = False
 			self.process_tree(translation_unit)
 
+	'''
+	parses the function definition node
+	'''
 	def process_function_definition(self, node):
 		id_node, parameter_declaration, block = node.children
 		self.string_list.append('def ')
@@ -106,6 +124,9 @@ class Generator(object):
 		self.string_list.append(')')
 		self.process_tree(block)
 
+	'''
+	parses the function expression node
+	'''
 	def process_function_expression(self, node):
 		hashtag, id_node, parameters = node.children
 		if id_node.value in bif_set:
@@ -115,19 +136,31 @@ class Generator(object):
 		self.process_tree(parameters)
 		self.string_list.append(')')
 
+	'''
+	parses the newline
+	'''
 	def process_newline(self, node):
 		self.string_list.append(node.value)
 		for i in range(0, self.indent_level):
 			self.string_list.append('\t')
 
+	'''
+	parses the indent node
+	'''
 	def process_indent(self, node):
 		self.indent_level += 1
 		self.string_list.append('\t')
 
+	'''
+	parses the dedent node
+	'''
 	def process_dedent(self, node):
 		self.indent_level -= 1
 		del self.string_list[-1]  #todo worry about index errors
 
+	'''
+	process a variable node
+	'''
 	def process_variable(self, node):
 		id_node = node.children[1]
 		if self.in_main:
@@ -139,7 +172,7 @@ class Generator(object):
 			self.in_assignment_left = False
 
 			if variable_name in self.forp_image_table:
-				forp_image = self.forp_image_table[variable_name]
+				forp_image = self.forp_image_table[variable_name] #assigns image based on pixel
 				if self.in_main:
 					variable_name = 'ns.' + variable_name
 				str_list = [forp_image, '[', variable_name, '.x, ', variable_name, '.y', ']']
