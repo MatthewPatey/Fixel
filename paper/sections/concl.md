@@ -64,4 +64,10 @@ Developing your own language is a very rigorous and rewarding endeavour. Here's 
 11. plan as a group, work individually or in pairs
 
 ## Suggestions
-+ be like us
+The following are a few suggestions for this class based on our experience:
+
+1. While the information learned in class was very helpful for writing the lexer and parser, learning more about translation to high level languages in class would have helped with code generation.
+
+2. It would be helpful to have more structure and feedback for our language along the way.  This could take the form of milestones which would help ensure that teams are on the right track with their languages.  These could serve as a way to measure progress from a timeline perspective as well as ensure that the language being developed met the necessary requirements.
+
+
