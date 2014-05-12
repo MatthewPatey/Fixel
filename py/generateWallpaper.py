@@ -17,7 +17,7 @@ for currentImage in inputImages:
 	ns.images.append(image)
 	inputImageCount += 1
 	
-fixelFunctions.rotate(ns.image0,-300)
+fixelFunctions.rotate(ns.image0,'wo')
 
 for image in ns.images:
 	fixelFunctions.saveImage(image, "JPEG")
