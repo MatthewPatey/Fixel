@@ -22,7 +22,7 @@ For testing, we chose to use Python's built-in unit testing framework, *unittest
 
 ## Consistency
 
-When implementing the initial LRM we developed, PLY's Yacc tool as well as our test cases quickly demonstrated the gaps and ambiguities in our grammar. As we resolved these rules, we were sure to also update our LRM specification in a timely fashion so our written documents would not stay out of sync with our technical implementation. 
+When implementing the initial LRM we developed, PLY's Yacc tool as well as our test cases quickly demonstrated the gaps and ambiguities in our grammar. As we resolved these rules, we were sure to also update our LRM specification in a timely fashion so that our written documents would stay in sync with our technical implementation. 
 
 We applied a similar workflow to the development of built-in functions. Initially we constructed a list of necessary built-ins and developed our library from that list. As development progressed, we found that a certain function could be reduced to two more fundamental built-ins, or some types of workflows could benefit from a new built-in. This required repeated additions to the built-in functions library and their integration with the code generation modules. 
 
