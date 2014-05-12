@@ -23,7 +23,7 @@ Fixel will be a user friendly language that offers its users the opportunity to 
 ### User Friendly
 One of the most important goals to be pursued in the construction of this language is that it will be intuitive for the user.  It is assumed that a large portion of the target audience may have limited programming experience and the aim of Fixel is that they will be able to fully utilize it with a minimal learning curve.  Since the goal of is to bring complex photo-editing abilities to people who do not necessarily have a programming background, Fixel will have an easy to learn syntax.
 
-### Mimic syntax of social media
+### Mimic Syntax of Social Media
 The syntax of Fixel will mimic that of social media and currently existing photo modification tools, primarily Instagram.  This will serve multiple purposes.  The first is that the user will hopefully feel more at ease using this new tool.  Secondly, this will provide continuity between Fixel and currently existing options.  Finally, it will allow users inexperienced with programming a more entertaining and accessible experience since their programs will not look like conventional code.
 
 ### Customizable Experience
