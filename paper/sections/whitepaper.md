@@ -1,13 +1,13 @@
 # White Paper
 ## Introduction
 
-Over the last few years, businesses and technology centered on social media have experienced extraordinary growth. Sharing articles, videos, and personal information has never been easier. Photo­­ sharing, in particular, has become popular due to the proliferation of smartphones, tablets, and other smart devices on the market. This function is typically provided through both websites and applications that facilitate the upload and display of images. Social networking services like Instagram, Twitter, Pinterest, and Snapchat have capitalized on this trend by provide their users with new and interesting ways to share photos and other media.
+Over the last few years, businesses and technology centered on social media have experienced extraordinary growth. Sharing articles, videos, and personal information has never been easier. Photo-sharing, in particular, has become popular due to the proliferation of smartphones, tablets, and other smart devices on the market. This function is typically provided through both websites and applications that facilitate the upload and display of images. Social networking services like Instagram, Twitter, Pinterest, and Snapchat have capitalized on this trend by provide their users with new and interesting ways to share photos and other media.
 
-With the growth of photo sharing and social media in mind, our group has decided to create a language that would facilitate and enhance the online photo sharing experience. Fixel is an easy to learn, simple to use programming language for editing images. It is targeted towards individuals who often share information through social media and offers them more control over their photo editing experience than standard image sharing applications. The syntax is structured to resemble that of posts on social networking services, leveraging the use of hashtags and at signs. This syntax will help those who are familiar with social networking services easily adapt to Fixel.
+With the growth of photo sharing and social media in mind, our group has decided to create a language that would facilitate and enhance the online photo sharing experience. Fixel is an easy to learn, simple to use programming language for editing images. It is targeted towards individuals who often share information through social media and offers them more control over their photo editing experience than standard image sharing applications. The syntax is structured to resemble that of posts on social networking services, leveraging the use of hashtags and at symbol, '@'. This syntax will help those who are familiar with social networking services easily adapt to Fixel.
 
 Fixel offers various tools for image editing including, but not limited to, cropping, filtering, scaling, and blurring. These tools are typically complex and may require high-level mathematics to implement. Fixel’s built in functions abstracts these tools such that individuals with absolutely no programming experience can uses them. To maintain simplicity and optimum portability, Fixel uses Python as its runtime environment. Python can run on most modern operating systems and has a wide variety of image editing tools through the Python Imaging Library (PIL).
 
-The remainder of this paper is organized as followed: Related Work is a summary of the Python programming language and its role in developing Fixel. Goals enumerates a list of goals Fixel hopes to achieve. Architecture outlines the technical, backend features of Fixel. Finally, Features describes the a various image editing features that Fixel will implement.
+The remainder of this paper is organized as followed: Related Work is a summary of the Python programming language and its role in developing Fixel. Goals enumerates a list of goals Fixel hopes to achieve. Architecture outlines the technical, backend features of Fixel. Finally, Features describes the various image editing features that Fixel will implement.
 
 ## Related Work
 
@@ -21,7 +21,7 @@ Similarly, Processing, and its sister language Processing.js, are languages buil
 Fixel will be a user friendly language that offers its users the opportunity to create a customizable experience in an environment that mimics one they are already familiar and comfortable with.
 
 ### User Friendly
-One of the most important goals to be pursued in the construction of this language is that it will be intuitive for the user.  It is assumed that a large portion of the target audience may have limited programming experience and the aim of Fixel is that they will be able to fully utilize it with a minimal learning curve.  Since the goal of is to bring complex photo-editing abilities to people who do not necessarily have a programming background, Fixel will have an easy to learn syntax.
+One of the most important goals to be pursued in the construction of this language is that it will be intuitive for the user.  It is assumed that a large portion of the target audience may have limited programming experience and the aim of Fixel is that they will be able to fully utilize it with a minimal learning curve.  Since the goal of Fixel is to bring complex photo-editing abilities to people who do not necessarily have a programming background, Fixel will have an easy to learn syntax.
 
 ### Mimic Syntax of Social Media
 The syntax of Fixel will mimic that of social media and currently existing photo modification tools, primarily Instagram.  This will serve multiple purposes.  The first is that the user will hopefully feel more at ease using this new tool.  Secondly, this will provide continuity between Fixel and currently existing options.  Finally, it will allow users inexperienced with programming a more entertaining and accessible experience since their programs will not look like conventional code.
@@ -38,11 +38,12 @@ Another big user friendly feature of Fixel is that it is dynamically typed. Dyna
 An easy to use language is still not accessible if it is limited to a specific environment and requires a complex and tedious setup. That is why we chose to use Python as our runtime environment. Python was designed to be highly extensible, support a variety of programming paradigms, and be able to run on any major operating system. Additionally, a variety of Python implementations exist in addition to the standard compiler and vm that allow Python to be run on different platforms such as the JVM and .NET. This versatility and variety makes Python not only accessible on a number of platforms, but also highly integratable in many different types of projects. We will be taking advantage of this by running Fixel programs in Python and writing our translator in Python. This will allow deployment and/or development anywhere that Python can be run.
 
 ### Robust
-In order to increase ease of use without decreasing capability, our language will abstract away as much of the challenging/tedious parts of programming as possible. This will include simplification and/or internal handling of errors, stringing together function calls and determining parameters from programmer’s input and assisting with with control flow such as loops and switches. This abstraction requires our translator to intelligently handle situations that which we wish to hide from the programmer.
+In order to increase ease of use without decreasing capability, our language will abstract away as much of the challenging/tedious parts of programming as possible. This will include simplification and/or internal handling of errors, stringing together function calls and determining parameters from programmer’s input and assisting with control flow such as loops and switches. This abstraction requires our translator to intelligently handle situations that which we wish to hide from the programmer.
 
 ## Features
 Fixel is constructed to offer maximum customization for those interested in image editing and enhancement. Using a simple syntax, programmers are able to automate a number of edits to their photos using built-in functions. This process is intuitive, and users are awarded the flexibility to define their own set of inputs to customize the result of each transformation. The functions available to Fixel programmers are:
-Blur
+
+### Blur
 Using an existing library’s set of Fourier transforms, Fixel allows for the blurring of edges. Alternatively, if the user desires, they may select a center point (using its x and y pixel coordinates) and have the system blur out the areas surrounding it.
 
 ### Grayscale
@@ -61,7 +62,7 @@ Users may specify how they’d like change the brightness and contrast of their 
 The user can select from a collection of pre-configured border styles for their images and define the thickness of these borders. Some borders are more ornate than others.
 
 ###Crop
-By providing a set of coordinates the user would like to retain, they can crop of the remainder of the image and keep only the part that falls within the predefined space. The user has the option of cropping to a rectangle, a square, a circle, or an ellipsoid, all of which are configured using four coordinates.
+By providing a set of coordinates the user would like to retain, they can crop off the remainder of the image and keep only the part that falls within the predefined space. The user has the option of cropping to a rectangle, a square, a circle, or an ellipsoid, all of which are configured using four coordinates.
 
 ###Scale
 The scale function allows users to change the size of the image. They may do so either by providing a new final size for the image (and have the pixels stretch to fit this new size), or they can retain the current images proportions and specify a percentage increase or decrease in size.
