@@ -159,7 +159,7 @@ def collage(indata,images,w,h):
 	widthCount = 0
 	heightCount = 0
 	for image in images:
-		im2 = image[0]
+		im2 = image.image_data
 		size = (w/widthMax),(h/heightMax)
 		im2 = im2.resize(size, Image.ANTIALIAS)
 		im.paste(im2,(widthCount*(w/widthMax),heightCount*(h/heightMax)))
@@ -167,7 +167,7 @@ def collage(indata,images,w,h):
 		if widthCount == widthMax:
 			widthCount = 0
 			heightCount = heightCount+1
-	indata[0] = im
+	indata.set_image_data(im)
 
 # new class that creates a gaussian blur filter based on a specified degree
 class fixelGaussianBlur(ImageFilter.Filter):
