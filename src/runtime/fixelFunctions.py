@@ -38,7 +38,7 @@ def stretch(indata,newWidth,newHeight):
 	except:
 		print "\nEither the height or the width you specified in your call to the Fixel stretch() function is not an integer. Please make sure both are integers and try again.\n"
 		sys.exit(0)
-	newIm = im.resize(size, Image.ANTIALIAS)
+	newIm = im.resize((newWidth, newHeight), Image.ANTIALIAS)
 	indata.set_image_data(newIm)
 
 # function that rotates an image at a predefined angle
@@ -140,7 +140,7 @@ def border(indata,border,color):
 	except:
 		print "\nFixel requires that you use a valid color object for this function. Define it by: @variableName = color(colorValue).\n"
 		sys.exit(0)
-	im = ImageOps.expand(indata.image_data,border=border,theColor)
+	im = ImageOps.expand(indata.image_data,border,theColor)
 	indata.set_image_data(im)
 
 # function that crops the image at the coordinates specified
