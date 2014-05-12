@@ -29,7 +29,6 @@ spaces_table = {
 keywords corresponding to the list of built in functions
 '''
 bif_set = {
-	'imageData',
 	'saveImage',
 	'grayscale',
 	'scale',
@@ -43,7 +42,8 @@ bif_set = {
 	'border',
 	'cropit',
 	'caption',
-	'color'
+	'color',
+	'collage'
 }
 
 '''

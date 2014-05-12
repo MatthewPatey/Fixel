@@ -7,7 +7,7 @@ This Language Reference manual provides the syntax details of the Fixel language
 This section describes the lexical conventions used in fixel.  This includes detailing the identifiers, keywords, and reserved characters.
 
 ### Comments
-Fixel uses a double forward slash // to denote a single line comment.  A single line comment refers to the area from the end of the double slash until a newline character is seen.  Fixel does not support multiline comments.  Therefore, each line of a comment must begin with the double forward slash.
+Fixel uses a double forward slash `//` to denote a single line comment.  A single line comment refers to the area from the end of the double slash until a newline character is seen.  Fixel does not support multiline comments.  Therefore, each line of a comment must begin with the double forward slash.
 
 ### Identifiers 
 Identifiers are used to represent a primitive, object, or a function.  All identifiers must start with either a letter or an underscore.  However, in the rest of the name, it may contain letters, numbers, and underscores.  On the other hand, reserved characters as well as spaces, and any other whitespace are prohibited.  All identifiers are case sensitive.
@@ -15,44 +15,57 @@ Identifiers are used to represent a primitive, object, or a function.  All ident
 ### Keywords
 Certain identifiers are reserved and can only be used as keywords.  Their usage is prohibited in other contexts.  A list of keywords is shown below:
 
-put a table here!
+|    |  |
+|--------|-------|
+| for    | while |
+| if     | else  |
+| return | in    |
+| true   | false |
+| and    |       |
+| not    |       |
+
 
 ### Reserved Characters
 Certain characters are reserved due to their necessity to the grammar.  The following is a list of these characters
 
-and another here!
+|     |      |      |      |
+|-----|------|------|------|
+| `+` | `-`  | `*`  | `/`  |
+| `(` | `)`  | `[`  | `]`  |
+| `:` | `//` | `,`  | `"`  |
+| `#` | `@`  | `<`  | `>`  |
+| `=` | `!=` | `>=` | `<=` |
 
 ## Types
 ### Basic Types
 Fixel accounts for several different types of primitives.  They are described below.
 
-#### Integer
++ **Integer**:
 Integer constants follow the same rules as they would in Python.  Therefore they are implemented using a long in C resulting in at least 32 bits of precision.
 
-#### Boolean
-A boolean refers to a value that can take either true or false.
++ **Boolean**: A boolean refers to a value that can take either true or false.
 
-#### String
-A string in Fixel, like a string in Python, refers to an ordered list of characters.  Additionally, this sequence of characters that are strung together is preceded and followed by double quotes.
++ **String**: A string in Fixel, like a string in Python, refers to an ordered list of characters.  Additionally, this sequence of characters that are strung together is preceded and followed by double quotes.
 
 ### Derived Types
-#### Image
-The Image type is used to refer to the images passed as program arguments when the program is run.Fixel built in functions operate on these image types. Images have height and width properties, and allow individual pixels to be both read and written.
++ **Image**: The Image type is used to refer to the images passed as program arguments when the program is run.Fixel built in functions operate on these image types. Images have height and width properties, and allow individual pixels to be both read and written.
 
-#### Color
-Color is a wrapper for a 3 integer tuple.  It contains exactly 3 integers each of which correspond to the red, green, and blue (RGB) values of a color respectively. Colors support basic arithmatic operations between with numbers and other colors.
++ **Color**: Color is a wrapper for a 3 integer tuple.  It contains exactly 3 integers each of which correspond to the red, green, and blue (RGB) values of a color respectively. Colors support basic arithmatic operations between with numbers and other colors.
 
-#### Pixel
-Accessible only from a forp loop, a pixel is a wrapper around a color, an x and a y coordinate. Assigning a color to a pixel variable updates the pixel of the Image that the pixel is associated with.
++ **Pixel**: Accessible only from a forp loop, a pixel is a wrapper around a color, an x and a y coordinate. Assigning a color to a pixel variable updates the pixel of the Image that the pixel is associated with.
 
 ### Constants
-#### Character Constants
-This refers to a sequence of characters of length 1 or more with an unchangeable value.  Certain character constants are necessarily represented with a corresponding escape sequence.  The list is shown below.
++ **Character Constants**: This refers to a sequence of characters of length 1 or more with an unchangeable value.  Certain character constants are necessarily represented with a corresponding escape sequence.  The list is shown below.
 
-Yet Another table!
+|                 |      |
+|-----------------|------|
+| newline         | `\n` |
+| horizontal tab  | `\t` |
+| carriage return | `\r` |
+| backslash       | `\\` |
+| double quote    | `!=` |
 
-#### Boolean Constants
-Boolean constants will be either true or false.
++ **Boolean Constants**: Boolean constants will be either true or false.
 
 ## Scope
 Variables that share scope are required to have unique names.  A variable’s identifier will have scope beginning from where it is declared and persist until the end of the function it is declared in.
@@ -64,7 +77,7 @@ All functions have global scope, and can be called from anywhere in the program.
 variables that are declared inside functions, their scope will last for the duration of the function and will expire when the function is exited. The implicit image and list variables created from the program arguments have scope throughout the entirety of the main function.
 
 ## Expressions
-### intermediate-expression
+### Intermediate Expression
 Intermediate expressions can be a primary expression or a function expression.
 
 	intermediate-expression:

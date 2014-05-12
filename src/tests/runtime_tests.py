@@ -21,6 +21,9 @@ class RuntimeTests(TestCase):
 		fixelFunctions.cropit(test_image, 20, 20, 280, 280)
 		fixelFunctions.border(test_image, 10, fixelFunctions.color("fuchsia"))
 		fixelFunctions.caption(test_image, "cool")
+		second_image = runtime_classes.Image('Capture.jpg')
+		fixelFunctions.collage(test_image, [test_image, second_image], 1500, 1500)
+
 		fixelFunctions.saveImage(test_image, 'JPEG')
 
 	def image_tests(self):
@@ -31,7 +34,6 @@ class RuntimeTests(TestCase):
 		fixelFunctions.stretch(test_image, 300, 200)
 		self.assertEqual(test_image.width, 300)
 		self.assertEqual(test_image.height, 200)
-		fixelFunctions.saveImage(test_image, 'JPEG')
 
 	def color_tests(self):
 		color1 = runtime_classes.Color((0,1,2))
