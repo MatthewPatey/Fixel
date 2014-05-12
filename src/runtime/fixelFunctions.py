@@ -32,7 +32,7 @@ def scale(indata,ratio):
 # function that stretches an image to meet the desired height and width
 def stretch(indata,newWidth,newHeight):
 	im = indata.image_data
-	if (isinstance(newWidth,int) == False | isinstance(newHeight,int)):
+	if (not isinstance(newWidth,int) or not isinstance(newHeight,int)):
 		print "\nEither the height or the width you specified in your call to the #stretch function is not an integer. Please make sure both are integers and try again.\n"
 		sys.exit(0)
 	newIm = im.resize((newWidth, newHeight), Image.ANTIALIAS)
@@ -115,7 +115,7 @@ def contrast(indata,degree):
 
 # function that adds a border of size and color determined by the user
 def border(indata,border,color):
-	if (isinstance(degree,int) == False):
+	if (isinstance(border,int) == False):
 		print "\nThe border you entered for the #border function is is not valid. It must be an integer.\n"
 		sys.exit(0)
 	try:
@@ -123,7 +123,7 @@ def border(indata,border,color):
 	except:
 		print "\nFixel requires that you use a valid color object for this function. Define it by: @variableName = color(colorValue).\n"
 		sys.exit(0)
-	im = ImageOps.expand(indata.image_data,border=border,color=color.rgb)
+	im = ImageOps.expand(indata.image_data,border=border,fill=color.rgb)
 	indata.set_image_data(im)
 
 # function that crops the image at the coordinates specified
