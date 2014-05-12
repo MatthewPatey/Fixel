@@ -52,7 +52,7 @@ To run this program, the user executes the command:
 
 	> ./fixel gray-multi.fxl image0.jpg image1.gif image2.png
 
-This program will result in the three input images passed as arguments through the execution command being reproduced in grayscale, in the same directory as their original name with ‘-fixel` appended to the file name.
+This program will result in the three input images passed as arguments through the execution command being reproduced in grayscale, in the same directory as their original name with `-fixel` appended to the file name.
 
 As can be seen from this execution command, for every image defined in a Fixel program, a separate argument needs to be appended to the execution command with the path of the input image.
 
@@ -171,7 +171,7 @@ We run this program by executing:
 
 The resulting images appear as follows:
 
-![Output of the standardizing-dimensions.fxl program.](./img/tutorial4.png)
+![Output of the standardizing-dimensions.fxl program.](./img/tutorial4.png =250x)
 
 This process can, of course, be extended to any of the image's attributes. It can also be used to dynamically determine input arguments for Fixel's colorization functions. We can, for instance, use a step function to output sequential images with incremental increases in opacity or redness.
 
