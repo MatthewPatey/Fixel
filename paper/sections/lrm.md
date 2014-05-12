@@ -4,7 +4,7 @@
 This Language Reference manual provides the syntax details of the Fixel language which facilitates image editing and makes writing the code for image modification easier.  This manual begins with a description of lexical conventions, gives information about the syntax used in Fixel programs, and then provides a grammar.
 
 ## Lexical Conventions
-This section describes the lexical conventions used in fixel.  This includes detailing the identifiers, keywords, and reserved characters.
+This section describes the lexical conventions used in Fixel.  This includes detailing the identifiers, keywords, and reserved characters.
 
 ### Comments
 Fixel uses a double forward slash `//` to denote a single line comment.  A single line comment refers to the area from the end of the double slash until a newline character is seen.  Fixel does not support multiline comments.  Therefore, each line of a comment must begin with the double forward slash.
@@ -21,12 +21,12 @@ Certain identifiers are reserved and can only be used as keywords.  Their usage 
 | if     | else  |
 | return | in    |
 | true   | false |
-| and    |       |
+| and    | forp  |
 | not    |       |
 
 
 ### Reserved Characters
-Certain characters are reserved due to their necessity to the grammar.  The following is a list of these characters
+Certain characters are reserved due to their necessity to the grammar.  The following is a list of these characters:
 
 |     |      |      |      |
 |-----|------|------|------|
@@ -35,6 +35,18 @@ Certain characters are reserved due to their necessity to the grammar.  The foll
 | `:` | `//` | `,`  | `"`  |
 | `#` | `@`  | `<`  | `>`  |
 | `=` | `!=` | `>=` | `<=` |
+
+### Forbidden Words
+Certain identifiers are forbidden since they correspond to keywords in python.  A list of forbidden keywords is shown below:
+
+|        |        |          |         |
+|--------|--------|----------|---------|
+| del    | from   | as       | elif    |
+| global | with   | assert   | pass    |
+| True   | False  | yield    | break   |
+| execpt | import | print    | class   |
+| exec   | raise  | continue | finally |
+| is     | def    | lambda   | try     |
 
 ## Types
 ### Basic Types
@@ -48,7 +60,7 @@ Integer constants follow the same rules as they would in Python.  Therefore they
 + **String**: A string in Fixel, like a string in Python, refers to an ordered list of characters.  Additionally, this sequence of characters that are strung together is preceded and followed by double quotes.
 
 ### Derived Types
-+ **Image**: The Image type is used to refer to the images passed as program arguments when the program is run.Fixel built in functions operate on these image types. Images have height and width properties, and allow individual pixels to be both read and written.
++ **Image**: The Image type is used to refer to the images passed as program arguments when the program is run.  Fixel built in functions operate on these image types. Images have height and width properties, and allow individual pixels to be both read and written.
 
 + **Color**: Color is a wrapper for a 3 integer tuple.  It contains exactly 3 integers each of which correspond to the red, green, and blue (RGB) values of a color respectively. Colors support basic arithmatic operations between with numbers and other colors.
 
@@ -73,8 +85,8 @@ Variables that share scope are required to have unique names.  A variable’s id
 ### Global Scope
 All functions have global scope, and can be called from anywhere in the program.
 
-### Function scope
-variables that are declared inside functions, their scope will last for the duration of the function and will expire when the function is exited. The implicit image and list variables created from the program arguments have scope throughout the entirety of the main function.
+### Function Scope
+Variables that are declared inside functions, will have a scope that lasts for the duration of the function and will expire when the function is exited. The implicit image and list variables created from the program arguments have scope throughout the entirety of the main function.
 
 ## Expressions
 ### Intermediate Expression
@@ -119,7 +131,7 @@ A function call starts with the `#` symbol, followed by the function name and an
 		epsilon
 
 ### Logical NOT operator
-The logical NOT operator is left associative and includes the keyword `not`. This operator and the multiplicative operators have the highest priority.
+The logical NOT operator is left-associative and includes the keyword `not`. This operator and the multiplicative operators have the highest priority.
 
 	logical-NOT-expression:
 		primary-expression
@@ -128,7 +140,7 @@ The logical NOT operator is left associative and includes the keyword `not`. Thi
 Unlike other operators, the logical NOT operator is unary. If the operand evaluates to true or a boolean equivalent, the logical NOT expression yields a boolean with value false, or vice-versa.
 
 ### Multiplicative Operators
-Multiplicative operators are left associative and include the symbols * and /. These are the operators and logical NOT operator have the highest priority.
+Multiplicative operators are left-associative and include the symbols * and /. These are the operators and logical NOT operator have the highest priority.
 
 	multiplicative-expression:
 		logical-NOT-expression
@@ -140,7 +152,7 @@ The * (multiplication) operator yields the product of its arguments. If one oper
 The / (division) operator yield the quotient of its arguments. Division by zero raises the ZeroDivisionError exception. If both are colors then a new color is formed where each value is the quotient of the two corresponding values of the operands. If one is a color and the other a number, then a new color is formed by dividing each field of the color by the number, or the number by each field, depending on order.
 
 ### Additive Operators
-Additive operators are left associative and include the symbols + and -. These operators have a lower priority than multiplicative operators.
+Additive operators are left-associative and include the symbols + and -. These operators have a lower priority than multiplicative operators.
 
 	additive-expression: 
 		multiplicative-expression 
@@ -152,7 +164,7 @@ The + (addition) operator yields the sum of its arguments. If one operator is a 
 The - (subtraction) operator yields the difference of its arguments. If both are colors then a new color is formed where each value is the difference of the two corresponding values of the operands. If one is a color and the other a number, then a new color is formed by subtracting each field of the color from the number, or the number from each field, depending on order.
 
 ### Relational Operators
-Relational operators are left associative and include the symbols <, >, <=, >=. These operators have a lower priority than additive operators.
+Relational operators are left-associative and include the symbols <, >, <=, >=. These operators have a lower priority than additive operators.
 
 	relational-expression:
 		additive-expression
@@ -166,7 +178,7 @@ The < (less than), > (greater than), <= (less than or equal to), >= (greater tha
 If the operands are numbers, then the operands are compared arithmetically. If the operands are Strings, then the strings are compared lexicographically using the numeric equivalents of their characters.
 
 ### Equality Operators
-Equality operators are left associative and include the symbols == and !=. These operators have a lower priority than relational operators.
+Equality operators are left-associative and include the symbols == and !=. These operators have a lower priority than relational operators.
 
 	equality-expression: 
 		relational-expression
@@ -178,7 +190,7 @@ The == (equals) and != (not equals) operators evaluate to a boolean value of tru
 If the operands are numbers, then the operands are compared arithmetically. If the operands are Strings, then the strings are compared lexicographically using the numeric equivalents of their characters. If the operands are of different types that cannot be converted to a common type, then the result is always unequal.
 
 ### Logical AND operator
-The logical AND operator is left associative and includes the keyword 'and'. This operator has a lower priority than equality operators.
+The logical AND operator is left-associative and includes the keyword 'and'. This operator has a lower priority than equality operators.
  
 	logical-AND-expression: 
 		equality-expression 
@@ -187,7 +199,7 @@ The logical AND operator is left associative and includes the keyword 'and'. Thi
 Consider the expression: x and y. The operator first evaluates x; if x is false, the expression evaluate to false; otherwise, the expression is evaluated as y.
 
 ### Logical OR operator
-The logical OR operator is left associative and includes the keyword 'or'. This operator has a lower priority than the logical AND operator.
+The logical OR operator is left-associative and includes the keyword 'or'. This operator has a lower priority than the logical AND operator.
 
 	logical-OR-expression: 
 		logical-AND-expression 
