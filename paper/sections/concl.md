@@ -1,9 +1,7 @@
 # Conclusions
 
 ## Lessons Learned
-ideas (could also be advice)
-1. write a sample program on day one when choosing language
-2. Take time to make sure everyone is on same page when making big project decisions
+As a team, we learned that it is very important to begin discussing the specifics of the language being developed early on.  Therefore, it is very useful to write a sample program on day one when deciding what language to make.  Additionally, it is very important to take the little extra time to ensure that everyone is on the same page when big project decisions are being made.  This pays off in the future as the project gets more complex and also ensures that nobody spends their time on unnecessary work due to misunderstandings.
 
 ### Amrita
 Writing Fixel not only gave me insight into the art of crafting a programming language, but also a deeper understanding of our target language, Python, as well. In making design decisions about our own language, I learned a great deal about Python, and how its implementation would inform our own language's structure. Working on a translator gave was a great way to really critically understand the implications of the concepts learned during the semester, such as typing, scope, etc. 
