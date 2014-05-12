@@ -1,12 +1,29 @@
 #!/usr/bin/env python
 
+import importlib
 import os
 import subprocess
 import sys
 
 fixel_top = os.path.dirname(__file__)
-subprocess.call(['python', os.path.join(fixel_top, 'src', 'run_translator.py'), '-f', sys.argv[1]])
+ret = subprocess.call(['python', os.path.join(fixel_top, 'src', 'run_translator.py'), '-f', sys.argv[1]])
+
+if ret != 0:
+	sys.exit(ret)
 
 path, name = os.path.split(sys.argv[1])
 outname = path + name.split('.')[0] + '.py'
-subprocess.call(['python', outname] + sys.argv[2:])
+file_args = sys.argv[2:]
+sys.argv = [outname]
+sys.argv.extend(file_args)
+try:
+	importlib.import_module(outname)
+except AttributeError, e:
+	print("make sure you define variables before using them, don't use image variables for images you don't pass to the program and don't call properties a variable doesn't have.\n" + e.message)
+except NameError, e:
+	print("make sure you define variables before using them\n" + e.message)
+except IndexError, e:
+	print("make sure you don't try to access elements that aren't in a collection\n" + e.message)
+except Exception, e:
+	print("looks like something went wrong\n" + e.message)
+

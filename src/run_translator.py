@@ -1,5 +1,6 @@
 import argparse
 import os
+import sys
 from translator import translator
 
 arg_parser = argparse.ArgumentParser()
@@ -26,9 +27,11 @@ if namespace.fixel_file:
 		f.close()
 	except translator.parser.ParsingError as e:
 		print e.value
+		sys.exit(1)
 
 else:
 	try:
 		result = translator.translate(verbose=namespace.verbose)
 	except translator.parser.ParsingError as e:
 		print e.value
+		sys.exit(1)
