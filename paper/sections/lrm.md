@@ -85,7 +85,7 @@ Variables that share scope are required to have unique names.  A variable’s id
 ### Global Scope
 All functions have global scope, and can be called from anywhere in the program.
 
-### Function scope
+### Function Scope
 Variables that are declared inside functions, will have a scope that lasts for the duration of the function and will expire when the function is exited. The implicit image and list variables created from the program arguments have scope throughout the entirety of the main function.
 
 ## Expressions
@@ -131,7 +131,7 @@ A function call starts with the `#` symbol, followed by the function name and an
 		epsilon
 
 ### Logical NOT operator
-The logical NOT operator is left associative and includes the keyword `not`. This operator and the multiplicative operators have the highest priority.
+The logical NOT operator is left-associative and includes the keyword `not`. This operator and the multiplicative operators have the highest priority.
 
 	logical-NOT-expression:
 		primary-expression
@@ -140,7 +140,7 @@ The logical NOT operator is left associative and includes the keyword `not`. Thi
 Unlike other operators, the logical NOT operator is unary. If the operand evaluates to true or a boolean equivalent, the logical NOT expression yields a boolean with value false, or vice-versa.
 
 ### Multiplicative Operators
-Multiplicative operators are left associative and include the symbols * and /. These are the operators and logical NOT operator have the highest priority.
+Multiplicative operators are left-associative and include the symbols * and /. These are the operators and logical NOT operator have the highest priority.
 
 	multiplicative-expression:
 		logical-NOT-expression
@@ -152,7 +152,7 @@ The * (multiplication) operator yields the product of its arguments. If one oper
 The / (division) operator yield the quotient of its arguments. Division by zero raises the ZeroDivisionError exception. If both are colors then a new color is formed where each value is the quotient of the two corresponding values of the operands. If one is a color and the other a number, then a new color is formed by dividing each field of the color by the number, or the number by each field, depending on order.
 
 ### Additive Operators
-Additive operators are left associative and include the symbols + and -. These operators have a lower priority than multiplicative operators.
+Additive operators are left-associative and include the symbols + and -. These operators have a lower priority than multiplicative operators.
 
 	additive-expression: 
 		multiplicative-expression 
@@ -164,7 +164,7 @@ The + (addition) operator yields the sum of its arguments. If one operator is a 
 The - (subtraction) operator yields the difference of its arguments. If both are colors then a new color is formed where each value is the difference of the two corresponding values of the operands. If one is a color and the other a number, then a new color is formed by subtracting each field of the color from the number, or the number from each field, depending on order.
 
 ### Relational Operators
-Relational operators are left associative and include the symbols <, >, <=, >=. These operators have a lower priority than additive operators.
+Relational operators are left-associative and include the symbols <, >, <=, >=. These operators have a lower priority than additive operators.
 
 	relational-expression:
 		additive-expression
@@ -178,7 +178,7 @@ The < (less than), > (greater than), <= (less than or equal to), >= (greater tha
 If the operands are numbers, then the operands are compared arithmetically. If the operands are Strings, then the strings are compared lexicographically using the numeric equivalents of their characters.
 
 ### Equality Operators
-Equality operators are left associative and include the symbols == and !=. These operators have a lower priority than relational operators.
+Equality operators are left-associative and include the symbols == and !=. These operators have a lower priority than relational operators.
 
 	equality-expression: 
 		relational-expression
@@ -190,7 +190,7 @@ The == (equals) and != (not equals) operators evaluate to a boolean value of tru
 If the operands are numbers, then the operands are compared arithmetically. If the operands are Strings, then the strings are compared lexicographically using the numeric equivalents of their characters. If the operands are of different types that cannot be converted to a common type, then the result is always unequal.
 
 ### Logical AND operator
-The logical AND operator is left associative and includes the keyword 'and'. This operator has a lower priority than equality operators.
+The logical AND operator is left-associative and includes the keyword 'and'. This operator has a lower priority than equality operators.
  
 	logical-AND-expression: 
 		equality-expression 
@@ -199,7 +199,7 @@ The logical AND operator is left associative and includes the keyword 'and'. Thi
 Consider the expression: x and y. The operator first evaluates x; if x is false, the expression evaluate to false; otherwise, the expression is evaluated as y.
 
 ### Logical OR operator
-The logical OR operator is left associative and includes the keyword 'or'. This operator has a lower priority than the logical AND operator.
+The logical OR operator is left-associative and includes the keyword 'or'. This operator has a lower priority than the logical AND operator.
 
 	logical-OR-expression: 
 		logical-AND-expression 
