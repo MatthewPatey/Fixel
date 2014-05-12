@@ -2,7 +2,7 @@
 
 At the highest level, our translator can be said to have three distinct stages of translation: lexing, parsing, and code generation. A high-level block diagram is included for clarity.
 
-![High-level block diagram of translation architecture](./img/transl_arch.pdf)
+![High-level block diagram of translation architecture](./img/transl_arch.png)
 
 ## Lexer
 The first step of our translation process is lexing. The Lexer is written in PLY's lexing tool. The Lexer continuously processes the input string and matches its contents with specified tokens. The lexer was written by our Project Manager, Kavita, and our Language and Tools Guru, Amrita.
