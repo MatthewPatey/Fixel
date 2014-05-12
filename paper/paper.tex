@@ -5,6 +5,7 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{longtable,tabu}
 \usepackage{listings}
 \usepackage{color}
 \usepackage{caption}
@@ -58,8 +59,8 @@ COMS W4115 Final Report}
 \newpage
 \tableofcontents
 \newpage
-%\input{./sections/whitepaper.tex}
-%\input{./sections/lrm.tex}
+\input{./sections/whitepaper.tex}
+\input{./sections/lrm.tex}
 \input{./sections/tutorial.tex}
 \input{./sections/projectplan.tex}
 \input{./sections/lang_evol.tex}
@@ -71,6 +72,8 @@ COMS W4115 Final Report}
 \newpage
 \appendix
 \section{Git Log}
+\input{./gitlog.tex}
+
 \section{Source Code}
 	\subsection{Scripts}
 		\lstinputlisting[language=Python]{../fixel}
