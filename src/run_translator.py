@@ -1,5 +1,6 @@
 import argparse
 import os
+import sys
 from translator import translator
 
 arg_parser = argparse.ArgumentParser()
@@ -20,15 +21,17 @@ if namespace.fixel_file:
 	try:
 		result = translator.translate(source_string, namespace.verbose)
 		os.chdir(pwd)  # go back to original pwd before writing out file
-		outname = path + name.split('.')[0] + '.py'
+		outname = os.path.join(path, name.split('.')[0] + '.py')
 		f = open(outname, 'w')
 		f.write(result)
 		f.close()
 	except translator.parser.ParsingError as e:
 		print e.value
+		sys.exit(1)
 
 else:
 	try:
 		result = translator.translate(verbose=namespace.verbose)
 	except translator.parser.ParsingError as e:
 		print e.value
+		sys.exit(1)

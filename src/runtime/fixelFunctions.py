@@ -121,7 +121,7 @@ def border(indata,border,color):
 	try:
 		theColor=color.rgb
 	except:
-		print "\nFixel requires that you use a valid color object for this function. Define it by: @variableName = color(colorValue).\n"
+		print "\nFixel requires that you use a valid color object for this function. Define it by: @variableName = #color colorValue.\n"
 		sys.exit(0)
 	im = ImageOps.expand(indata.image_data,border=border,fill=color.rgb)
 	indata.set_image_data(im)
