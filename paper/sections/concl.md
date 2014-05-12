@@ -59,9 +59,10 @@ Developing your own language is a very rigorous and rewarding endeavour. Here's 
 
 9.  Have weekly scheduled meetings or other times when the team can meet in person.  This really helps with communication.
 
-10. Have fun!
+10. Plan as a group, work individually or in pairs.
 
-11. plan as a group, work individually or in pairs
+11. Have fun!
+
 
 ## Suggestions
 The following are a few suggestions for this class based on our experience:
