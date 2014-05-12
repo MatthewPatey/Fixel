@@ -35,7 +35,7 @@ def stretch(indata,newWidth,newHeight):
 	if (isinstance(newWidth,int) == False | isinstance(newHeight,int)):
 		print "\nEither the height or the width you specified in your call to the #stretch function is not an integer. Please make sure both are integers and try again.\n"
 		sys.exit(0)
-	newIm = im.resize(size, Image.ANTIALIAS)
+	newIm = im.resize((newWidth, newHeight), Image.ANTIALIAS)
 	indata.set_image_data(newIm)
 
 # function that rotates an image at a predefined angle
