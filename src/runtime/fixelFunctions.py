@@ -128,7 +128,7 @@ def border(indata,border,color):
 
 # function that crops the image at the coordinates specified
 def cropit(indata, left, top, right, bottom):
-	if (isinstance(left,int) == False | isinstance(top,int) == False | isinstance(right,int) == False | isinstance(bottom,int) == False):
+	if (isinstance(left,int) == False or isinstance(top,int) == False or isinstance(right,int) == False or isinstance(bottom,int) == False):
 		print "\nThe coordinate values must all be integers representing pixel values that fall within the bounds of the image.\n"
 		sys.exit(0)
 	im = indata.image_data.crop((left, top, right, bottom))
