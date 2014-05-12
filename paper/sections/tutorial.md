@@ -244,10 +244,10 @@ While there is plenty of fuctionality provided by the built in fuctions, more ad
 ###Forp Loop
 The syntax for a pixel loop is "forp", pixel variable name, "in", image variable name. This will loop over every pixel in the image variable and assign it to the pixel variable. pixel types have color, x and y properties. Additionally, if the pixel variable is assigned to in the body of the loop, the corresponging pixel of the image is updated. Below is a simple forp example that inverts an image.
 
-forp @pixel in @image0:
+	forp @pixel in @image0:
 	@pixel = 255 - @pixel.color
-------------
-invert.fxl
+	------------
+	invert.fxl
 
 We run this program by executing:
 
