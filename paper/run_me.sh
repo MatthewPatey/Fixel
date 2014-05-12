@@ -31,6 +31,7 @@ for f in $SECTIONS
 do
     echo "Processing $f"
     pandoc $f -o ${f%.md}.tex
+	sed -i -e 's/\includegraphics{/\includegraphics[width=\\\textwidth]{/g' ${f%.md}.tex
 done
 
 echo "Producing PDF..."
@@ -42,3 +43,4 @@ rm -f *.aux
 rm -f *.log
 rm -f *.toc
 rm ./sections/*.tex
+rm ./sections/*.tex-e
