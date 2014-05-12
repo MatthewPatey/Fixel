@@ -32,20 +32,15 @@ def scale(indata,ratio):
 # function that stretches an image to meet the desired height and width
 def stretch(indata,newWidth,newHeight):
 	im = indata.image_data
-	try:
-		newWidth = newWidth+1-1;
-		newHeight = newHeight+1-1;
-	except:
-		print "\nEither the height or the width you specified in your call to the Fixel stretch() function is not an integer. Please make sure both are integers and try again.\n"
+	if (not isinstance(newWidth,int) or not isinstance(newHeight,int)):
+		print "\nEither the height or the width you specified in your call to the #stretch function is not an integer. Please make sure both are integers and try again.\n"
 		sys.exit(0)
-	newIm = im.resize(size, Image.ANTIALIAS)
+	newIm = im.resize((newWidth, newHeight), Image.ANTIALIAS)
 	indata.set_image_data(newIm)
 
 # function that rotates an image at a predefined angle
 def rotate(indata,angle):
-	try:
-		angle=angle+1-1
-	except:
+	if (isinstance(angle,int) == False):
 		print "\nThe angle you entered is not valid. It must be an integer from -360 to 360.\n"
 		sys.exit(0)
 	im = indata.image_data.convert('RGBA')
@@ -57,10 +52,8 @@ def rotate(indata,angle):
 
 # function that colorizes an image using a color and opacity (scaled from 0-1) provided	
 def overlay(indata,color,opacity):
-	try:
-		opacity=opacity+1-1
-	except:
-		print "\nThe opacity you entered is not valid. It must be an integer from 0 to 1.\n"
+	if (isinstance(opacity,int) == False):
+		print "\nThe opacity you entered for the #overlay function is not valid. It must be an integer from 0 to 1.\n"
 		sys.exit(0)
 	opacity = int(255*float(opacity)/100)	
 	rgb = list(color.rgb) + [opacity]
@@ -72,10 +65,8 @@ def overlay(indata,color,opacity):
 
 # blur function that adds a fast blur of degree specified to the image
 def blur(indata,degree):
-	try:
-		degree=degree+1-1
-	except:
-		print "\nThe degree you entered is not valid. It must be an integer.\n"
+	if (isinstance(degree,int) == False):
+		print "\nThe degree you entered for the #blur function is not valid. It must be an integer.\n"
 		sys.exit(0)
 	if (degree>10):
 		degree = 10
@@ -86,10 +77,8 @@ def blur(indata,degree):
 
 # function that sharpens the features of an image to a specified degree
 def sharpen(indata,degree):
-	try:
-		degree=degree+1-1
-	except:
-		print "\nThe degree you entered is not valid. It must be an integer.\n"
+	if (isinstance(degree,int) == False):
+		print "\nThe degree you entered for the #sharpen function is not valid. It must be an integer.\n"
 		sys.exit(0)
 	if (degree>10):
 		degree = 10
@@ -100,10 +89,8 @@ def sharpen(indata,degree):
 
 # function that changes the brightness of an image according to an inputted degree
 def brighten(indata,degree):
-	try:
-		degree=degree+1-1
-	except:
-		print "\nThe degree you entered is not valid. It must be an integer.\n"
+	if (isinstance(degree,int) == False):
+		print "\nThe degree you entered for the #brighten function is is not valid. It must be an integer.\n"
 		sys.exit(0)
 	degree=(degree/10)+1
 	if (degree>2):
@@ -115,10 +102,8 @@ def brighten(indata,degree):
 
 # same as the brighten function, except with contrast
 def contrast(indata,degree):
-	try:
-		degree=degree+1-1
-	except:
-		print "\nThe degree you entered is not valid. It must be an integer.\n"
+	if (isinstance(degree,int) == False):
+		print "\nThe degree you entered for the #contrast function is is not valid. It must be an integer.\n"
 		sys.exit(0)
 	degree=(degree/10)+1
 	if (degree>2):
@@ -130,24 +115,20 @@ def contrast(indata,degree):
 
 # function that adds a border of size and color determined by the user
 def border(indata,border,color):
-	try:
-		border=border+1-1
-	except:
-		print "\nThe border you entered is not valid. It must be an integer.\n"
+	if (isinstance(border,int) == False):
+		print "\nThe border you entered for the #border function is is not valid. It must be an integer.\n"
 		sys.exit(0)
 	try:
 		theColor=color.rgb
 	except:
 		print "\nFixel requires that you use a valid color object for this function. Define it by: @variableName = color(colorValue).\n"
 		sys.exit(0)
-	im = ImageOps.expand(indata.image_data,border=border,theColor)
+	im = ImageOps.expand(indata.image_data,border=border,fill=color.rgb)
 	indata.set_image_data(im)
 
 # function that crops the image at the coordinates specified
 def cropit(indata, left, top, right, bottom):
-	try:
-		coordinates=left+top+right+bottom
-	except:
+	if (isinstance(left,int) == False | isinstance(top,int) == False | isinstance(right,int) == False | isinstance(bottom,int) == False):
 		print "\nThe coordinate values must all be integers representing pixel values that fall within the bounds of the image.\n"
 		sys.exit(0)
 	im = indata.image_data.crop((left, top, right, bottom))
