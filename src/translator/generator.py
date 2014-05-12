@@ -226,20 +226,26 @@ class Generator(object):
 			for child in children:
 				self.process_tree(child)
 
+	'''
+	processes node corresponding to assignment expressions
+	'''
 	def process_assignment_expression(self, node):
 		children = node.children
-		if self.in_forp and len(children) == 3:
+		if self.in_forp and len(children) == 3: #special forp case
 			self.in_assignment_left = True
-		for child in children:
+		for child in children: #process children on the tree
 			self.process_tree(child)
 
-	def process_true(self, node):
+	def process_true(self, node): #replaces 'true' with 'True' which will be valid in Python
 		self.string_list.append('True')
 
-	def process_false(self, node):
+	def process_false(self, node): #replaces 'false' with 'False' which will be valid in Python
 		self.string_list.append('False')
 
 
+'''
+list of functions for nodes which require special custom processing
+'''
 custom_functions_table = {
 	'program': Generator.process_program,
 	'function_definition': Generator.process_function_definition,
