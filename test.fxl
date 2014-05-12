@@ -1,7 +1,7 @@
-#generateWallpaper @image0, 1600, 1200
-forp @pixel in @image1:
-	if @pixel.x < 500 or @pixel.y < 500:
-		@pixel = #color 255, 0, 0
+
+//#generateWallpaper @image0, 1600, 1200
+forp @pixel in @image0:
+	@pixel = #color "blue" - @pixel.color
 
 generateWallpaper @imageName, @desktopWidth, @desktopHeight:
 	#grayscale @imageName

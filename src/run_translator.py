@@ -21,7 +21,7 @@ if namespace.fixel_file:
 	try:
 		result = translator.translate(source_string, namespace.verbose)
 		os.chdir(pwd)  # go back to original pwd before writing out file
-		outname = path + name.split('.')[0] + '.py'
+		outname = os.path.join(path, name.split('.')[0] + '.py')
 		f = open(outname, 'w')
 		f.write(result)
 		f.close()
