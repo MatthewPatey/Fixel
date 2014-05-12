@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Generating Git commit log..."
-git log --pretty=format:"%an & %ad & %s
+git log --reverse --pretty=format:"%an & %ad & %s
 " --date=short > gitlog1.md
 echo "\begin{center}
 \begin{longtabu} to \textwidth {|
