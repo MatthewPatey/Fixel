@@ -16,9 +16,9 @@ After evaluating our goals for Fixel as well as our group's programming backgrou
 
 ## Libraries
 
-We chose to construct our built-in functions on top of *PIL* (Python Imaging Library). Using PIL but abstracting away its lower levels provided us with the ability to support many complex image processing algorithms while focusing on the user-facing interface to these functions in Fixel.
+We chose to construct our built-in functions on top of `PIL` (Python Imaging Library). Using PIL but abstracting away its lower levels provided us with the ability to support many complex image processing algorithms while focusing on the user-facing interface to these functions in Fixel.
 
-For testing, we chose to use Python's built-in unit testing framework, *unittest*, as well as the external libraries *Mock* to assist in isolating logical units of our code, *Nose* to assist in running the tests and *Coverage* to track our code coverage. These libraries allowed us to quickly and effectively achieve testing coverage across our code base during the development process.
+For testing, we chose to use Python's built-in unit testing framework, `unittest`, as well as the external libraries `Mock` to assist in isolating logical units of our code, `Nose` to assist in running the tests and `Coverage` to track our code coverage. These libraries allowed us to quickly and effectively achieve testing coverage across our code base during the development process.
 
 ## Consistency
 
