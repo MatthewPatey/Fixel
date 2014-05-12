@@ -35,3 +35,7 @@ Contains several methods that assist in writing and running tests, including cre
 
 ## Continuous Integration Server
 Fixel used a Raspberry Pi running the open source continuous integration server Jenkins. Jenkins was used as a second reference for running tests, and to collect statistics about the state of Fixel's tests over time. Whenever someone pushed the master branch to the remote on BitBucket, Jenkins would check out the commit pushed and run the tests. If a test failed, Jenkins would email the whole team informing them that the failure occurred and what caused it. This helped ensure that master stayed clean, and kept everyone informed about when it might be problematic to create a new branch from master. From all of these test runs, Jenkins collected data about how many tests were run, how many failed, and what percent of code is covered, and how this data changed over time.
+
+![Test Results for each build run by Jenkins.](./img/jenkins_tests.png)
+
+![Coverage over time.](./img/coverage.png)
